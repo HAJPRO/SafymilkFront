@@ -21,6 +21,7 @@ const { products, loading } = storeToRefs(store);
 
 // --- 1. CONFIG & UTILS ---
 const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+console.log(API_URL);
 const getImageUrl = (path) => path ? (path.startsWith("http") ? path : `${API_URL}/${path}`) : "/no-image.png";
 const formatPrice = (v) => new Intl.NumberFormat('uz-UZ', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(v || 0);
 
