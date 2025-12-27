@@ -20,19 +20,14 @@ const store = ProductsManagmentStore();
 const { products, loading } = storeToRefs(store);
 
 // --- 1. CONFIG & UTILS ---
-// Protokolni (https://) qo'shish shart!
 const API_URL = import.meta.env.VITE_API_BASE_URL || "https://safymilk-core.company-erp.uz";
+console.log(API_URL);
+const getImageUrl = (path) => path ? (path.startsWith("http") ? path : `${API_URL}/${path}`) : "/no-image.png";
+const formatPrice = (v) => new Intl.NumberFormat('uz-UZ', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(v || 0);
 
-console.log("Backend URL:", API_URL);
-
-// Rasmlar backenddagi /uploads/ papkasidan keladi
-const getImageUrl = (path) => {
-  if (!path) return "/no-image.png";
-  if (path.startsWith("http")) return path;
-  
-  // Agar path ichida 'uploads' so'zi bo'lmasa, uni qo'shib yuboramiz
-  // Chunki Nginx 'https://safymilk-core.../uploads/...' ko'rinishida kutadi
-  return `${API_URL}/${path}`;
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text);
+  toast.info("Artikul nusxalandi!");
 };
 
 // --- 2. STATE ---
