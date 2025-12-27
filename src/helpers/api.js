@@ -5,7 +5,7 @@ const isProd = window.location.hostname !== "localhost";
 
 const api = axios.create({
   baseURL: isProd
-    ? "https://eco.company-erp.uz/api/v1"
+    ? "https://safymilk-core.company-erp.uz/api/v1"
     : "http://localhost:5000/api/v1",
 });
 
