@@ -20,14 +20,13 @@ const store = ProductsManagmentStore();
 const { products, loading } = storeToRefs(store);
 
 // --- 1. CONFIG & UTILS ---
-const API_URL = import.meta.env.VITE_API_BASE_URL || "https://safymilk-core.company-erp.uz";
-console.log(API_URL);
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const getImageUrl = (path) => path ? (path.startsWith("http") ? path : `${API_URL}/${path}`) : "/no-image.png";
 const formatPrice = (v) => new Intl.NumberFormat('uz-UZ', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(v || 0);
 
 const copyToClipboard = (text) => {
   navigator.clipboard.writeText(text);
-  toast.info("Artikul nusxalandi!");
+  toast.info( "Artikul nusxalandi!" );
 };
 
 // --- 2. STATE ---
@@ -216,7 +215,7 @@ onMounted(() => {
       <div class="flex items-center gap-3 md:gap-4 py-1.5 text-left group">
         <div class="relative flex-shrink-0">
           <div class="absolute inset-0 bg-indigo-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <img :src="getImageUrl(row.image)" 
+          <img :src="row.image" 
                class="hidden xs:block w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-500 group-hover:scale-105">
         </div>
         <div class="flex flex-col min-w-0">
