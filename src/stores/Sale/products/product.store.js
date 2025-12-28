@@ -47,9 +47,10 @@ export const ProductsManagmentStore = defineStore("ProductsManagmentStore", {
 
   actions: {
     // --- 1. MODAL BOSHQARUVI ---
-    openAddModal() {
+    openAddModal(code) {
       this.resetModel();
-      this.TitleAction = { title: "Yangi Mahsulot Qo'shish", action: "create" };
+      this.TitleAction = { title: "Yangi Mahsulot Qo'shish", action: "create", code };
+
       this.product_modal = true;
     },
 
