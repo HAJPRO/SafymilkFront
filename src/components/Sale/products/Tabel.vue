@@ -187,33 +187,56 @@ onMounted(() => {
   </div>
 </transition>
 
-    <div class="flex-none flex items-center justify-between   bg-transparent dark:bg-transparent backdrop-blur-2xl  h-14 md:h-16 rounded-xl md:rounded-xl z-20">
-      
-      <div class="flex-1 max-w-md mt-5">
-        <Input v-model="searchQuery" placeholder="Qidiruv..." size="md" rounded="rounded-lg md:rounded-xl" clearable class="!mb-0 !h-10" icon-pre="fa-solid fa-search" />
+    <div class="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-4 py-2.5 md:py-3">
+  <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center gap-4">
+    
+    <div class="relative group flex-1 w-full order-2 md:order-1">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+        <i class="fa-solid fa-search text-sm"></i>
       </div>
-
-      <div class="flex items-center gap-1.5 md:gap-3 h-10">
-        <button @click="isStatsVisible = !isStatsVisible" 
-          :class="isStatsVisible ? 'bg-indigo-600 text-white' : 'bg-slate-50 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'"
-          class="h-full px-3 md:px-5 rounded-lg md:rounded-xl border flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-all">
-          <i class="fa-solid fa-chart-line text-sm"></i>
-          <span class="hidden md:inline">Analitika</span>
-        </button>
-
-        <ExportDropdown @select="store.handleExcelExport({ payload: filteredProducts })" class="!h-full" />
-
-        <div class="hidden xs:block w-[1px] h-6 bg-slate-200 dark:bg-slate-700"></div>
-
-        <Button size="sm" left-icon="fas fa-plus" @click="store.openAddModal()" variant="primary" class="!h-full !rounded-xl md:!rounded-xl !px-3 md:!px-6 font-bold shadow-indigo-500/20">
-          <span class="hidden sm:inline">Yangi</span>
-        </Button>
-        <Button  size="sm" left-icon="fas fa-qrcode" @click="isScannerOpen = true" variant="primary" class="!h-full !rounded-xl md:!rounded-xl !px-3 md:!px-6 font-bold shadow-indigo-500/20">
-          <span class="hidden sm:inline">Scaner</span>
-        </Button>
-       
+      <input 
+        v-model="searchQuery" 
+        type="text"
+        placeholder="Mahsulot nomi, artikul yoki shtrix-kod orqali qidiring..." 
+        class="w-full h-11 pl-10 pr-12 bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 focus:ring-4 focus:ring-indigo-500/10 rounded-xl transition-all outline-none text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm"
+      />
+      <div class="hidden lg:flex absolute inset-y-0 right-3 items-center">
+        <kbd class="px-2 py-0.5 text-[10px] font-bold text-slate-400 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-md">
+          /
+        </kbd>
       </div>
     </div>
+
+    <div class="flex items-center justify-between md:justify-center w-full md:w-auto gap-2 order-1 md:order-2">
+      
+
+      <div class="flex items-center gap-2">
+        <button @click="isStatsVisible = !isStatsVisible" 
+          :class="isStatsVisible ? 'bg-indigo-600 text-white shadow-indigo-500/20' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-indigo-400'"
+          class="h-10 w-10 md:w-auto md:px-4 rounded-xl border flex items-center justify-center gap-2 transition-all active:scale-95 shadow-sm">
+          <i class="fa-solid fa-chart-pie text-[15px]"></i>
+          <span class="hidden xl:inline text-xs font-bold uppercase tracking-widest">Analitika</span>
+        </button>
+
+        <ExportDropdown @select="store.handleExcelExport({ payload: filteredProducts })" class="!h-10" />
+
+        <div class="w-[1px] h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
+        <button @click="isScannerOpen = true" 
+          class="h-10 w-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 transition-all active:scale-95">
+          <i class="fas fa-qrcode text-lg"></i>
+        </button>
+
+        <button @click="store.openAddModal()" 
+          class="h-10 px-4 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-indigo-500/25 transition-all active:scale-95">
+          <i class="fas fa-plus"></i>
+          <span class="hidden sm:inline">Yangi</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
    <div class="flex-grow overflow-hidden bg-white/70 dark:bg-slate-900/80 backdrop-blur-2xl rounded-2xl md:rounded-xl border border-slate-200/60 dark:border-slate-800/60 shadow-[0_20px_50px_rgba(0,0,0,0.04)] relative">
   <DataTable :items="filteredProducts" :columns="columns" :loading="loading" class="analyt-table h-full">
