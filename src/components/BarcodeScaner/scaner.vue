@@ -1,69 +1,96 @@
 <template>
   <Transition 
-    enter-active-class="transition duration-500 ease-out"
-    enter-from-class="opacity-0 scale-95 blur-md"
-    enter-to-class="opacity-100 scale-100 blur-0"
-    leave-active-class="transition duration-300 ease-in"
-    leave-from-class="opacity-100 scale-100 blur-0"
-    leave-to-class="opacity-0 blur-md"
+    enter-active-class="transition duration-700 cubic-bezier(0.19, 1, 0.22, 1)"
+    enter-from-class="opacity-0 translate-y-10 blur-xl"
+    enter-to-class="opacity-100 translate-y-0 blur-0"
+    leave-active-class="transition duration-400 ease-in"
+    leave-from-class="opacity-100 scale-100"
+    leave-to-class="opacity-0 scale-95"
   >
-    <div v-if="isOpen" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 backdrop-blur-md overflow-hidden touch-none select-none p-0 md:p-8 font-sans">
+    <div v-if="isOpen" class="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-950/98 backdrop-blur-2xl p-0 sm:p-6 md:p-10 font-sans overflow-hidden touch-none selection:bg-indigo-500/30">
       
-      <div class="relative w-full h-full md:w-1/2 md:max-w-3xl md:h-[85vh] bg-black md:rounded-[3.5rem] overflow-hidden shadow-2xl transition-all duration-500 border-none md:border md:border-white/10">
+      <div class="relative w-full h-full sm:h-auto sm:aspect-[4/3] md:aspect-video max-w-6xl bg-black sm:rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)] border-none sm:border border-white/5 flex flex-col md:flex-row">
         
-        <div id="qr-reader" class="absolute inset-0 w-full h-full object-cover"></div>
-
-        <div v-if="!lastResult" class="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-          <div class="relative w-[75vw] h-[75vw] md:w-[45vh] md:h-[45vh] max-w-[400px] max-h-[400px]">
-            <div v-for="c in ['tl', 'tr', 'bl', 'br']" :key="c" 
-                 :class="['absolute w-12 h-12 border-indigo-500 shadow-[0_0_25px_rgba(99,102,241,0.6)]', 
-                          c === 'tl' ? 'top-0 left-0 border-t-[6px] border-l-[6px] rounded-tl-[2rem]' : '',
-                          c === 'tr' ? 'top-0 right-0 border-t-[6px] border-r-[6px] rounded-tr-[2rem]' : '',
-                          c === 'bl' ? 'bottom-0 left-0 border-b-[6px] border-l-[6px] rounded-bl-[2rem]' : '',
-                          c === 'br' ? 'bottom-0 right-0 border-b-[6px] border-r-[6px] rounded-br-[2rem]' : '']">
+        <div class="relative flex-1 overflow-hidden order-2 md:order-1 group bg-black">
+          <div id="qr-reader" class="absolute inset-0 w-full h-full"></div>
+          
+          <div v-if="!lastResult" class="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[38vh] md:h-[38vh] max-w-[500px]">
+              <div v-for="c in ['tl', 'tr', 'bl', 'br']" :key="c" 
+                   :class="['absolute w-14 h-14 border-indigo-500 transition-all duration-700 group-hover:scale-105', 
+                            c === 'tl' ? 'top-0 left-0 border-t-[4px] border-l-[4px] rounded-tl-[2.5rem]' : '',
+                            c === 'tr' ? 'top-0 right-0 border-t-[4px] border-r-[4px] rounded-tr-[2.5rem]' : '',
+                            c === 'bl' ? 'bottom-0 left-0 border-b-[4px] border-l-[4px] rounded-bl-[2.5rem]' : '',
+                            c === 'br' ? 'bottom-0 right-0 border-b-[4px] border-r-[4px] rounded-br-[2.5rem]' : '']">
+              </div>
+              <div class="absolute inset-x-6 h-[2px] bg-gradient-to-r from-transparent via-indigo-400 to-transparent shadow-[0_0_30px_#6366f1] animate-laser"></div>
             </div>
-            <div class="absolute inset-x-4 h-[2.5px] bg-indigo-400 shadow-[0_0_30px_#6366f1] animate-scan-indigo"></div>
           </div>
         </div>
 
-        <header class="absolute top-0 inset-x-0 z-40 p-4 pt-10 md:p-8 flex justify-center items-center bg-gradient-to-b from-black/80 to-transparent text-white">
-          <div class="flex items-center gap-2 md:gap-4 bg-black/30 backdrop-blur-2xl p-2 rounded-[2.5rem] border border-white/10 shadow-2xl">
-            <button @click="toggleTorch" :class="isTorchOn ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/40' : 'bg-white/5 text-white/70'" class="w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all active:scale-90">
-              <i class="fa-solid fa-bolt text-lg"></i>
+        <div class="relative md:w-32 lg:w-36 z-40 p-5 md:py-12 flex md:flex-col justify-between items-center bg-slate-900/50 md:bg-black/40 border-b md:border-b-0 md:border-l border-white/5 order-1 md:order-2 backdrop-blur-xl">
+          
+          <button @click="close" class="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all active:scale-90">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+
+          <div class="flex md:flex-col items-center gap-4 md:gap-8">
+            <button @click="toggleTorch" 
+              :class="isTorchOn ? 'bg-amber-400 text-black shadow-[0_0_20px_rgba(251,191,36,0.4)]' : 'bg-white/5 text-slate-300 hover:bg-white/10'" 
+              class="w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center transition-all active:scale-90">
+              <i class="fa-solid fa-bolt-lightning text-lg"></i>
             </button>
-            <button @click="changeZoom(-0.5)" class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/5 text-white/70 flex items-center justify-center active:scale-90"><i class="fa-solid fa-magnifying-glass-minus text-lg"></i></button>
-            <label class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/5 text-white/70 flex items-center justify-center active:scale-90 cursor-pointer">
-              <i class="fa-solid fa-image text-lg"></i>
+            
+            <div class="hidden md:flex flex-col gap-3">
+              <button @click="changeZoom(0.5)" class="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-plus text-xs"></i>
+              </button>
+              <button @click="changeZoom(-0.5)" class="w-12 h-12 rounded-xl bg-white/5 text-white flex items-center justify-center hover:bg-white/10">
+                <i class="fa-solid fa-minus text-xs"></i>
+              </button>
+            </div>
+
+            <label class="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 text-slate-300 flex items-center justify-center cursor-pointer hover:bg-white/10 active:scale-95 border border-white/5">
+              <i class="fa-solid fa-images text-lg"></i>
               <input type="file" accept="image/*" class="hidden" @change="onFileChange">
             </label>
-            <button @click="changeZoom(0.5)" class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/5 text-white/70 flex items-center justify-center active:scale-90"><i class="fa-solid fa-magnifying-glass-plus text-lg"></i></button>
-            <button @click="switchCamera" class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/5 text-white/70 flex items-center justify-center active:scale-90"><i class="fa-solid fa-camera-rotate text-lg"></i></button>
-            <div class="w-[1px] h-8 bg-white/10 mx-1"></div>
-            <button @click="close" class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center active:scale-90 shadow-lg"><i class="fa-solid fa-xmark text-xl"></i></button>
           </div>
-        </header>
 
-        <Transition enter-active-class="transition duration-500 cubic-bezier(0.16, 1, 0.3, 1)" enter-from-class="translate-y-full opacity-0" enter-to-class="translate-y-0 opacity-100">
-          <div v-if="lastResult" class="absolute bottom-10 inset-x-6 z-50">
-            <div class="bg-indigo-950/50 backdrop-blur-3xl border border-indigo-400/30 rounded-[2.5rem] p-8 shadow-2xl text-center">
-              <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/30 animate-bounce">
-                <i class="fa-solid fa-check text-2xl"></i>
+          <button @click="switchCamera" class="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all active:scale-90">
+            <i class="fa-solid fa-camera-rotate text-lg"></i>
+          </button>
+        </div>
+
+        <Transition 
+          enter-active-class="transition duration-600 cubic-bezier(0.34, 1.56, 0.64, 1)" 
+          enter-from-class="scale-90 opacity-0 blur-2xl" 
+          enter-to-class="scale-100 opacity-100 blur-0"
+        >
+          <div v-if="lastResult" class="absolute inset-0 z-50 flex items-center justify-center p-6 bg-slate-950/70 backdrop-blur-md">
+            <div class="w-full max-w-md bg-slate-900 border border-white/10 rounded-[3rem] p-8 md:p-10 shadow-3xl text-center">
+              <div class="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20">
+                <i class="fa-solid fa-check text-3xl"></i>
               </div>
-              <h4 class="text-white font-black text-xl mb-6 uppercase tracking-tighter">Kod aniqlandi</h4>
-              <div class="bg-black/40 rounded-2xl p-4 border border-white/5 mb-8">
-                <p class="text-indigo-100 font-mono break-all text-lg select-all">{{ lastResult }}</p>
+              <h4 class="text-white font-black text-2xl mb-2 tracking-tight">ANIQLANDI</h4>
+              <p class="text-slate-500 text-[10px] uppercase tracking-widest mb-8 font-bold">Kod muvaffaqiyatli o'qildi</p>
+              
+              <div class="bg-black/40 rounded-3xl p-6 border border-white/5 mb-8">
+                <p class="text-indigo-300 font-mono break-all text-xl font-bold tracking-wider select-all leading-relaxed">{{ lastResult }}</p>
               </div>
-              <div class="flex gap-4">
-                <button @click="lastResult = null; restartScanner()" class="flex-1 py-4 rounded-2xl bg-white/5 text-white font-bold text-xs uppercase tracking-[0.2em] border border-white/10 active:scale-95 transition-all">Qayta skaner</button>
-                <button @click="confirmResult" class="flex-1 py-4 rounded-2xl bg-indigo-500 text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-indigo-500/30 active:scale-95 transition-all">Tasdiqlash</button>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <button @click="lastResult = null; restartScanner()" class="py-4 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all border border-white/5 active:scale-95 text-xs uppercase tracking-widest">Qayta</button>
+                <button @click="confirmResult" class="py-4 rounded-2xl bg-indigo-600 text-white font-black shadow-lg shadow-indigo-600/30 hover:bg-indigo-500 transition-all active:scale-95 text-xs uppercase tracking-widest">Tasdiqlash</button>
               </div>
             </div>
           </div>
         </Transition>
 
-        <div v-if="isLoading" class="absolute inset-0 z-[100] bg-[#05070a] flex flex-col items-center justify-center">
-          <div class="w-16 h-16 border-4 border-indigo-500/10 border-t-indigo-500 rounded-full animate-spin"></div>
+        <div v-if="isLoading" class="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center">
+          <div class="w-16 h-16 border-2 border-indigo-500/10 border-t-indigo-500 rounded-full animate-spin"></div>
+          <p class="mt-8 text-indigo-200/40 text-[9px] font-black uppercase tracking-[0.6em] animate-pulse">Kamera yuklanmoqda...</p>
         </div>
+
       </div>
     </div>
   </Transition>
@@ -80,6 +107,7 @@ const isLoading = ref(true);
 const isTorchOn = ref(false);
 const zoomValue = ref(1);
 const lastResult = ref(null);
+const currentFacingMode = ref("environment");
 let html5QrCode = null;
 
 const playBeep = () => {
@@ -88,11 +116,11 @@ const playBeep = () => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
     gain.gain.setValueAtTime(0, audioCtx.currentTime);
     gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.01);
     gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.12);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
   } catch (e) {}
 };
 
@@ -101,74 +129,65 @@ const startScanner = async () => {
   lastResult.value = null;
   try {
     if (html5QrCode) {
-      if (html5QrCode.isScanning) await html5QrCode.stop().catch(() => {});
+      if (html5QrCode.isScanning) await html5QrCode.stop();
       html5QrCode.clear();
     }
+    
     html5QrCode = new Html5Qrcode("qr-reader");
     const config = {
       fps: 30,
       qrbox: (w, h) => {
-        const size = Math.min(w, h) * 0.75;
+        const size = Math.min(w, h) * 0.7;
         return { width: size, height: size };
       },
       aspectRatio: 1.0
     };
 
     await html5QrCode.start(
-      { facingMode: "environment" }, 
+      { facingMode: currentFacingMode.value }, 
       config, 
       (text) => handleSuccess(text)
     );
 
-    // Zoomni majburiy 1 holatiga tushirish
-    setTimeout(async () => {
-      try {
-        const track = html5QrCode.getRunningTrackSettings();
-        if (track && 'zoom' in track) {
-          await html5QrCode.applyVideoConstraints({ advanced: [{ zoom: 1.0 }] });
-          zoomValue.value = 1;
-        }
-      } catch (e) {}
-    }, 500);
-
     isLoading.value = false;
   } catch (err) {
+    console.error("Scanner Error:", err);
     isLoading.value = false;
-    close();
   }
 };
 
 const handleSuccess = async (text) => {
   playBeep();
-  if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+  if (navigator.vibrate) navigator.vibrate(100);
   lastResult.value = text;
   if (html5QrCode.isScanning) await html5QrCode.stop();
 };
 
-// ZOOM FUNKSIYASI TUZATILDI
+const toggleTorch = async () => {
+  if (!html5QrCode || !html5QrCode.isScanning) return;
+  try {
+    isTorchOn.value = !isTorchOn.value;
+    await html5QrCode.applyVideoConstraints({
+      advanced: [{ torch: isTorchOn.value }]
+    });
+  } catch (e) {
+    isTorchOn.value = false;
+    alert("Flashlight ushbu qurilmada mavjud emas");
+  }
+};
+
 const changeZoom = async (step) => {
   if (!html5QrCode || !html5QrCode.isScanning) return;
   try {
     const capabilities = html5QrCode.getRunningTrackCapabilities();
-    if (!capabilities.zoom) {
-      console.warn("Ushbu qurilma zoomni qo'llab-quvvatlamaydi");
-      return;
-    }
-
-    const min = capabilities.zoom.min || 1;
-    const max = capabilities.zoom.max || 5;
+    if (!capabilities.zoom) return;
     
     let newZoom = zoomValue.value + step;
-    if (newZoom < min) newZoom = min;
-    if (newZoom > max) newZoom = max;
-
+    newZoom = Math.max(capabilities.zoom.min, Math.min(newZoom, capabilities.zoom.max));
+    
     zoomValue.value = newZoom;
-    await html5QrCode.applyVideoConstraints({
-      advanced: [{ zoom: newZoom }]
-    });
-  } catch (e) {
-    console.error("Zoomni qo'llab bo'lmadi:", e);
-  }
+    await html5QrCode.applyVideoConstraints({ advanced: [{ zoom: newZoom }] });
+  } catch (e) {}
 };
 
 const onFileChange = async (event) => {
@@ -176,49 +195,58 @@ const onFileChange = async (event) => {
   if (!file || !html5QrCode) return;
   isLoading.value = true;
   try {
-    // Rasm yuklaganda kamerani to'xtatib turish kerak
     if (html5QrCode.isScanning) await html5QrCode.stop();
     const result = await html5QrCode.scanFile(file, true);
     handleSuccess(result);
   } catch (err) {
-    alert("Kodni o'qib bo'lmadi! Iltimos, tiniqroq rasm tanlang yoki kameradan foydalaning.");
-    restartScanner();
+    alert("Kodni aniqlab bo'lmadi!");
+    startScanner();
   } finally {
     isLoading.value = false;
   }
 };
 
-const confirmResult = () => { emit('detected', lastResult.value); close(); };
-const restartScanner = () => startScanner();
-const toggleTorch = async () => {
-  try {
-    isTorchOn.value = !isTorchOn.value;
-    await html5QrCode.applyVideoConstraints({ advanced: [{ torch: isTorchOn.value }] });
-  } catch (e) {}
+const switchCamera = async () => {
+  currentFacingMode.value = currentFacingMode.value === "environment" ? "user" : "environment";
+  await startScanner();
 };
-const switchCamera = async () => { isLoading.value = true; await close(); setTimeout(startScanner, 500); };
+
+const confirmResult = () => {
+  emit('detected', lastResult.value);
+  close();
+};
+
+const restartScanner = () => startScanner();
+
 const close = async () => {
-  if (html5QrCode && html5QrCode.isScanning) { try { await html5QrCode.stop(); html5QrCode.clear(); } catch (err) {} }
+  if (html5QrCode && html5QrCode.isScanning) {
+    try { await html5QrCode.stop(); html5QrCode.clear(); } catch (e) {}
+  }
   emit('close');
 };
 
-watch(() => props.isOpen, (val) => { if (val) nextTick(() => setTimeout(startScanner, 600)); });
+watch(() => props.isOpen, (val) => {
+  if (val) nextTick(() => setTimeout(startScanner, 400));
+});
+
 onUnmounted(close);
 </script>
 
 <style scoped>
-.animate-scan-indigo { animation: scan-move 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-@keyframes scan-move { 0% { top: 5%; opacity: 0; } 20%, 80% { opacity: 1; } 100% { top: 95%; opacity: 0; } }
-:deep(video) { width: 100% !important; height: 100% !important; object-fit: cover !important; }
-
-/* OQ RAMKALARNI BUTUNLAY O'CHIRISH */
-:deep(.qr-shaded-region), 
-:deep(#qr-shaded-region),
-:deep(canvas) {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
+.animate-laser {
+  animation: laser-move 2.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
-
-:deep(#qr-reader__status_span), :deep(#qr-reader__dashboard) { display: none !important; }
+@keyframes laser-move {
+  0% { top: 10%; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { top: 90%; opacity: 0; }
+}
+:deep(video) {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+:deep(.qr-shaded-region), :deep(#qr-shaded-region), :deep(canvas), :deep(#qr-reader__dashboard) {
+  display: none !important;
+}
 </style>
