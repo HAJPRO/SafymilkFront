@@ -11,9 +11,17 @@
       
       <div class="relative w-full h-full sm:h-[90vh] lg:w-[60%] lg:max-w-[1000px] aspect-auto md:aspect-square lg:aspect-video bg-[#050505] sm:rounded-[4rem] overflow-hidden shadow-[0_0_120px_rgba(0,0,0,1)] border-none sm:border border-white/10 flex flex-col transition-all">
         
-        <div class="relative flex-1 bg-black overflow-hidden flex items-center justify-center">
-          <div id="qr-reader" class="absolute inset-0 w-full h-full object-cover"></div>
+        <div 
+          class="relative flex-1 bg-black overflow-hidden flex items-center justify-center cursor-pointer"
+          @click="triggerManualFocus"
+        >
+          <div id="qr-reader" class="absolute inset-0 w-full h-full"></div>
           
+          <div v-if="focusPoint.show" 
+               class="absolute z-[60] w-16 h-16 border-2 border-white/40 rounded-full animate-focus-ring pointer-events-none"
+               :style="{ left: focusPoint.x + 'px', top: focusPoint.y + 'px', transform: 'translate(-50%, -50%)' }">
+          </div>
+
           <div v-if="!lastResult && !errorState" class="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
             <div class="relative w-[70vw] h-[70vw] sm:w-[45vh] sm:h-[45vh] max-w-[400px]">
               <div v-for="c in ['tl', 'tr', 'bl', 'br']" :key="c" 
@@ -41,39 +49,35 @@
         </div>
 
         <Transition enter-active-class="transition duration-600 cubic-bezier(0.17, 0.67, 0.83, 0.67)" enter-from-class="translate-y-20 opacity-0 scale-95" enter-to-class="translate-y-0 opacity-100 scale-100">
-          
-          <div v-if="lastResult" class="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl">
+          <div v-if="lastResult || errorState" class="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl">
             <div class="w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-[3.5rem] p-10 shadow-3xl text-center relative overflow-hidden">
-              <div class="w-20 h-20 bg-emerald-500/10 text-emerald-400 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 shadow-xl shadow-emerald-500/10"><i class="fa-solid fa-check-double text-3xl"></i></div>
-              <h4 class="text-white font-black text-xl mb-1 tracking-widest uppercase italic font-mono">CODE DETECTED</h4>
-              <p class="text-white/20 text-[9px] uppercase tracking-[0.5em] mb-10 font-bold">Ma'lumotlar muvaffaqiyatli o'qildi</p>
-              <div class="bg-indigo-500/5 rounded-2xl p-6 border border-indigo-500/10 mb-10"><p class="text-indigo-200 font-mono break-all text-xl md:text-2xl font-black select-all tracking-tighter">{{ lastResult }}</p></div>
-              <div class="grid grid-cols-2 gap-4">
-                <button @click="lastResult = null; restartScanner()" class="py-5 rounded-2xl bg-white/5 text-white/40 font-bold hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/5 active:scale-95">Qayta</button>
-                <button @click="confirmResult" class="py-5 rounded-2xl bg-indigo-600 text-white font-black shadow-2xl shadow-indigo-600/30 hover:bg-indigo-500 transition-all text-[10px] uppercase tracking-widest">Tasdiqlash</button>
+              <div :class="lastResult ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'" class="w-20 h-20 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border shadow-xl">
+                <i :class="lastResult ? 'fa-solid fa-check-double' : 'fa-solid fa-triangle-exclamation'" class="text-3xl"></i>
               </div>
-            </div>
-          </div>
-
-          <div v-else-if="errorState" class="absolute inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl">
-            <div class="w-full max-w-md bg-[#0a0a0a] border border-red-500/20 rounded-[3.5rem] p-10 shadow-3xl text-center relative overflow-hidden">
-              <div class="w-20 h-20 bg-red-500/10 text-red-500 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border border-red-500/20 shadow-xl shadow-red-500/10"><i class="fa-solid fa-triangle-exclamation text-3xl"></i></div>
-              <h4 class="text-white font-black text-xl mb-1 tracking-widest uppercase italic font-mono">SCAN ERROR</h4>
-              <p class="text-red-500/40 text-[9px] uppercase tracking-[0.5em] mb-10 font-bold">Tizim kodni aniqlay olmadi</p>
-              <div class="bg-red-500/5 rounded-2xl p-6 border border-red-500/10 mb-10"><p class="text-red-200 font-medium text-sm leading-relaxed">{{ errorMsg }}</p></div>
-              <button @click="errorState = false; restartScanner()" class="w-full py-5 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/5 active:scale-95">Tushunarli</button>
+              <h4 class="text-white font-black text-xl mb-1 tracking-widest uppercase italic font-mono">{{ lastResult ? 'CODE DETECTED' : 'SCAN ERROR' }}</h4>
+              <p class="text-white/20 text-[9px] uppercase tracking-[0.5em] mb-10 font-bold italic">{{ lastResult ? "Ma'lumotlar o'qildi" : "Kodni aniqlab bo'lmadi" }}</p>
+              <div :class="lastResult ? 'bg-indigo-500/5 border-indigo-500/10' : 'bg-red-500/5 border-red-500/10'" class="rounded-2xl p-6 border mb-10">
+                <p :class="lastResult ? 'text-indigo-200 font-mono' : 'text-red-200 font-medium'" class="break-all text-xl md:text-2xl font-black select-all tracking-tighter leading-none">{{ lastResult || errorMsg }}</p>
+              </div>
+              <div class="grid grid-cols-2 gap-4" v-if="lastResult">
+                <button @click="lastResult = null; restartScanner()" class="py-5 rounded-2xl bg-white/5 text-white/40 font-bold hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/5">Qayta</button>
+                <button @click="confirmResult" class="py-5 rounded-2xl bg-indigo-600 text-white font-black shadow-2xl hover:bg-indigo-500 transition-all text-[10px] uppercase tracking-widest">OK</button>
+              </div>
+              <button v-else @click="errorState = false; restartScanner()" class="w-full py-5 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all text-[10px] uppercase tracking-widest border border-white/5">Tushunarli</button>
             </div>
           </div>
         </Transition>
 
-        <div v-if="isLoading" class="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center"><div class="w-16 h-16 border-t-2 border-indigo-500 rounded-full animate-spin"></div></div>
+        <div v-if="isLoading" class="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center">
+          <div class="w-16 h-16 border-t-2 border-indigo-500 rounded-full animate-spin"></div>
+        </div>
       </div>
     </div>
   </Transition>
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted, nextTick } from 'vue';
+import { ref, watch, onUnmounted, nextTick, reactive } from 'vue';
 import { Html5Qrcode } from "html5-qrcode";
 
 const props = defineProps({ isOpen: Boolean });
@@ -86,15 +90,15 @@ const lastResult = ref(null);
 const errorState = ref(false);
 const errorMsg = ref("");
 const currentFacingMode = ref("environment");
+const focusPoint = reactive({ x: 0, y: 0, show: false });
 let html5QrCode = null;
 
+// Audio context
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
 const playSound = (type) => {
   const masterGain = audioCtx.createGain();
   masterGain.connect(audioCtx.destination);
   masterGain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-
   if (type === 'success') {
     const osc1 = audioCtx.createOscillator();
     const osc2 = audioCtx.createOscillator();
@@ -106,8 +110,7 @@ const playSound = (type) => {
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(150, audioCtx.currentTime);
     osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 0.3);
-    osc.connect(masterGain);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    osc.connect(masterGain); osc.start(); osc.stop(audioCtx.currentTime + 0.3);
   }
 };
 
@@ -115,41 +118,33 @@ const speak = (text) => {
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US'; // Ingliz tilida professional xabar
+    utterance.lang = 'en-US';
     utterance.rate = 1.0;
     window.speechSynthesis.speak(utterance);
   }
 };
 
-const handleSuccess = (text) => {
-  playSound('success');
-  speak("Code Detected");
-  if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
-  lastResult.value = text;
-  if (html5QrCode.isScanning) html5QrCode.stop();
-};
+// --- MANUAL FOCUS FUNCTION ---
+const triggerManualFocus = async (event) => {
+  if (!html5QrCode?.isScanning) return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  focusPoint.x = (event.clientX || (event.touches ? event.touches[0].clientX : 0)) - rect.left;
+  focusPoint.y = (event.clientY || (event.touches ? event.touches[0].clientY : 0)) - rect.top;
+  focusPoint.show = true;
+  setTimeout(() => focusPoint.show = false, 600);
 
-const handleError = (msg, speakMsg) => {
-  playSound('error');
-  speak(speakMsg || "Scan Error");
-  errorMsg.value = msg;
-  errorState.value = true;
-  if (html5QrCode.isScanning) html5QrCode.stop();
-};
-
-const onFileChange = async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-  isLoading.value = true;
   try {
-    if (html5QrCode.isScanning) await html5QrCode.stop();
-    const result = await html5QrCode.scanFile(file, true);
-    handleSuccess(result);
-  } catch (err) {
-    handleError("Rasm tiniq emas yoki kod mavjud emas. Iltimos, boshqa rasm tanlang.", "No code found in image");
-  } finally {
-    isLoading.value = false;
-  }
+    // Brauzer fokusni yangilashi uchun kichik zoom o'zgarishini yuboramiz
+    await html5QrCode.applyVideoConstraints({
+      advanced: [{ 
+        focusMode: 'continuous',
+        zoom: zoomValue.value > 1 ? zoomValue.value : 1.001 
+      }]
+    });
+    setTimeout(async () => {
+      await html5QrCode.applyVideoConstraints({ advanced: [{ zoom: zoomValue.value }] });
+    }, 100);
+  } catch (e) { console.warn("Manual focus not supported", e); }
 };
 
 const startScanner = async () => {
@@ -162,13 +157,32 @@ const startScanner = async () => {
       html5QrCode.clear();
     }
     html5QrCode = new Html5Qrcode("qr-reader");
-    const config = { fps: 30, qrbox: (w, h) => ({ width: Math.min(w, h) * 0.7, height: Math.min(w, h) * 0.7 }), aspectRatio: 1.0 };
-    await html5QrCode.start({ facingMode: currentFacingMode.value }, config, (text) => handleSuccess(text));
+    const config = {
+      fps: 60,
+      qrbox: (w, h) => ({ width: Math.min(w, h) * 0.8, height: Math.min(w, h) * 0.8 }),
+      aspectRatio: 1.0,
+      videoConstraints: {
+        facingMode: "environment",
+        focusMode: "continuous",
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+        frameRate: { ideal: 60 }
+      }
+    };
+    await html5QrCode.start({ facingMode: "environment" }, config, (text) => {
+      playSound('success');
+      speak("Code Detected");
+      if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+      lastResult.value = text;
+      html5QrCode.stop();
+    });
     zoomValue.value = 1.0;
     isLoading.value = false;
   } catch (err) {
     isLoading.value = false;
-    handleError("Kamera ulanishda xatolik. Ruxsat berilganini tekshiring.", "Camera connection failed");
+    errorState.value = true;
+    errorMsg.value = "Kamera ulanishda xatolik yuz berdi.";
+    speak("Scan error");
   }
 };
 
@@ -176,8 +190,8 @@ const cycleZoom = async () => {
   if (!html5QrCode?.isScanning) return;
   const caps = html5QrCode.getRunningTrackCapabilities();
   if (!caps.zoom) return;
-  let nextZoom = zoomValue.value + 1.0;
-  if (nextZoom > Math.min(caps.zoom.max, 3.0)) nextZoom = 1.0;
+  let nextZoom = zoomValue.value + 0.5;
+  if (nextZoom > 3.0) nextZoom = 1.0;
   zoomValue.value = nextZoom;
   await html5QrCode.applyVideoConstraints({ advanced: [{ zoom: nextZoom }] });
 };
@@ -187,7 +201,25 @@ const toggleTorch = async () => {
   try {
     isTorchOn.value = !isTorchOn.value;
     await html5QrCode.applyVideoConstraints({ advanced: [{ torch: isTorchOn.value }] });
-  } catch (e) { isTorchOn.value = false; speak("Torch not available"); }
+  } catch (e) { isTorchOn.value = false; }
+};
+
+const onFileChange = async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  isLoading.value = true;
+  try {
+    if (html5QrCode.isScanning) await html5QrCode.stop();
+    const result = await html5QrCode.scanFile(file, true);
+    lastResult.value = result;
+    playSound('success');
+    speak("Code found");
+  } catch (err) {
+    errorState.value = true;
+    errorMsg.value = "Rasmda kod aniqlanmadi.";
+    playSound('error');
+    speak("Failed");
+  } finally { isLoading.value = false; }
 };
 
 const switchCamera = () => { currentFacingMode.value = currentFacingMode.value === "environment" ? "user" : "environment"; startScanner(); };
@@ -200,8 +232,24 @@ onUnmounted(close);
 </script>
 
 <style scoped>
-.animate-laser-premium { animation: laser-move-premium 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+@keyframes focus-ring {
+  0% { width: 80px; height: 80px; opacity: 1; border-width: 4px; }
+  100% { width: 40px; height: 40px; opacity: 0; border-width: 1px; }
+}
+.animate-focus-ring { animation: focus-ring 0.6s ease-out forwards; }
+.animate-laser-premium { animation: laser-move-premium 2.5s infinite; }
 @keyframes laser-move-premium { 0% { top: 5%; opacity: 0; } 20%, 80% { opacity: 1; } 100% { top: 95%; opacity: 0; } }
-:deep(video) { width: 100% !important; height: 100% !important; object-fit: cover !important; }
-:deep(.qr-shaded-region), :deep(#qr-shaded-region), :deep(canvas), :deep(#qr-reader__dashboard) { display: none !important; }
+
+:deep(video) { 
+  width: 100% !important; 
+  height: 100% !important; 
+  object-fit: cover !important; 
+  filter: none !important; /* Hech qanday filtr qo'shmaslik */
+}
+
+:deep(.qr-shaded-region), :deep(#qr-shaded-region), :deep(canvas), :deep(#qr-reader__dashboard), :deep(#qr-reader__status_span) { 
+  display: none !important; 
+}
+
+button:active { transform: scale(0.92); }
 </style>
