@@ -145,22 +145,65 @@ onMounted(() => {
       </div>
     </transition>
 
-    <div class="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-4 py-3 rounded-xl">
-      <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center gap-4">
-        <div class="relative flex-1 w-full order-2 md:order-1">
-          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input v-model="searchQuery" type="text" placeholder="Qidirish..." class="w-full h-11 pl-10 pr-4 bg-slate-100 dark:bg-slate-800 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all" />
-        </div>
-        <div class="flex items-center gap-2 order-1 md:order-2">
-          <button @click="isStatsVisible = !isStatsVisible" class="h-10 px-4 rounded-xl border flex items-center gap-2 bg-white dark:bg-slate-800 text-xs font-bold uppercase tracking-widest"><i class="fa-solid fa-chart-pie"></i> Analitika</button>
-          <ExportDropdown @select="store.handleExcelExport({ payload: filteredProducts })" class="!h-10" />
-          <button @click="isScannerOpen = true" class="h-10 w-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-xl hover:text-indigo-600 transition-all"><i class="fas fa-qrcode text-lg"></i></button>
-          <button @click="store.openAddModal()" class="h-10 px-6 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-500/25 active:scale-95 transition-all">+ Yangi</button>
-        </div>
+ <div class="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl  px-1 xs:px-4 md:px-2  transition-all rounded-xl xs:py-2">
+  <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row md:items-center gap-3">
+    
+    <div class="flex items-center justify-between md:justify-end gap-2 order-1 md:order-2 md:flex-1">
+      
+      <ExportDropdown 
+        @select="store.handleExcelExport({ payload: filteredProducts })" 
+        class="md:hidden !h-11 !w-11 !rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-700/50" 
+      />
+
+      <div class="flex items-center gap-2">
+        <ExportDropdown 
+          @select="store.handleExcelExport({ payload: filteredProducts })" 
+          class="hidden md:block !h-11 !w-auto !rounded-2xl" 
+        />
+        <Button 
+          @click="isStatsVisible = !isStatsVisible" 
+          :variant="isStatsVisible ? 'primary' : 'secondary'"
+          :left-icon="isStatsVisible ? 'fa-solid fa-chart-pie' : 'fa-solid fa-chart-line'"
+                    size="sm"
+
+        >
+        </Button>
+
+        
+
+        <Button 
+          @click="isScannerOpen = true" 
+          variant="secondary"
+          left-icon="fas fa-qrcode"
+          size="sm"
+
+        />
+
+        <Button 
+          @click="store.openAddModal()" 
+          variant="primary"
+          left-icon="fas fa-plus"
+          size="sm"
+        >
+        </Button>
       </div>
     </div>
 
-    <div class="flex-grow overflow-hidden bg-white/70 dark:bg-slate-900/80 backdrop-blur-2xl rounded-2xl border border-slate-200/60 shadow-sm relative">
+    <div class="w-full md:max-w-[400px] lg:max-w-[800px] order-2 md:order-1 mt-4">
+      <Input 
+        v-model="searchQuery" 
+        placeholder="Qidiruv..." 
+        icon-pre="fa-solid fa-search"
+        rounded="rounded-2xl"
+        clearable
+        class="premium-search-input"
+      />
+    </div>
+
+  </div>
+</div>
+
+    <div class="flex-grow overflow-hidden bg-white/70 dark:bg-slate-900/80 backdrop-blur-2xl rounded-2xl shadow-sm relative">
    <DataTable :items="filteredProducts" :columns="columns" :loading="loading" class="h-full">
   
   <template #code="{ row }">
@@ -333,4 +376,17 @@ onMounted(() => {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 .dark ::-webkit-scrollbar-thumb { background: #334155; }
+/* Inputning ichki qismlarini tozalash va zamonaviy qilish */
+.premium-search-input :deep(input) {
+  @apply h-11 bg-slate-100/50 dark:bg-slate-800/50 border-transparent 
+         focus:ring-4 focus:ring-indigo-500/10 transition-all !important;
+}
+
+/* Tugmalar orasidagi masofani bir xil saqlash */
+.gap-2 { gap: 0.5rem; }
+
+@media (max-width: 768px) {
+  /* Mobilda qidiruv inputining tepasidagi masofani minimal qilish */
+  .order-2 { margin-top: 0.25rem; }
+}
 </style>
