@@ -97,17 +97,41 @@ const isScannerOpen = ref(false);
 
 // Skaner natija berganda ishlaydigan funksiya
 const handleGlobalScan = async (code) => {
-  isScannerOpen.value = false; // Skanerni yopamiz
-  
-  // Mahsulotni bazadan qidirish
-  const product = products.value.find(p => p.code === code);
-  
+  if (!code) return;
+
+  // 1. Kodni formatlash (bo'shliqlarni olib tashlash va bir xil tipga keltirish)
+  const scannedCode = String(code).trim().toLowerCase();
+  console.log("%c [SKANER NATIJASI]:", "color: #10b981; font-weight: bold", scannedCode);
+
+  // 2. Skanerni yopish
+  isScannerOpen.value = false;
+
+  // 3. Bazadan mahsulotni qidirish
+  // Bazadagi kodlarni ham string va trim qilib solishtirish xavfsizlikni ta'minlaydi
+  const product = products.value.find(p => 
+    String(p.code || "").trim().toLowerCase() === scannedCode
+  );
+
   if (product) {
-    toast.success(`${product.name} topildi!`);
-    store.GetOne(product._id); // Mahsulot bor bo'lsa, detalini ochadi
+    // 4. MAHSULOT TOPILSA
+    console.log("Muvaffaqiyat: Mahsulot bazada mavjud ->", product.name);
+    
+    // Foydalanuvchiga mahsulot borligini bildiramiz
+    toast.success(`Ushbu mahsulot bazada mavjud: ${product.name}`);
+    
+    // Mahsulot detalini ochamiz
+    await store.GetOne(product._id);
   } else {
-    toast.info("Yangi mahsulot. Ma'lumotlarni kiriting.");
-    store.openAddModal(code); // Mahsulot yo'q bo'lsa, qo'shish modalini shu kod bilan ochadi
+    // 5. MAHSULOT TOPILMASA
+    console.log("Mahsulot topilmadi, yangi artikul yaratish taklif qilinadi.");
+    
+    // Xabar beramiz
+    toast.info("Bu mahsulot bazada topilmadi. Yangi mahsulot qo'shish oynasi ochilmoqda.");
+    
+    // Skaner yopilishi va yangi modal ochilishi orasida vaqt berish (UX uchun muhim)
+    setTimeout(() => {
+      store.openAddModal(scannedCode); 
+    }, 500);
   }
 };
 onMounted(() => {
@@ -123,10 +147,10 @@ onMounted(() => {
   <AddProductModal class="z-[110]" />
   <DetailProductModal class="z-[110]" />
  <BarcodeScannerModal 
-    :isOpen="isScannerOpen" 
-    @close="isScannerOpen = false" 
-    @detected="handleGlobalScan" 
-  />
+  v-model="isScannerOpen" 
+  @detected="handleGlobalScan" 
+  @close="isScannerOpen = false"
+/>
   <div class="h-screen flex flex-col gap-3 p-3 md:p-5 bg-transparent dark:bg-slate-900 overflow-hidden font-sans relative">
     
    <transition name="premium-slide">
