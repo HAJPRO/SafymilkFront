@@ -12,7 +12,7 @@ import DataTable from "../../../UI/DataTable.vue";
 // Modallar
 import AddProductModal from "../../../components/Sale/products/AddProductModal.vue";
 import DetailProductModal from "../../../components/Sale/products/DetailProductModal.vue";
-
+import BarcodeScannerModal from "../../../components/BarcodeScaner/scaner.vue"; // Yo'lni to'g'rilang
 // Store
 import { ProductsManagmentStore } from "../../../stores/Sale/products/product.store";
 
@@ -92,7 +92,24 @@ const handleAction = (act, row) => {
   else if (act === 'edit') store.openEditModal(row._id);
   else if (act === 'delete') store.DeleteById(row._id);
 };
+// State (Sizda allaqachon bor)
+const isScannerOpen = ref(false);
 
+// Skaner natija berganda ishlaydigan funksiya
+const handleGlobalScan = async (code) => {
+  isScannerOpen.value = false; // Skanerni yopamiz
+  
+  // Mahsulotni bazadan qidirish
+  const product = products.value.find(p => p.code === code);
+  
+  if (product) {
+    toast.success(`${product.name} topildi!`);
+    store.GetOne(product._id); // Mahsulot bor bo'lsa, detalini ochadi
+  } else {
+    toast.info("Yangi mahsulot. Ma'lumotlarni kiriting.");
+    store.openAddModal(code); // Mahsulot yo'q bo'lsa, qo'shish modalini shu kod bilan ochadi
+  }
+};
 onMounted(() => {
   store.GetAll();
   window.addEventListener('scroll', () => activeDropdown.value = null, true);
@@ -105,7 +122,11 @@ onMounted(() => {
 <template>
   <AddProductModal class="z-[110]" />
   <DetailProductModal class="z-[110]" />
-
+ <BarcodeScannerModal 
+    :isOpen="isScannerOpen" 
+    @close="isScannerOpen = false" 
+    @detected="handleGlobalScan" 
+  />
   <div class="h-screen flex flex-col gap-3 p-3 md:p-5 bg-transparent dark:bg-slate-900 overflow-hidden font-sans relative">
     
    <transition name="premium-slide">
@@ -187,6 +208,10 @@ onMounted(() => {
         <Button size="sm" left-icon="fas fa-plus" @click="store.openAddModal()" variant="primary" class="!h-full !rounded-xl md:!rounded-xl !px-3 md:!px-6 font-bold shadow-indigo-500/20">
           <span class="hidden sm:inline">Yangi</span>
         </Button>
+        <Button  size="sm" left-icon="fas fa-qrcode" @click="isScannerOpen = true" variant="primary" class="!h-full !rounded-xl md:!rounded-xl !px-3 md:!px-6 font-bold shadow-indigo-500/20">
+          <span class="hidden sm:inline">Scaner</span>
+        </Button>
+       
       </div>
     </div>
 

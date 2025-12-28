@@ -10,6 +10,7 @@
 
     <!-- <HeaderTabLink/> -->
     <Tabel/>
+    <Scaner/>
  
 </template>
 
@@ -18,6 +19,7 @@ import { onMounted, ref } from "vue";
 import Title from "../../../components/Title.vue";
 import HeaderTabLink from  "../../../components/Sale/products/HeaderTabLink.vue"
 import Tabel from  "../../../components/Sale/products/Tabel.vue"
+import Scaner from  "../../../components/BarcodeScaner/scaner.vue"
 
 </script>
 
