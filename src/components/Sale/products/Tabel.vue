@@ -95,40 +95,48 @@ const handleAction = (act, row) => {
 // State (Sizda allaqachon bor)
 const isScannerOpen = ref(false);
 
-// Skaner natija berganda ishlaydigan funksiya
 const handleGlobalScan = async (code) => {
   if (!code) return;
 
-  // 1. Kodni formatlash (bo'shliqlarni olib tashlash va bir xil tipga keltirish)
+  // 1. Kodni formatlash va tozalash
   const scannedCode = String(code).trim().toLowerCase();
   console.log("%c [SKANER NATIJASI]:", "color: #10b981; font-weight: bold", scannedCode);
 
-  // 2. Skanerni yopish
+  // 2. Skanerni yopish (interfeys tozaligi uchun)
   isScannerOpen.value = false;
 
   // 3. Bazadan mahsulotni qidirish
-  // Bazadagi kodlarni ham string va trim qilib solishtirish xavfsizlikni ta'minlaydi
   const product = products.value.find(p => 
     String(p.code || "").trim().toLowerCase() === scannedCode
   );
 
   if (product) {
-    // 4. MAHSULOT TOPILSA
-    console.log("Muvaffaqiyat: Mahsulot bazada mavjud ->", product.name);
+    // --- MAHSULOT BAZADA MAVJUD BO'LGAN HOLAT ---
+    console.log("Muvaffaqiyat: Mahsulot topildi ->", product.name);
     
-    // Foydalanuvchiga mahsulot borligini bildiramiz
-    toast.success(`Ushbu mahsulot bazada mavjud: ${product.name}`);
+    toast.success(`Mahsulot topildi: ${product.name}. Ma'lumotlar yuklanmoqda...`);
     
-    // Mahsulot detalini ochamiz
-    await store.GetOne(product._id);
+    // Modallar o'rtasidagi z-index yoki konfliktlarni oldini olish uchun biroz kutish
+    setTimeout(async () => {
+      // Mahsulotning eng so'nggi ma'lumotlarini bazadan olish
+      await store.GetOne(product._id);
+      // Tahrirlash (Edit) modalini ochish
+      // Store'ingizda tahrirlash funksiyasi borligini hisobga olgan holda:
+      if (store.openEditModal) {
+        store.openEditModal(product._id);
+      } else {
+        // Agar tahrirlash modali alohida bo'lmasa, batafsil ko'rishni ochadi
+        console.log("Edit modal funksiyasi topilmadi, Detal ochildi.");
+      }
+    }, 400);
+
   } else {
-    // 5. MAHSULOT TOPILMASA
-    console.log("Mahsulot topilmadi, yangi artikul yaratish taklif qilinadi.");
+    // --- MAHSULOT BAZADA YO'Q BO'LGAN HOLAT ---
+    console.log("Mahsulot topilmadi. Yangi artikul yaratish oynasi ochilmoqda.");
     
-    // Xabar beramiz
-    toast.info("Bu mahsulot bazada topilmadi. Yangi mahsulot qo'shish oynasi ochilmoqda.");
+    toast.info("Bu artikul bazada yo'q. Yangi mahsulot sifatida qo'shishingiz mumkin.");
     
-    // Skaner yopilishi va yangi modal ochilishi orasida vaqt berish (UX uchun muhim)
+    // Yangi mahsulot qo'shish modalini ochish
     setTimeout(() => {
       store.openAddModal(scannedCode); 
     }, 500);
