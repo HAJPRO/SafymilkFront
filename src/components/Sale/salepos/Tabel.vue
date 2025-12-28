@@ -1,4 +1,10 @@
 <template>
+  <BarcodeScannerModal 
+    v-model="isScannerOpen" 
+    @detected="handleGlobalScan" 
+    @close="isScannerOpen = false"
+  />
+
   <div class="h-screen w-full bg-[#F1F5F9] dark:bg-[#020617] flex flex-col lg:flex-row font-sans overflow-hidden text-slate-600 dark:text-slate-400 selection:bg-indigo-500 selection:text-white transition-colors duration-300">
     
     <div class="flex-1 flex flex-col min-w-0 h-full relative z-0 transition-all duration-300" :class="mobileTab === 'catalog' ? 'flex' : 'hidden lg:flex'">
@@ -44,10 +50,15 @@
       </header>
 
       <div class="px-5 py-4 flex gap-3 shrink-0 z-10 sticky top-16 bg-[#F1F5F9]/95 dark:bg-[#020617]/95 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50">
-        <Select v-model="searchCategoryData" :options="categories" placeholder="Kategoriya..." searchable clearable size="middle" iconPre="fa-solid fa-layer-group" labelKey="name" valueKey="_id" style="width: 40%;"></Select>
+        <Select v-model="searchCategoryData" :options="categories" placeholder="Kategoriya..." searchable clearable size="middle" iconPre="fa-solid fa-layer-group" labelKey="name" valueKey="_id" style="width: 30%;"></Select>
+        
         <div class="relative flex-1 group">
-          <i class="fa-solid fa-barcode absolute left-4 top-4 text-slate-400"></i>
-          <input v-model="productSearch" type="text" placeholder="Mahsulot qidiruvi..." class="w-full h-12 pl-11 pr-4 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:border-indigo-500 outline-none">
+          <i class="fa-solid fa-search absolute left-4 top-4 text-slate-400"></i>
+          <input v-model="productSearch" type="text" placeholder="Mahsulot nomi yoki artikul..." class="w-full h-12 pl-11 pr-12 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium focus:border-indigo-500 outline-none shadow-sm">
+          
+          <button @click="isScannerOpen = true" class="absolute right-2 top-2 h-8 w-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center" title="Shtrix-kod skaneri">
+            <i class="fa-solid fa-qrcode"></i>
+          </button>
         </div>
       </div>
 
@@ -56,8 +67,9 @@
           <div v-for="product in filteredProducts" :key="product.id" @click="product.stock > 0 ? addToCart(product) : null"
             class="group relative bg-white dark:bg-[#0F172A] rounded-2xl p-2.5 shadow-sm border border-slate-200 dark:border-slate-800 transition-all cursor-pointer flex flex-col overflow-hidden"
             :class="[product.stock <= 0 ? 'opacity-60 grayscale' : 'hover:shadow-xl hover:-translate-y-1', {'ring-2 ring-indigo-500 border-indigo-500': getItemQty(product.id) > 0}]">
+            
             <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden relative mb-2.5">
-               <img :src="`http://localhost:5000/${product.image}` || `https://eco.company-erp.uz/${product.image}`"  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+               <img :src="`http://localhost:5000/${product.image}`" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 rounded-lg text-[9px] font-bold text-white border border-white/10 flex items-center gap-1">
                    <i class="fa-solid fa-layer-group text-[8px]"></i> {{ product.stock }} {{ product.unit }}
                </div>
@@ -65,10 +77,11 @@
                  {{ getItemQty(product.id) }}
                </div>
             </div>
+            
             <div class="px-1 flex-1 flex flex-col">
                <h3 class="text-xs font-bold text-slate-800 dark:text-white line-clamp-2 mb-2 min-h-[2rem]">{{ product.name }}</h3>
                <div class="mt-auto border-t border-slate-100 dark:border-slate-800 pt-2 flex justify-between items-center">
-                   <span class="text-[10px] text-slate-400">{{ product.category }}</span>
+                   <span class="text-[9px] text-slate-400 font-bold uppercase">{{ product.code || 'CODE' }}</span>
                    <span class="text-sm font-black text-slate-800 dark:text-slate-100">{{ formatPrice(product.price) }}</span>
                </div>
             </div>
@@ -89,43 +102,27 @@
       </div>
 
       <div class="shrink-0 p-4 bg-white dark:bg-[#111827] border-b border-slate-100 dark:border-slate-800 z-10 grid grid-cols-2 gap-3">
-        <Select v-model="activeSessionData.customerId" :options="customers" label="Mijoz" placeholder="Tanlang..." searchable clearable searchableIcon size="middle" iconPre="fa-solid fa-user" required labelKey="fullname" valueKey="_id" dropdownWidth="300ox">
-         <template #option="{ option }">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-600">
-           <i class="fas fa-user"></i>
-        </div>
-        
-        <div class="flex flex-col">
-           <span class="font-black text-sm">{{ option.fullname }}</span>
-           <div class="flex items-center gap-2">
-              <span class="text-[10px] px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-slate-500 uppercase">
-                {{ option.phoneNumber }}
-              </span>
-              <span class="text-[10px] text-indigo-500 font-bold italic">{{ option.position }}</span>
-           </div>
-        </div>
-      </div>
-    </template>
-        </Select>
-        <Select v-model="activeSessionData.supplierId" :options="drivers" label="Haydovchi" placeholder="Tanlang..." clearable searchable searchableIcon size="middle" iconPre="fa-solid fa-car" required labelKey="fullname" valueKey="_id">
+        <Select v-model="activeSessionData.customerId" :options="customers" label="Mijoz" placeholder="Tanlang..." searchable clearable size="middle" iconPre="fa-solid fa-user" labelKey="fullname" valueKey="_id" dropdownWidth="300px">
           <template #option="{ option }">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-600">
-           <i class="fas fa-car"></i>
-        </div>
-        
-        <div class="flex flex-col">
-           <span class="font-black text-sm">{{ option.fullname }}</span>
-           <div class="flex items-center gap-2">
-              <span class="text-[10px] px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-slate-500 uppercase">
-                {{ option.phoneNumber }}
-              </span>
-              <span class="text-[10px] text-indigo-500 font-bold italic">{{ option.position }}</span>
-           </div>
-        </div>
-      </div>
-    </template>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-600"><i class="fas fa-user text-xs"></i></div>
+              <div class="flex flex-col">
+                <span class="font-bold text-xs">{{ option.fullname }}</span>
+                <span class="text-[10px] text-slate-400">{{ option.phoneNumber }}</span>
+              </div>
+            </div>
+          </template>
+        </Select>
+        <Select v-model="activeSessionData.supplierId" :options="drivers" label="Haydovchi" placeholder="Tanlang..." clearable searchable size="middle" iconPre="fa-solid fa-car" labelKey="fullname" valueKey="_id">
+          <template #option="{ option }">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600"><i class="fas fa-car text-xs"></i></div>
+              <div class="flex flex-col">
+                <span class="font-bold text-xs">{{ option.fullname }}</span>
+                <span class="text-[10px] text-slate-400">{{ option.phoneNumber }}</span>
+              </div>
+            </div>
+          </template>
         </Select>
       </div>
 
@@ -137,7 +134,7 @@
 
           <transition-group name="list" tag="div" class="space-y-3">
               <div v-for="item in activeSessionData.cart" :key="item.id" class="group flex items-center gap-3 p-3 bg-white dark:bg-[#151E32] rounded-2xl border border-slate-100 dark:border-slate-700/60 shadow-sm hover:border-indigo-300 transition-all">
-                  <img :src="`http://localhost:5000/${item.image}`||`https://eco.company-erp.uz/${item.image}`"  class="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-100 dark:border-slate-700">
+                  <img :src="`http://localhost:5000/${item.image}`" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-100 dark:border-slate-700">
                   <div class="flex-1 min-w-0">
                       <div class="flex justify-between items-start">
                           <h4 class="text-xs font-bold text-slate-800 dark:text-white line-clamp-1 pr-6 mb-1">{{ item.name }}</h4>
@@ -148,10 +145,10 @@
                           <span class="text-sm font-black text-slate-900 dark:text-white">{{ formatPrice(item.price * item.qty) }}</span>
                       </div>
                   </div>
-                  <div class="flex items-center bg-slate-50 dark:bg-[#020617] rounded-xl border border-slate-200 dark:border-slate-700 h-10 p-1 shrink-0">
-                      <button @click="changeQty(item, -1)" class="w-8 h-full flex items-center justify-center text-slate-400 hover:text-rose-500 bg-white dark:bg-slate-800 rounded-lg shadow-sm"><i class="fa-solid fa-minus text-[10px]"></i></button>
-                      <input v-model.number="item.qty" type="number" @input="validateInput(item)" class="w-32 rounded-lg h-full bg-transparent text-center text-sm font-black text-indigo-600 outline-none">
-                      <button @click="changeQty(item, 1)" class="w-8 h-full flex items-center justify-center text-slate-400 hover:text-emerald-500 bg-white dark:bg-slate-800 rounded-lg shadow-sm"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                  <div class="flex items-center bg-slate-50 dark:bg-[#020617] rounded-xl border border-slate-200 dark:border-slate-700 h-9 p-1 shrink-0">
+                      <button @click="changeQty(item, -1)" class="w-7 h-full flex items-center justify-center text-slate-400 hover:text-rose-500 bg-white dark:bg-slate-800 rounded-lg shadow-sm"><i class="fa-solid fa-minus text-[9px]"></i></button>
+                      <input v-model.number="item.qty" type="number" @input="validateInput(item)" @blur="checkEmpty(item)" class="w-32 rounded-lg bg-transparent text-center text-xs font-black text-indigo-600 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                      <button @click="changeQty(item, 1)" class="w-7 h-full flex items-center justify-center text-slate-400 hover:text-emerald-500 bg-white dark:bg-slate-800 rounded-lg shadow-sm"><i class="fa-solid fa-plus text-[9px]"></i></button>
                   </div>
               </div>
           </transition-group>
@@ -165,12 +162,12 @@
                       <span class="text-[11px] font-bold">QQS 12%</span>
                   </button>
                   <div class="h-10 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 flex items-center gap-1">
-                      <input v-model.number="discountPercent" type="number" class="w-32 bg-transparent rounded-lg text-center text-sm font-bold outline-none" placeholder="0">
+                      <input v-model.number="discountPercent" type="number" class="w-20 bg-transparent rounded-lg text-center text-sm font-bold outline-none" placeholder="0">
                       <span class="text-[11px] font-bold text-slate-400">%</span>
                   </div>
               </div>
               <div class="text-right">
-                  <span class="text-[10px] text-slate-400 font-bold uppercase block">Jami</span>
+                  <span class="text-[10px] text-slate-400 font-bold uppercase block">Jami To'lov</span>
                   <span class="text-lg font-black text-indigo-600 dark:text-indigo-400">{{ formatPrice(grandTotal) }}</span>
               </div>
           </div>
@@ -184,9 +181,9 @@
           </div>
 
           <button @click="processSale" class="w-full h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-sm uppercase tracking-widest shadow-lg active:scale-95 transition-all flex items-center justify-between px-6" :disabled="activeSessionData.cart.length === 0">
-              <span class="flex flex-col items-start">
+              <span class="flex flex-col items-start text-left">
                   <span class="text-[9px] font-normal opacity-70 italic lowercase">tranzaksiyani</span>
-                  <span>Yakunlash</span>
+                  <span>To'lovni Yakunlash</span>
               </span>
               <i class="fa-solid fa-arrow-right-long text-lg"></i>
           </button>
@@ -215,8 +212,9 @@ import { ref, computed, onMounted } from "vue"
 import { storeToRefs } from 'pinia';
 import { useToast } from "../../../UI/utils/useToast";
 import Select from "../../../UI/Select.vue"
+import BarcodeScannerModal from "../../../components/BarcodeScaner/scaner.vue";
 
-// --- STORES ---
+// STORES
 import { SaleposManagmentStore } from "../../../stores/Sale/salepos/salepos.store"
 import { ProductsManagmentStore } from "../../../stores/Sale/products/product.store"
 import { CustomerManagmentStore } from "../../../stores/Customers/c-managment/customer.store"
@@ -242,11 +240,12 @@ const {
     grandTotal 
 } = storeToRefs(store_salepos)
 
-// --- LOCAL STATES ---
+// LOCAL STATES
 const isDark = ref(false)
+const isScannerOpen = ref(false)
 const mobileTab = ref('catalog')
 const productSearch = ref("")
-const searchCategoryData = ref(null) // Tanlangan kategoriya ID si
+const searchCategoryData = ref(null)
 const currentTime = ref("")
 
 const paymentMethods = [
@@ -256,17 +255,18 @@ const paymentMethods = [
     { value: "qarz", label: "Nasiya", icon: "fa-solid fa-file-invoice", color: "rose" }
 ]
 
-// --- COMPUTED ---
+// COMPUTED
 const products = computed(() => {
     if (!rawProducts.value) return [];
-    return rawProducts.value.map((item, index) => ({
+    return rawProducts.value.map((item) => ({
         id: item._id,
         name: item.name || 'Nomsiz',
-        image: item.image || `https://picsum.photos/200/200?random=${index}`,
+        image: item.image || '',
         price: item.salePrice || 0,
         stock: item.totalStock || 0,
         unit: item.unit || 'dona',
-        category: item.category || 'Barchasi'
+        category: item.category || 'Barchasi',
+        code: item.code || ''
     }))
 })
 
@@ -282,12 +282,12 @@ const filteredProducts = computed(() => {
     }
     if (productSearch.value) {
         const s = productSearch.value.toLowerCase();
-        list = list.filter(p => p.name.toLowerCase().includes(s));
+        list = list.filter(p => p.name.toLowerCase().includes(s) || p.code.toLowerCase().includes(s));
     }
     return list;
 })
 
-// --- METHODS ---
+// METHODS
 const getItemQty = (id) => activeSessionData.value.cart.find(i => i.id === id)?.qty || 0
 
 const addToCart = (p) => {
@@ -299,6 +299,27 @@ const addToCart = (p) => {
         activeSessionData.value.cart.push({ ...p, qty: 1 });
     }
 }
+
+const handleGlobalScan = (code) => {
+  if (!code) return;
+  const scannedCode = String(code).trim().toLowerCase();
+  
+  const foundProduct = products.value.find(p => 
+    String(p.code || "").trim().toLowerCase() === scannedCode
+  );
+
+  if (foundProduct) {
+    if (foundProduct.stock > 0) {
+      addToCart(foundProduct);
+      toast.success(`${foundProduct.name} qo'shildi`);
+    } else {
+      toast.error("Mahsulot omborda tugagan!");
+    }
+  } else {
+    toast.error("Mahsulot topilmadi: " + scannedCode);
+  }
+  isScannerOpen.value = false;
+};
 
 const changeQty = (item, delta) => {
     const p = products.value.find(prod => prod.id === item.id);
@@ -315,92 +336,49 @@ const removeItem = (id) => {
 }
 
 const validateInput = (item) => {
-    // 1. Asosiy katalogdan ushbu mahsulotning haqiqiy qoldig'ini topamiz
     const product = products.value.find(p => p.id === item.id);
-    const maxStock = product ? product.stock : item.stock;
-
-    // 2. Agar foydalanuvchi kiritgan son qoldiqdan katta bo'lsa
+    const maxStock = product ? product.stock : 0;
     if (item.qty > maxStock) {
-        item.qty = maxStock; // Miqdorni maksimal qoldiqqa tenglashtiramiz
-        toast.error(`Omborda faqat ${maxStock} dona mahsulot bor!`);
+        item.qty = maxStock;
+        toast.error(`Omborda faqat ${maxStock} dona bor!`);
     }
-
-    // 3. Agar foydalanuvchi 0 yoki manfiy son kiritsa
-    if (item.qty < 1 && item.qty !== "") {
-        item.qty = 1;
-    }
+    if (item.qty < 1 && item.qty !== "") item.qty = 1;
 }
 
 const checkEmpty = (item) => {
-    // Input bo'sh qolib ketgan bo'lsa (fokus yo'qolganda), uni 1 ga qaytaramiz
-    if (!item.qty || item.qty < 1) {
-        item.qty = 1;
-    }
+    if (!item.qty || item.qty < 1) item.qty = 1;
 }
 
 const processSale = async () => {
-    // 1. Payloadni shakllantirish uchun zaruriy hisob-kitoblar va ma'lumotlarni yig'ish
+    const cartItems = activeSessionData.value.cart.map(item => ({
+        productId: item.id,
+        quantity: item.qty,
+        salePrice: item.price,
+        totalAmount: item.price * item.qty,
+        unit: item.unit,
+        name: item.name
+    }));
 
-    // Savatdagi ma'lumotlarni server qabul qiladigan formatga o'tkazish
-    const cartItems = activeSessionData.value.cart.map(item => ({
-        productId: item.id, // Mahsulot IDsi (Backendga yuboriladigan ID)
-        quantity: item.qty,
-        salePrice: item.price,
-        totalAmount: item.price * item.qty,
-        unit: item.unit,
-        name : item.name
-    }));
+    const payload = {
+        type: 'sale',
+        branchId: 1,
+        items: cartItems,
+        customerId: activeSessionData.value.customerId || null,
+        driverId: activeSessionData.value.supplierId || null,
+        discountPercent: discountPercent.value,
+        taxEnabled: taxEnabled.value,
+        grandTotal: grandTotal.value,
+        paymentType: paymentType.value,
+        date: new Date().toISOString()
+    };
 
-    // Hisoblangan qiymatlar
-    const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
-    const calculatedDiscountAmount = (subtotal * discountPercent.value) / 100;
-    const totalAfterDiscount = subtotal - calculatedDiscountAmount;
-    const taxRate = taxEnabled.value ? 0.12 : 0;
-    const calculatedTaxAmount = taxEnabled.value ? totalAfterDiscount * taxRate : 0;
-
-    // 2. Yakuniy Payloadni tuzish
-    const payload = {
-        // Asosiy ma'lumotlar
-        type: 'sale', 
-        branchId: 1, // Joriy filial IDsi (dynamic bo'lishi kerak)
-        // Savat ma'lumotlari
-        items: cartItems,
-        // Mijoz va Haydovchi/Yetkazib beruvchi IDlari
-        customerId: activeSessionData.value.customerId || null,
-        driverId: activeSessionData.value.supplierId || null, 
-        // Narx va To'lov hisobi (Bu Pinia'dan olingan grandTotal bilan mos kelishi shart)
-        subtotal: subtotal, 
-        discountPercent: discountPercent.value,
-        discountAmount: calculatedDiscountAmount,
-        totalAfterDiscount: totalAfterDiscount,
-        taxEnabled: taxEnabled.value,
-        taxRate: taxRate,
-        taxAmount: calculatedTaxAmount,
-        grandTotal: grandTotal.value,
-        // To'lov turi
-        paymentType: paymentType.value,
-        paymentStatus: paymentType.value === 'qarz' ? 'pending' : 'cash',
-        // Vaqt tamg'asi
-        date: new Date().toISOString()
-    };
-
-    // Professional: Payloadni tekshirish uchun konsolga chiqarish
-    console.groupCollapsed(`🚀 To'lov Yakunlash Payload - Seans ID: ${activeSessionId.value}`);
-
-    // 3. Pinia actionni chaqirish va payloadni uzatish
-    // store_salepos.CreateSaleTransaction endi to'g'ridan-to'g'ri payloadni qabul qiladi
-    const success = await store_salepos.CreateSaleTransaction(payload);
- store_product.GetAll();
-    // 4. Muvaffaqiyatli bo'lsa UI feedback berish
-    if (success) { 
-        showToast(`To'lov qabul qilindi: ${formatPrice(store_salepos.grandTotal)}`, 'success');
-        mobileTab.value = 'catalog';
-    } else {
-        // Xato xabari Pinia Store ichidan keladi, agar kerak bo'lsa
-        showToast("Tranzaksiya muvaffaqiyatsiz tugadi (Pinia tekshiruvi)", 'error');
+    const success = await store_salepos.CreateSaleTransaction(payload);
+    if (success) {
+        toast.success("To'lov muvaffaqiyatli!");
+        store_product.GetAll();
+        mobileTab.value = 'catalog';
     }
 }
-
 
 const toggleTheme = () => {
     isDark.value = !isDark.value;
@@ -425,7 +403,13 @@ onMounted(() => {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .list-enter-active, .list-leave-active { transition: all 0.3s ease; }
 .list-enter-from, .list-leave-to { opacity: 0; transform: translateX(-10px); }
-.pop-enter-active { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.pop-enter-from { transform: scale(0); }
-.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+/* Hide spin buttons */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>
