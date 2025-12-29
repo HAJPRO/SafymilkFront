@@ -69,7 +69,7 @@
             :class="[product.stock <= 0 ? 'opacity-60 grayscale' : 'hover:shadow-xl hover:-translate-y-1', {'ring-2 ring-indigo-500 border-indigo-500': getItemQty(product.id) > 0}]">
             
             <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden relative mb-2.5">
-               <img :src="`http://localhost:5000/${product.image}`" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+               <img :src="product.image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 rounded-lg text-[9px] font-bold text-white border border-white/10 flex items-center gap-1">
                    <i class="fa-solid fa-layer-group text-[8px]"></i> {{ product.stock }} {{ product.unit }}
                </div>
@@ -134,7 +134,7 @@
 
           <transition-group name="list" tag="div" class="space-y-3">
               <div v-for="item in activeSessionData.cart" :key="item.id" class="group flex items-center gap-3 p-3 bg-white dark:bg-[#151E32] rounded-2xl border border-slate-100 dark:border-slate-700/60 shadow-sm hover:border-indigo-300 transition-all">
-                  <img :src="`http://localhost:5000/${item.image}`" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-100 dark:border-slate-700">
+                  <img :src="item.image" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-slate-100 dark:border-slate-700">
                   <div class="flex-1 min-w-0">
                       <div class="flex justify-between items-start">
                           <h4 class="text-xs font-bold text-slate-800 dark:text-white line-clamp-1 pr-6 mb-1">{{ item.name }}</h4>

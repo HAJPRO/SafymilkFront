@@ -93,6 +93,14 @@ const routes = [
         component: () => import("../pages/Explore/Warehouses/inventory/index.vue"), 
         meta: { role: ["40", "1000", "2000"] } 
       },
+
+      //Taminot
+       { 
+        path: "supply/counterparty", 
+        name: "Kontragentlar", 
+        component: () => import("../pages/Explore/Supply/counterparty/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
     ],
   },
   {

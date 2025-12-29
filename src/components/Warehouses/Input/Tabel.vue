@@ -234,7 +234,7 @@ const ClearAll = () => inputStore.clearDocumentAll();
           <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
             <div v-for="product in filteredProducts" :key="product._id" @click="addToInbound(product)" class="group relative bg-white dark:bg-[#0F172A] rounded-2xl p-2 border border-teal-50 dark:border-slate-800 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" :class="{'ring-2 ring-teal-500 border-teal-500': isAdded(product)}">
               <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden relative mb-2">
-                 <img :src="`http://localhost:5000/${product.image}`" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                 <img :src="product.image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                  <div class="absolute top-2 left-2 bg-white/90 dark:bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1.5 shadow-sm border border-white/20">
                      <i class="fa-solid fa-warehouse text-[9px] text-teal-500"></i>
                      <span class="text-[10px] font-black text-slate-800 dark:text-white">{{ product.totalStock }}</span>
@@ -318,7 +318,7 @@ const ClearAll = () => inputStore.clearDocumentAll();
             <div v-for="item in activeDocument.items" :key="item.productId" class="bg-white dark:bg-[#0F172A] rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-3 relative group overflow-hidden">
               <div class="flex justify-between items-center mb-3">
                   <div class="flex items-center gap-3">
-                      <img :src="`http://localhost:5000/${item.image}`" class="w-10 h-10 rounded-lg object-cover">
+                      <img :src="item.image" class="w-10 h-10 rounded-lg object-cover">
                       <div>
                         <h4 class="text-xs font-bold text-slate-800 dark:text-white leading-tight line-clamp-1 w-48">{{ item.name }}</h4>
                         <div class="flex items-center gap-2 mt-1">
