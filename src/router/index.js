@@ -101,6 +101,12 @@ const routes = [
         component: () => import("../pages/Explore/Supply/counterparty/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
+       { 
+        path: "supply/inbound", 
+        name: "Kirim", 
+        component: () => import("../pages/Explore/Supply/inbound/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
     ],
   },
   {
