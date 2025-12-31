@@ -107,6 +107,12 @@ const routes = [
         component: () => import("../pages/Explore/Supply/inbound/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
+       { 
+        path: "supply/rawmaterial", 
+        name: "Xomashyo", 
+        component: () => import("../pages/Explore/Supply/rawmaterial/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
     ],
   },
   {

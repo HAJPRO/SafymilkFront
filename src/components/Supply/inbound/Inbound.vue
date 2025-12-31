@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue"
 import { storeToRefs } from "pinia"
-import { ProductsManagmentStore } from "../../../stores/Sale/products/product.store"
+import { RawMaterialsStore } from "../../../stores/Supply/rawmaterial/rawmaterial.store"
 import { SupplyInputboundStore } from "../../../stores/Supply/inbound/inputbound.store"
 import { CounterpartyStore } from "../../../stores/Supply/counterparty/counterparty.store"
 import { useToast } from "../../../UI/utils/useToast"
@@ -12,12 +12,12 @@ import SelectUI from "../../../UI/Select.vue"
 import BarcodeScannerModal from "../../../components/BarcodeScaner/scaner.vue"
 
 // --- STORE BOSHQARUVI ---
-const productStore = ProductsManagmentStore()
+const productStore = RawMaterialsStore()
 const inputStore = SupplyInputboundStore()
 const store_counterparty = CounterpartyStore()
 const { toast: toastService } = useToast()
 
-const { products } = storeToRefs(productStore)
+const { materials } = storeToRefs(productStore)
 const { counterparties } = storeToRefs(store_counterparty)
 const { document: inboundDocument, isSubmitting, totalSum } = storeToRefs(inputStore)
 
@@ -55,7 +55,7 @@ const handleNumpadPress = (val) => {
 // --- COMPUTED ---
 const milkSuppliers = computed(() => counterparties.value || [])
 const filteredProducts = computed(() => {
-  let list = products.value || []
+  let list = materials.value || []
   if (productSearch.value) {
     const s = productSearch.value.toLowerCase()
     list = list.filter(p => p.name.toLowerCase().includes(s) || (p.code && p.code.toLowerCase().includes(s)))
@@ -75,7 +75,7 @@ const handleGlobalScan = (scannedValue) => {
     return;
   }
 
-  const foundProduct = products.value.find(p => p.code === code);
+  const foundProduct = materials.value.find(p => p.code === code);
   if (foundProduct) {
     addToInbound(foundProduct);
   } else {
@@ -166,26 +166,44 @@ onUnmounted(() => clearInterval(timeInterval));
             <InputUI v-model="productSearch" label="XOMASHYO QIDIRISH" placeholder="Nomi yoki kodi..." icon-pre="fa-solid fa-magnifying-glass" clearable size="large" />
           </div>
 
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
-            <div v-for="product in filteredProducts" :key="product._id" @click="addToInbound(product)" 
-              class="group bg-white dark:bg-slate-900 p-4 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-400 dark:hover:border-indigo-600 transition-all duration-300 cursor-pointer relative overflow-hidden"
-              :class="{'ring-2 ring-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10': inboundDocument.items.some(i => i.productId === product._id)}">
-              
-              <div class="h-32 bg-slate-50 dark:bg-slate-800 rounded-[1.5rem] mb-4 flex items-center justify-center relative overflow-hidden shadow-inner">
-                <img :src="product.image" class="h-24 w-24 object-contain drop-shadow-lg group-hover:scale-110 group-active:scale-95 transition-all duration-500">
-                <div v-if="inboundDocument.items.some(i => i.productId === product._id)" class="absolute inset-0 bg-indigo-600/10 flex items-center justify-center">
-                  <div class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg animate-bounce"><i class="fa-solid fa-check text-xs"></i></div>
-                </div>
-              </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-6">
+  <div v-for="product in filteredProducts" :key="product._id" @click="addToInbound(product)" 
+    class="group bg-white dark:bg-slate-900 p-3 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-indigo-400 dark:hover:border-indigo-600 transition-all duration-300 cursor-pointer relative overflow-hidden"
+    :class="{'ring-2 ring-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10': inboundDocument.items.some(i => i.productId === product._id)}">
+    
+    <div class="h-32 bg-slate-50 dark:bg-slate-800 rounded-[1.5rem] mb-4 flex items-center justify-center relative overflow-hidden shadow-inner">
+  
+  <img 
+    :src="product.image" 
+    class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+    :alt="product.name"
+  >
+  
+  <div v-if="inboundDocument.items.some(i => i.productId === product._id)" 
+    class="absolute inset-0 bg-indigo-600/20 flex items-center justify-center backdrop-blur-[1px]">
+    <div class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+      <i class="fa-solid fa-check text-xs"></i>
+    </div>
+  </div>
 
-              <div class="space-y-1">
-                <h3 class="text-[12px] font-black text-slate-800 dark:text-slate-100 uppercase truncate leading-tight tracking-tight">{{ product.name }}</h3>
-                <div class="flex items-center justify-between mt-2">
-                  <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-lg uppercase tracking-widest">{{ product.unit }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+</div>
+
+    <div class="space-y-0.5 md:space-y-1">
+      <h3 class="text-[11px] md:text-[12px] font-black text-slate-800 dark:text-slate-100 uppercase truncate leading-tight tracking-tight">
+        {{ product.name }}
+      </h3>
+      <div class="flex items-center justify-between mt-1 md:mt-2">
+        <span class="text-[9px] md:text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-md md:rounded-lg uppercase tracking-widest">
+          {{ product.unit }}
+        </span>
+      </div>
+    </div>
+
+    <div class="absolute -right-2 -bottom-2 opacity-[0.02] dark:opacity-[0.04] group-hover:rotate-12 transition-transform duration-700">
+      <i class="fa-solid fa-box text-5xl md:text-6xl text-slate-900 dark:text-white"></i>
+    </div>
+  </div>
+</div>
         </div>
       </section>
 

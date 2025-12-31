@@ -903,6 +903,16 @@
                       >
                     </router-link>
                   </li>
+                    <li>
+                    <router-link
+                      :to="{ name: 'Xomashyo' }"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Xomashyo ro'yxati</span
+                      >
+                    </router-link>
+                  </li>
                   <li>
                     <router-link
                       :to="{ name: 'Kontragentlar' }"
