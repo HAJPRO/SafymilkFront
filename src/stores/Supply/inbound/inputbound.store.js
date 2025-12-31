@@ -92,22 +92,47 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
     },
 
     // 6. Qabulni serverga saqlash
-    async saveInput() {
-      if (this.document.items.length === 0 || !this.document.counterparty) return false;
-      this.isSubmitting = true
-      try {
-        const response = SupplyInboundService.Create( this.document)
-        if (response.status === 200 || response.status === 201) {
-          this.clearDocument() // Muvaffaqiyatli saqlangach savatni tozalash
-          toast.success(response.msg)
-          return true
-        }
-      } catch (error) {
-        console.error("Saqlashda xato:", error)
-        return false
-      } finally {
-        this.isSubmitting = false
-      }
+async saveInput() {
+  // Tekshiruv: savat bo'sh bo'lsa yoki kontragent tanlanmagan bo'lsa davom etmaydi
+  if (this.document.items.length === 0) {
+    toast.error("Savat bo'sh, iltimos mahsulot qo'shing");
+    return false;
+  }
+  if (!this.document.counterparty) {
+    toast.error("Iltimos, kontragentni tanlang");
+    return false;
+  }
+
+  this.isSubmitting = true;
+  loading.show; // Yuklanish animatsiyasini boshlash
+
+  try {
+    // MUHIM: await qo'shildi, chunki API so'rovi vaqt oladi
+    const response = await SupplyInboundService.Create(this.document);
+
+    // Backenddan keladigan statusni tekshirish (odatda 200, 201 yoki response.data.success)
+    if (response.status === 200 || response.status === 201) {
+      
+      // 1. Savatni va formani tozalash
+      this.clearDocument();
+      
+      // 2. Toast xabarini chiqarish
+      // response.msg yoki response.data.message - backend strukturangizga qarab o'zgartiring
+      toast.success(response.data?.message || "Muvaffaqiyatli saqlandi!");
+      
+      return true;
     }
+  } catch (error) {
+    console.error("Saqlashda xato:", error);
+    // Xatolik haqida xabar
+    const errorMsg = error.response?.data?.message || "Saqlashda xatolik yuz berdi";
+    toast.error(errorMsg);
+    
+    return false;
+  } finally {
+    this.isSubmitting = false;
+    loading.hide; // Yuklanishni to'xtatish
+  }
+}
   }
 })
