@@ -115,6 +115,7 @@ const logout = () => {
   dropdownOpen.value = false;
   // Professional reload logic
   document.body.style.opacity = '0';
+  localStorage.removeItem("openTabs");
   setTimeout(() => window.location.reload(), 300);
 };
 

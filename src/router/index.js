@@ -107,6 +107,12 @@ const routes = [
         component: () => import("../pages/Explore/Supply/inbound/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
+      { 
+        path: "supply/inbound/historys", 
+        name: "Kirim ro'yxati", 
+        component: () => import("../pages/Explore/Supply/inboundhistorys/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
        { 
         path: "supply/rawmaterial", 
         name: "Xomashyo", 

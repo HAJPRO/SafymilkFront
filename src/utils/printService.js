@@ -3,7 +3,7 @@ export const printProductQR = (product) => {
 
   const safeName = product.name;
   const safeCode = product.code || 'ID-000000';
-  const formattedPrice = new Intl.NumberFormat('uz-UZ').format(product.salePrice || 0);
+  const formattedPrice = new Intl.NumberFormat('uz-UZ').format(product.salePrice || product.costPrice || 0 );
 
   const windowTarget = `Print_${product._id}`;
   const printWindow = window.open('', windowTarget, 'width=400,height=550');

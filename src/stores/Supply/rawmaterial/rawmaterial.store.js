@@ -70,6 +70,7 @@ export const RawMaterialsStore = defineStore('RawMaterialsStore', {
         const response = await RawMaterialService.GetAll();
         if (response.data?.success) {
           this.materials = response.data.data;
+          
         }
       } catch (error) {
         toast.error("Xomashyolarni yuklashda xatolik yuz berdi!");

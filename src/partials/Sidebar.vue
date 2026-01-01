@@ -30,10 +30,10 @@
               :class="!sidebarExpanded ? 'justify-center' : ''"
             >
               <img
-                src="../../public/Flowbit_logo_3.jpg"
+                src="../../public/safymilk_logo_4.jpg"
                 alt="safy logo"
                 class="rounded-full border dark:border-white border-slate-200 shadow object-cover cursor-pointer transition-all duration-300"
-                :class="sidebarExpanded ? 'w-14 h-14' : 'w-10 h-10'"
+                :class="sidebarExpanded ? 'w-16 h-16' : 'w-10 h-10'"
                 @click="handleSidebarClose"
               />
 
@@ -890,6 +890,16 @@
                     >
                       <span class="text-[13px] font-medium"
                         >Kirm qilish</span
+                      >
+                    </router-link>
+                  </li>
+                   <li>
+                    <router-link
+                      :to="{ name: `Kirim ro'yxati` }"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Kirim ro'yxati</span
                       >
                     </router-link>
                   </li>

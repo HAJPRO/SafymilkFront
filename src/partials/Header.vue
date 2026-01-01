@@ -145,7 +145,6 @@
     <SearchModal id="search-modal" :modalOpen="searchModalOpen" @close-modal="searchModalOpen = false" class="z-[200]" />
   </header>
 </template>
-
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -166,40 +165,87 @@ const searchModalOpen = ref(false);
 const currentTime = ref("");
 const currentDate = ref("");
 const selectedAnimationTheme = ref(localStorage.getItem("animation") || "0");
+
+// --- 1. TABLARNI INITIALIZE QILISH ---
+// LocalStorage'dan o'qiymiz, agar bo'sh bo'lsa bo'sh massiv []
 const openTabs = ref(JSON.parse(localStorage.getItem("openTabs") || "[]"));
 
-const actions = [
-  { value: "edo", label: "Hujjatlar", icon: "fa-solid fa-folder-tree" },
-  { value: "chat", label: "Xabarlar", icon: "fa-solid fa-comments" },
-  { value: "search", label: "Qidiruv", icon: "fa-solid fa-magnifying-glass" },
-  { value: "theme", label: "Dizayn", icon: "fa-solid fa-palette" },
-];
+// --- 2. LOCALSTORAGE'GA SAQLASH ---
+const saveTabs = () => {
+  localStorage.setItem("openTabs", JSON.stringify(openTabs.value));
+};
 
+// --- 3. ROUTERNI KUZATISH (TABLARNI YIG'ISH) ---
+watch(
+  () => route.path,
+  (newPath) => {
+    // Tizimga kirish yoki xato sahifalarida tab yaratmaymiz
+    if (newPath === '/login' || newPath === '/404' || newPath === '/auth') return;
+
+    const exists = openTabs.value.find((t) => t.path === newPath);
+    
+    if (!exists) {
+      // Router meta'da label bo'lmasa, name'ni yoki pathni chiroyli qilib olamiz
+      const tabLabel = route.meta?.label || route.name || newPath.split('/').pop() || 'Bosh sahifa';
+      
+      openTabs.value.push({
+        path: newPath,
+        label: tabLabel.toString().toUpperCase(),
+        name: route.name
+      });
+      saveTabs();
+    }
+  },
+  { immediate: true }
+);
+
+// --- 4. TABNI YOPISH ---
+const closeTab = (path) => {
+  const index = openTabs.value.findIndex(t => t.path === path);
+  if (index === -1) return;
+
+  openTabs.value.splice(index, 1);
+  saveTabs();
+
+  // Agar yopilgan tabda turgan bo'lsak, boshqa tabga yo'naltiramiz
+  if (route.path === path) {
+    if (openTabs.value.length > 0) {
+      // Oxirgi qolgan tabga o'tish
+      router.push(openTabs.value[openTabs.value.length - 1].path);
+    } else {
+      router.push("/"); // Hamma tab yopilsa dashboardga
+    }
+  }
+};
+
+
+// --- 6. VAQT VA INTERFEYS ---
 const updateTime = () => {
   const now = new Date();
   currentDate.value = now.toLocaleDateString("uz-UZ", { day: 'numeric', month: 'short' });
   currentTime.value = now.toLocaleTimeString("uz-UZ", { hour: '2-digit', minute: '2-digit' });
 };
 
+const closeDropdownOutside = (e) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+    dropdownOpen.value = false;
+  }
+};
+
 onMounted(() => {
   updateTime();
   const timer = setInterval(updateTime, 1000);
-  window.addEventListener("click", (e) => {
-    if (dropdownRef.value && !dropdownRef.value.contains(e.target)) dropdownOpen.value = false;
-  });
+  window.addEventListener("click", closeDropdownOutside);
+  
   onBeforeUnmount(() => {
     clearInterval(timer);
-    window.removeEventListener("click", (e) => {});
+    window.removeEventListener("click", closeDropdownOutside);
   });
 });
 
-const closeTab = (path) => {
-  openTabs.value = openTabs.value.filter(t => t.path !== path);
-  localStorage.setItem("openTabs", JSON.stringify(openTabs.value));
-  if (route.fullPath === path && openTabs.value.length) router.push(openTabs.value[0].path);
-};
-
+// --- 7. NAVIGATION ACTIONS ---
 const handleMobileAction = (action) => {
+  console.log(action)
   dropdownOpen.value = false;
   if (action === "theme") themeSidebarOpen.value = true;
   else if (action === "search") searchModalOpen.value = true;
@@ -209,6 +255,13 @@ const goBack = () => router.go(-1);
 const goForward = () => router.go(1);
 const goReload = () => window.location.reload();
 const goToTab = (path) => router.push(path);
+
+const actions = [
+  { value: "edo", label: "Hujjatlar", icon: "fa-solid fa-folder-tree" },
+  { value: "chat", label: "Xabarlar", icon: "fa-solid fa-comments" },
+  { value: "search", label: "Qidiruv", icon: "fa-solid fa-magnifying-glass" },
+  { value: "theme", label: "Dizayn", icon: "fa-solid fa-palette" },
+];
 </script>
 
 <style scoped>

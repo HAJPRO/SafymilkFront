@@ -35,6 +35,19 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
   },
 
   actions: {
+    async GetAll() {
+      this.loading = true;
+      try {
+        const response = await SupplyInboundService.GetAll();
+        console.log(response);
+        
+        this.document = response.data.data || [];
+      } catch (error) {
+        toast.error("Ma'lumotlarni yuklashda xatolik");
+      } finally {
+        this.loading = false;
+      }
+    },
     // 1. Katalog ma'lumotlarini yuklash
     async fetchCatalog() {
       try {
@@ -60,10 +73,10 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
           image: product.image,
           unit: product.unit,
           qty: 1,
-          costPrice: product.lastPurchasePrice || 0,
+          costPrice: product.costPrice || 0,
           lastPurchasePrice: product.lastPurchasePrice || 0, // Solishtirish uchun
-          fat: 3.6, // Default yog'lilik
-          temp: 4,  // Default harorat
+          fat: product.fatContent, // Default yog'lilik
+          temp: product.temperature,  // Default harorat
           density: 1.028,
         })
       }

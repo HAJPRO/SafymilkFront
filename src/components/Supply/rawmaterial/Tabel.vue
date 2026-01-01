@@ -162,22 +162,47 @@ onMounted(() => {
           </div>
         </template>
 
-        <template #name="{ row }">
-          <div class="flex items-center gap-3 py-1.5 text-left group">
-            <div class="relative flex-shrink-0">
-              <div class="w-11 h-11 bg-blue-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-100 dark:border-slate-700 shadow-sm transition-all group-hover:scale-105">
-                <i class="fa-solid fa-droplet text-lg"></i>
-              </div>
-              <div v-if="row.totalStock < 50" class="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 border-2 border-white dark:border-slate-900 rounded-full animate-pulse"></div>
-            </div>
-            <div class="flex flex-col min-w-0">
-              <span class="font-black text-slate-800 dark:text-slate-100 text-[13px] truncate leading-tight group-hover:text-indigo-600 transition-colors">{{ row.name }}</span>
-              <span class="text-[9px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-md uppercase tracking-wider w-fit mt-1">
-                {{ row.type || 'Sut mahsuloti' }}
-              </span>
-            </div>
-          </div>
-        </template>
+     <template #name="{ row }">
+  <div class="flex items-center gap-3 py-1.5 text-left group">
+    <div class="relative flex-shrink-0">
+      <div class="w-11 h-11 bg-blue-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center border border-blue-100 dark:border-slate-700 shadow-sm transition-all group-hover:scale-105 overflow-hidden">
+        
+        <img 
+          v-if="row.image"
+          :src="row.image" 
+          :alt="row.name" 
+          class="w-full h-full object-cover"
+          @error="(e) => e.target.style.display = 'none'"
+        >
+        
+        <i v-else class="fa-solid fa-droplet text-lg text-blue-500"></i>
+        
+      </div>
+
+      <div 
+        v-if="row.totalStock < 50" 
+        class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-rose-500 border-2 border-white dark:border-slate-900 rounded-full animate-pulse shadow-sm"
+        title="Zaxira kam!"
+      ></div>
+    </div>
+
+    <div class="flex flex-col min-w-0">
+      <span class="font-black text-slate-800 dark:text-slate-100 text-[13px] truncate leading-tight group-hover:text-indigo-600 transition-colors uppercase">
+        {{ row.name }}
+      </span>
+      
+      <div class="flex items-center gap-2 mt-1">
+        <span class="text-[9px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-300 px-1.5 py-0.5 rounded-md uppercase tracking-wider w-fit">
+          {{ row.type || 'Sut mahsuloti' }}
+        </span>
+        
+        <span v-if="row.totalStock < 10" class="text-[8px] text-rose-600 font-extrabold animate-bounce">
+          TUGAYAPTI!
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
 
         <template #qr="{ row }">
           <div v-if="row.qr" class="flex justify-center" @click.stop="printProductQR(row)">

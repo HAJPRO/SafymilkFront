@@ -10,7 +10,7 @@ export const SupplyInboundService = {
 
     // Barcha kontragentlar ro'yxatini olish (filtr va status bilan)
     GetAll(payload) {
-        let url = "supply/counterparty/all";
+        let url = "supply/inbound/all";
         return api.post(url, payload);
     },
 
