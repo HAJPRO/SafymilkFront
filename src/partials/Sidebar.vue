@@ -199,6 +199,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'StatisticSale' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-chart-pie text-indigo-400"></i>
@@ -210,6 +211,7 @@
                   <li>
                     <router-link
                       to=""
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-warehouse text-indigo-400"></i>
@@ -221,6 +223,7 @@
                   <li>
                     <router-link
                       to=""
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-industry text-indigo-400"></i>
@@ -232,6 +235,7 @@
                   <li>
                     <router-link
                       to=""
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-user-clock text-indigo-400"></i>
@@ -310,6 +314,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Employees' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Xodimlar</span>
@@ -356,6 +361,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Employees' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Xodimlar</span>
@@ -402,6 +408,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Orders' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Buyurtmalar</span>
@@ -448,6 +455,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Orders' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -458,6 +466,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Orders' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -468,6 +477,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Orders' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -548,6 +558,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -558,6 +569,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -568,6 +580,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -617,6 +630,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -627,6 +641,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -676,6 +691,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Sotuv (POS)' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Sotuv (POS)</span>
@@ -684,6 +700,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Sotuvlar' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -694,6 +711,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Products' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -743,6 +761,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Kirim qilish' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -754,6 +773,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'ReadyWarehouse' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -764,6 +784,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Products' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Qoldiq</span>
@@ -772,6 +793,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Rivizya' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Riviziya</span>
@@ -780,6 +802,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'ReadyWarehouse' }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -829,6 +852,7 @@
                   <li>
                     <router-link
                       :to="{ name: `Mijozlar ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -839,6 +863,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -886,6 +911,7 @@
                   <li>
                     <router-link
                       :to="{ name: `Kirim` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -896,6 +922,7 @@
                    <li>
                     <router-link
                       :to="{ name: `Kirim ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -906,6 +933,7 @@
                    <li>
                     <router-link
                       :to="{ name: `Mijozlar ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -916,6 +944,7 @@
                     <li>
                     <router-link
                       :to="{ name: 'Xomashyo' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -926,6 +955,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Kontragentlar' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -972,7 +1002,8 @@
                 >
                   <li>
                     <router-link
-                      :to="{ name: `Kirim` }"
+                      :to="{ name: `Kirim ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -983,6 +1014,7 @@
                    <li>
                     <router-link
                       :to="{ name: `Kirim ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -993,6 +1025,7 @@
                    <li>
                     <router-link
                       :to="{ name: `Mijozlar ro'yxati` }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1041,6 +1074,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">GPS nazorati</span>
@@ -1049,6 +1083,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Haydovchilar</span>
@@ -1094,6 +1129,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Kategorya ro'yxati</span>
@@ -1102,6 +1138,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Birlik ro'yxati</span>
@@ -1110,6 +1147,7 @@
                    <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Ombor ro'yxati</span>
@@ -1118,6 +1156,7 @@
                    <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
+                       active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Asosiy vosita ro'yxati</span>
@@ -1192,6 +1231,7 @@
                   <li>
                     <router-link
                       to="#"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1240,6 +1280,7 @@
                   <li>
                     <router-link
                       to="#"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1317,6 +1358,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Foydalanuvchilar` }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -1327,6 +1369,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Foydalanuvchilar` }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Bo'limlar</span>
@@ -1335,6 +1378,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Rollar boshqaruvi` }"
+                         active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -1433,6 +1477,7 @@
                   <li>
                     <router-link
                       to="/signin"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i
@@ -1448,6 +1493,7 @@
                   <li>
                     <router-link
                       to="/signup"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-user-plus text-indigo-400"></i>
@@ -1461,6 +1507,7 @@
                   <li>
                     <router-link
                       to="/reset-password"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-key text-indigo-400"></i>
@@ -1529,6 +1576,7 @@
                     <li>
                       <router-link
                         to=""
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <i class="fa-solid fa-book-open text-indigo-400"></i>
@@ -1542,6 +1590,7 @@
                     <li>
                       <router-link
                         to=""
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <i
@@ -1557,6 +1606,7 @@
                     <li>
                       <router-link
                         to=""
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <i class="fa-solid fa-headset text-indigo-400"></i>
@@ -1778,3 +1828,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Aktiv link uchun maxsus stil */
+.active-link {
+  @apply bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-l-4 border-indigo-500 !important;
+}
+
+.active-link i {
+  @apply text-indigo-600 dark:text-indigo-400 !important;
+}
+/* ... qolgan stillar ... */
+</style>

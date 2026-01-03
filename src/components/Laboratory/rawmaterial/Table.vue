@@ -11,7 +11,7 @@ import ExportDropdown from '../../../UI/ExportDropdown.vue';
 import DataTable from "../../../UI/DataTable.vue"; 
 
 // Modallar (Xomashyo uchun moslashtirilgan bo'lishi kerak)
-import AddRawMaterialModal from "./RawmaterialModal.vue";
+// import AddRawMaterialModal from "./RawmaterialModal.vue";
 // import DetailRawMaterialModal from "../../../components/Supply/raw-material/DetailRawMaterialModal.vue";
 import BarcodeScannerModal from "../../../components/BarcodeScaner/scaner.vue";
 
@@ -110,7 +110,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AddRawMaterialModal class="z-[200]" />
+  <!-- <AddRawMaterialModal class="z-[200]" /> -->
   <!-- <DetailRawMaterialModal class="z-[200]" /> -->
   <BarcodeScannerModal v-model="isScannerOpen" @detected="(c) => searchQuery = c" class="z-[210]" />
 

@@ -40,4 +40,11 @@ export const SupplyInboundService = {
             responseType: "blob", // Faylni yuklab olish uchun shart
         });
     },
+
+    // Laboratoriya
+     SaveLabResult(payload) {
+        // payload ichida model va action (create/update) keladi
+        let url = "supply/inbound/labanalysis";
+        return api.post(url, payload);
+    },  
 };

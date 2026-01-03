@@ -119,6 +119,14 @@ const routes = [
         component: () => import("../pages/Explore/Supply/rawmaterial/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
+
+      // Laboratory
+      { 
+        path: "laboratory/rawmaterial", 
+        name: "Xomashyo analiz", 
+        component: () => import("../pages/Explore/Laboratory/rawmaterial/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
     ],
   },
   {

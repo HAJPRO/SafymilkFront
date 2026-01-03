@@ -17,6 +17,7 @@ import Button from '../../../UI/Button.vue';
 import Select from '../../../UI/Select.vue'; 
 import ExportDropdown from '../../../UI/ExportDropdown.vue';
 import Modal from '../../../UI/Modal.vue'; 
+import ActionMenu from '../../../UI/ActionMenu.vue'; 
 
 // --- INITIALIZATION ---
 const store_orders = OrderManagmentStore();
@@ -167,9 +168,9 @@ const formatDateTime = (date) => {
 
 const formatPrice = (p) => new Intl.NumberFormat('uz-UZ').format(p || 0);
 
-const handleAction = (actionName, row) => {
+const handleAction = ({action, row}) => {
   activeDropdown.value = null;
-  if (actionName === 'view') {
+  if (action === 'view') {
     selectedOrder.value = row;
     isDetailModalOpen.value = true;
   }
@@ -198,6 +199,30 @@ const handleClickOutsideDate = (event) => {
   }
 };
 
+// Funksiyalar
+const editRow = (id) => console.log("Tahrirlash:", id);
+const deleteRow = (id) => console.log("O'chirish:", id);
+const startLab = (id) => console.log("Lab tahlili:", id);
+
+// Menyu elementlarini shakllantirish funksiyasi
+const getMenuItems = (row) => [
+  { 
+    label: 'Batafsil', 
+    icon: 'fa-solid fa-info', 
+    onClick: () => handleAction({action:'view',row}) 
+  },
+  { 
+    label: 'Tahrirlash', 
+    icon: 'fa-solid fa-pen-to-square', 
+    onClick: () => editRow(row._id) 
+  },
+  { 
+    label: "O'chirish", 
+    icon: 'fa-solid fa-trash-can', 
+    variant: 'danger', 
+    onClick: () => deleteRow(row._id) 
+  }
+];
 onMounted(() => document.addEventListener('click', handleClickOutsideDate));
 onMounted(() => store_salepos.GetAll());
 </script>
@@ -415,19 +440,10 @@ onMounted(() => store_salepos.GetAll());
         </template>
 
         <template #actions="{ row }">
-          <div class="flex justify-center relative">
-            <button @click.stop="activeDropdown = activeDropdown === row._id ? null : row._id" class="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-300" :class="activeDropdown === row._id ? 'bg-indigo-600 text-white shadow-lg rotate-90' : 'text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'">
-              <i class="fa-solid fa-ellipsis-vertical text-[14px]"></i>
-            </button>
-            <transition name="dropdown-pop">
-              <div v-if="activeDropdown === row._id" class="absolute right-8 top-0 w-36 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 p-1.5 z-50">
-                <button v-for="btn in rowActions" :key="btn.action" @click.stop="handleAction(btn.action, row)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all group">
-                  <div class="w-5 h-5 rounded flex items-center justify-center text-[10px]" :class="btn.colorClass"><i :class="btn.icon"></i></div>
-                  <span class="text-xs font-semibold text-slate-600 dark:text-slate-300 group-hover:text-indigo-600">{{ btn.label }}</span>
-                </button>
-              </div>
-            </transition>
-          </div>
+         <ActionMenu 
+        :row-id="row._id" 
+        :items="getMenuItems(row)" 
+      />
         </template>
       </DataTable>
     </main>

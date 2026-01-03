@@ -146,6 +146,36 @@ async saveInput() {
     this.isSubmitting = false;
     loading.hide; // Yuklanishni to'xtatish
   }
-}
+},
+
+async saveLabAnalysis(payload) {
+      if (!payload.inboundBatchIds || payload.inboundBatchIds.length === 0) {
+        toast.error("Tahlil uchun partiyalar tanlanmagan");
+        return false;
+      }
+
+      this.isSubmitting = true;
+      this.loading = true;
+
+      try {
+        // API Service orqali backendga yuborish
+        // Payload tarkibi: { inboundBatchIds, labResults, distribution, totalPhysicalVolume }
+        const response = await SupplyInboundService.SaveLabResult(payload);
+
+        if (response.status === 200 || response.data?.success) {
+          toast.success("Laboratoriya xulosasi va taqsimot muvaffaqiyatli saqlandi!");
+          
+          // Ma'lumotlarni yangilash uchun ro'yxatni qayta yuklaymiz
+          await this.GetAll();
+           this.loading = false;
+          return true;
+        }
+      } catch (error) {
+        console.error("Lab tahlilini saqlashda xato:", error);
+        const msg = error.response?.data?.message || "Laboratoriya ma'lumotlarini saqlashda xatolik";
+        toast.error(msg);
+        return false;
+      } 
+    },
   }
 })
