@@ -161,12 +161,15 @@ const columns = [
         </div>
         <button @click="isFilterVisible = !isFilterVisible" 
           :class="isFilterVisible ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white dark:bg-slate-800 text-slate-600 border-slate-200 dark:border-slate-700'"
-          class="flex items-center gap-2 px-4 py-2 border rounded-xl text-xs font-bold transition-all hover:bg-slate-50">
-          <i class="fa-solid fa-filter"></i> Filtrlar
+          class="flex items-center gap-2 px-4 py-3 border rounded-xl text-xs font-bold transition-all hover:bg-slate-50">
+          <i class="fa-solid fa-filter"></i>
+          
         </button>
       </div>
       <div class="flex items-center gap-2">
-        <ExportDropdown @select="store.exportToExcel" />
+        <ExportDropdown @select="store.exportToExcel" label="Yuklab olish" 
+  icon="fa-solid fa-file-excel" 
+  size="md"  />
      <Button 
   variant="primary" 
   size="sm" 
@@ -185,7 +188,7 @@ const columns = [
       </div>
     </header>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
+    <div v-if="isFilterVisible" class="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
       <div v-for="(card, i) in [
         { label: 'Partiyalar', val: analytics.count, icon: 'fa-boxes-stacked', col: 'text-indigo-600 bg-indigo-50' },
         { label: 'Oʻrtacha Yogʻ', val: analytics.avgFat + '%', icon: 'fa-droplet', col: 'text-blue-600 bg-blue-50' },

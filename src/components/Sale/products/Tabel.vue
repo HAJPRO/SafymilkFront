@@ -150,15 +150,14 @@ onMounted(() => {
     
     <div class="flex items-center justify-between md:justify-end gap-2 order-1 md:order-2 md:flex-1">
       
-      <ExportDropdown 
-        @select="store.handleExcelExport({ payload: filteredProducts })" 
-        class="md:hidden !h-11 !w-11 !rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-700/50" 
-      />
+     
 
       <div class="flex items-center gap-2">
         <ExportDropdown 
           @select="store.handleExcelExport({ payload: filteredProducts })" 
-          class="hidden md:block !h-11 !w-auto !rounded-2xl" 
+         label="Yuklab olish" 
+  icon="fa-solid fa-file-excel" 
+  size="md"
         />
         <Button 
           @click="isStatsVisible = !isStatsVisible" 

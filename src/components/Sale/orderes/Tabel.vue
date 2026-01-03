@@ -215,13 +215,15 @@ onMounted(() => store_salepos.GetAll());
         </div>
         <button @click="isFilterVisible = !isFilterVisible" 
           :class="isFilterVisible ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200'"
-          class="flex items-center gap-2 px-4 py-2 border rounded-xl text-xs font-bold transition-all hover:bg-slate-50">
-          <i class="fa-solid fa-filter"></i> Filtrlar
+          class="flex items-center gap-2 px-4 py-3 border rounded-xl text-xs font-bold transition-all hover:bg-slate-50">
+          <i class="fa-solid fa-filter"></i> 
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <ExportDropdown @select="handleExport" />
+        <ExportDropdown @select="handleExport" label="Yuklab olish" 
+  icon="fa-solid fa-file-excel" 
+  size="md" />
         <!-- <Button variant="primary" size="sm" class="!rounded-xl px-4 font-bold" @click="store_orders.AddOrderModal({ title: 'Yangi sotuv', action: 'create' })">
           <i class="fa-solid fa-plus mr-2"></i> Yangi Sotuv
         </Button> -->
