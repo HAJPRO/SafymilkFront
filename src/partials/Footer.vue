@@ -18,9 +18,9 @@ const appVersion = "v1.0.0";
       <div class="text-[11px] md:text-xs font-medium text-slate-500 dark:text-slate-400">
         &copy; {{ new Date().getFullYear() }} 
         <span class="font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 cursor-pointer transition-colors">
-          Eco water company
+        Safymilk company
         </span>
-       <span class="hidden sm:inline"> | Har tomchida hayot.</span>
+       <span class="hidden sm:inline"> | Tabiiatning mehirli ta'mi.</span>
       </div>
 
       <div class="flex items-center gap-4 text-[10px] md:text-[11px] font-semibold text-slate-400 dark:text-slate-500">
