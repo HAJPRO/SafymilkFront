@@ -28,14 +28,6 @@ const chartType = ref('line');
 const showDatePicker = ref(false);
 const dateRange = ref({ start: '', end: '' });
 
-// --- 🔵 FILTRLAR UCHUN STANDART SHABLONLAR ---
-const getFullPeriodTemplate = (filterType) => {
-  if (filterType === 'day') return Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
-  if (filterType === 'week') return ["Du", "Se", "Cho", "Pa", "Ju", "Sha", "Ya"];
-  if (filterType === 'month') return ["Yan", "Fev", "Mar", "Apr", "May", "Iyun", "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek"];
-  return [];
-};
-
 const getOptions = computed(() => {
   const labels = charLineOptions.value?.labels || [];
   const series = charLineOptions.value?.series || [];
@@ -43,8 +35,6 @@ const getOptions = computed(() => {
   return {
     backgroundColor: 'transparent',
     textStyle: { fontFamily: 'Inter, sans-serif' },
-
-    // Professional Tooltip: xiralashgan fon (blur) va soya bilan
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -61,7 +51,6 @@ const getOptions = computed(() => {
       shadowColor: 'rgba(0, 0, 0, 0.1)',
       textStyle: { color: isDark.value ? '#f1f5f9' : '#1e293b', fontSize: 13 }
     },
-
     legend: {
       show: true,
       top: '0%',
@@ -69,7 +58,6 @@ const getOptions = computed(() => {
       icon: 'circle',
       textStyle: { color: '#94a3b8', fontWeight: '700' }
     },
-
     grid: {
       top: '12%',
       left: '3%',
@@ -77,14 +65,8 @@ const getOptions = computed(() => {
       bottom: labels.length > 10 ? '15%' : '8%',
       containLabel: true
     },
-
-    // --- 🟢 PROFESSIONAL SCROLLBAR (DataZoom) ---
     dataZoom: labels.length > 12 ? [
-      {
-        type: 'inside',
-        start: 0,
-        end: (12 / labels.length) * 100
-      },
+      { type: 'inside', start: 0, end: (12 / labels.length) * 100 },
       {
         type: 'slider',
         bottom: 12,
@@ -93,58 +75,31 @@ const getOptions = computed(() => {
         backgroundColor: isDark.value ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
         fillerColor: 'rgba(99, 102, 241, 0.15)',
         handleIcon: 'roundRect',
-        handleSize: '120%',
-        handleStyle: { color: '#6366f1', shadowBlur: 5, shadowColor: 'rgba(99, 102, 241, 0.3)' },
+        handleStyle: { color: '#6366f1' },
         showDetail: false
       }
     ] : [],
-
     xAxis: {
       type: 'category',
       data: labels,
       boundaryGap: false,
       axisLine: { show: false },
-      axisTick: { show: false },
-      axisLabel: {
-        color: '#94a3b8',
-        fontSize: 11,
-        fontWeight: '600',
-        margin: 15,
-        rotate: labels.length > 15 ? 35 : 0,
-        interval: labels.length > 20 ? 'auto' : 0
-      }
+      axisLabel: { color: '#94a3b8', fontSize: 11, fontWeight: '600', rotate: labels.length > 15 ? 35 : 0 }
     },
-
     yAxis: {
       type: 'value',
       splitLine: { lineStyle: { color: isDark.value ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.05)', type: 'dashed' } },
-      axisLabel: {
-        color: '#94a3b8',
-        fontSize: 11,
-        fontWeight: '600',
-        formatter: (v) => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v
-      }
+      axisLabel: { color: '#94a3b8', fontSize: 11, fontWeight: '600', formatter: (v) => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v }
     },
-
     series: series.map((s, idx) => ({
       name: s.name,
       type: chartType.value,
       data: s.data,
       smooth: 0.4,
-      showSymbol: labels.length < 50,
       symbol: 'circle',
       symbolSize: 8,
-      itemStyle: {
-        color: idx === 0 ? '#6366f1' : '#10b981',
-        borderWidth: 2,
-        borderColor: isDark.value ? '#020617' : '#fff'
-      },
-      lineStyle: {
-        width: 4,
-        shadowBlur: 10,
-        shadowColor: idx === 0 ? 'rgba(99, 102, 241, 0.3)' : 'rgba(16, 185, 129, 0.3)',
-        shadowOffsetY: 5
-      },
+      itemStyle: { color: idx === 0 ? '#6366f1' : '#10b981' },
+      lineStyle: { width: 4, shadowBlur: 10, shadowColor: idx === 0 ? 'rgba(99, 102, 241, 0.3)' : 'rgba(16, 185, 129, 0.3)' },
       areaStyle: chartType.value === 'line' ? {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
           { offset: 0, color: idx === 0 ? 'rgba(99, 102, 241, 0.25)' : 'rgba(16, 185, 129, 0.2)' },
@@ -186,17 +141,17 @@ onMounted(() => store_sale_statistics.GetSaleStatistics({ period: 'day' }));
 </script>
 
 <template>
-  <div class="p-6 md:p-10 bg-[#f8fafc] dark:bg-[#020617] min-h-screen font-['Inter'] transition-all duration-700">
+  <div class="p-6 md:p-10 bg-transparent dark:bg-transparent min-h-screen font-['Inter'] transition-all duration-700 relative z-0">
     
-    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12 relative z-[100]">
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-8 mb-12 relative z-30">
       <div>
         <h1 class="text-3xl font-[1000] text-slate-900 dark:text-white tracking-tighter italic uppercase group">
-Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span>
+          Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span>
         </h1>
         <p class="text-slate-500 font-bold uppercase text-[10px] mt-3 tracking-[0.4em]">Statistika va Analitika Paneli</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-4 bg-white/60 dark:bg-white/[0.02] p-2 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-2xl backdrop-blur-3xl">
+      <div class="relative flex flex-wrap items-center gap-4 bg-white/60 dark:bg-white/[0.02] p-2 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-2xl backdrop-blur-3xl">
         <div class="flex bg-slate-200/50 dark:bg-slate-800/50 p-1 rounded-2xl">
           <button v-for="f in [{id:'day', n:'Bugun'}, {id:'week', n:'Hafta'}, {id:'month', n:'Oy'}]" 
             :key="f.id" @click="handlePeriodChange(f.id)"
@@ -205,26 +160,39 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
             {{ f.n }}
           </button>
         </div>
-        <button @click="showDatePicker = !showDatePicker" :class="['px-6 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 transition-all', activeFilter === 'custom' ? 'bg-indigo-600 text-white shadow-xl' : 'text-slate-400 bg-slate-200/50 dark:bg-slate-800/50']"><i class="fa-solid fa-calendar-alt"></i> Oraliq</button>
+
+        <button @click="showDatePicker = !showDatePicker" 
+          :class="['px-6 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center gap-3 transition-all', activeFilter === 'custom' ? 'bg-indigo-600 text-white shadow-xl' : 'text-slate-400 bg-slate-200/50 dark:bg-slate-800/50']">
+          <i class="fa-solid fa-calendar-alt"></i> Oraliq
+        </button>
         
         <div class="flex bg-slate-200/50 dark:bg-slate-800/50 p-1 rounded-2xl">
           <button @click="chartType = 'line'" :class="['w-11 h-11 flex items-center justify-center rounded-xl transition-all', chartType === 'line' ? 'bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white shadow-lg' : 'text-slate-400']"><i class="fa-solid fa-chart-line"></i></button>
           <button @click="chartType = 'bar'" :class="['w-11 h-11 flex items-center justify-center rounded-xl transition-all', chartType === 'bar' ? 'bg-white dark:bg-indigo-600 text-indigo-600 dark:text-white shadow-lg' : 'text-slate-400']"><i class="fa-solid fa-chart-bar"></i></button>
         </div>
-      </div>
-      
-      <transition name="fade-slide">
-        <div v-if="showDatePicker" class="absolute top-full right-0 mt-5 p-8 bg-white dark:bg-[#0f172a] border border-slate-100 dark:border-white/10 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.4)] z-[110] w-[340px]">
-          <div class="space-y-4">
-            <div class="group relative"><label class="scoped-label">Boshlanish</label><input type="date" v-model="dateRange.start" class="scoped-date-field"></div>
-            <div class="group relative"><label class="scoped-label">Tugash</label><input type="date" v-model="dateRange.end" class="scoped-date-field"></div>
-            <button @click="applyCustomRange" class="w-full py-4 bg-indigo-600 text-white rounded-2xl text-[11px] font-black uppercase hover:bg-indigo-700 shadow-xl transition-all">Analiz qilish</button>
+
+        <transition name="fade-slide">
+          <div v-if="showDatePicker" 
+               class="absolute top-full right-0 mt-5 p-8 bg-white dark:bg-[#0f172a] border border-slate-100 dark:border-white/10 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.4)] z-50 w-[340px]">
+            <div class="space-y-4">
+              <div class="group relative">
+                <label class="scoped-label">Boshlanish</label>
+                <input type="date" v-model="dateRange.start" class="scoped-date-field">
+              </div>
+              <div class="group relative">
+                <label class="scoped-label">Tugash</label>
+                <input type="date" v-model="dateRange.end" class="scoped-date-field">
+              </div>
+              <button @click="applyCustomRange" class="w-full py-4 bg-indigo-600 text-white rounded-2xl text-[11px] font-black uppercase hover:bg-indigo-700 shadow-xl transition-all">
+                Analiz qilish
+              </button>
+            </div>
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 relative z-20">
       <div v-for="(m, idx) in metrics" :key="idx" class="metric-card-pro group overflow-hidden">
         <div class="flex justify-between items-start mb-8 relative z-10">
           <div :class="['w-16 h-16 rounded-[1.8rem] flex items-center justify-center text-3xl shadow-2xl transition-all group-hover:rotate-12', 
@@ -238,11 +206,10 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
         <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">{{ m.title }}</p>
         <h3 class="text-4xl font-[1000] text-slate-900 dark:text-white tracking-tighter tabular-nums">{{ formatPrice(m.value) }}</h3>
       </div>
-      <div v-if="!metrics.length && loading" v-for="i in 3" class="metric-card-pro animate-pulse bg-slate-200 dark:bg-slate-800 h-[180px]"></div>
     </div>
 
     <div class="chart-pro-container group mb-12 relative z-10">
-      <div v-if="loading" class="chart-loader-overlay z-[50]"><div class="loader-spinner"></div></div>
+      <div v-if="loading" class="chart-loader-overlay z-40"><div class="loader-spinner"></div></div>
       <div class="flex justify-between items-center mb-10 px-4">
         <div>
           <h2 class="text-2xl font-black dark:text-white tracking-tighter uppercase italic transition-all duration-500">{{ chartHeader.title }}</h2>
@@ -254,10 +221,10 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
       </div>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 relative z-10">
       <div class="insight-container-modern group">
         <div class="p-8 border-b border-slate-100 dark:border-white/5 flex justify-between items-center bg-slate-50/50 dark:bg-white/[0.01]">
-          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-amber-500">Top Drivers</h3><p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Reyting</p></div>
+          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-amber-500">Top Drivers</h3></div>
           <i class="fa-solid fa-crown text-amber-500 text-2xl group-hover:scale-125 transition-transform"></i>
         </div>
         <div class="p-4 h-[400px] overflow-y-auto custom-scrollbar">
@@ -270,14 +237,13 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
               </div>
               <div class="font-[1000] text-amber-600 text-sm tabular-nums">{{ formatPrice(row.totalSales) }}</div>
             </div>
-            <div v-if="!topDrivers.length && !loading" class="text-center py-10 text-slate-400 text-xs italic">Ma'lumot topilmadi</div>
           </div>
         </div>
       </div>
 
       <div class="insight-container-modern group">
         <div class="p-8 border-b border-slate-100 dark:border-white/5 flex justify-between items-center bg-slate-50/50 dark:bg-white/[0.01]">
-          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-indigo-500">Top Sellers</h3><p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Savdo hajmi</p></div>
+          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-indigo-500">Top Sellers</h3></div>
           <i class="fa-solid fa-bolt-lightning text-indigo-500 text-xl group-hover:scale-125 transition-transform"></i>
         </div>
         <div class="p-4 h-[400px] overflow-y-auto custom-scrollbar">
@@ -285,19 +251,18 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
             <div v-for="(row, i) in topSellers" :key="i" class="list-row group/item">
               <div class="flex items-center gap-4">
                 <span class="text-xl font-[1000] text-slate-200 group-hover/item:text-indigo-500 italic w-8">#{{ i + 1 }}</span>
-                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-600 font-[1000] text-lg shadow-inner">{{ (row.info?.fullname || 'S').charAt(0) }}</div>
-                <div><p class="font-black text-slate-800 dark:text-white text-sm leading-tight truncate w-[100px]">{{ row.info?.fullname }}</p><p class="text-[9px] text-emerald-500 font-[1000] uppercase mt-1 tracking-tighter">Sotuvchi</p></div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-600 font-[1000] text-lg">{{ (row.info?.fullname || 'S').charAt(0) }}</div>
+                <div><p class="font-black text-slate-800 dark:text-white text-sm leading-tight truncate w-[100px]">{{ row.info?.fullname }}</p></div>
               </div>
               <div class="font-[1000] text-indigo-600 text-sm tabular-nums">{{ formatPrice(row.totalSales) }}</div>
             </div>
-            <div v-if="!topSellers.length && !loading" class="text-center py-10 text-slate-400 text-xs italic">Ma'lumot topilmadi</div>
           </div>
         </div>
       </div>
 
       <div class="insight-container-modern group">
         <div class="p-8 border-b border-slate-100 dark:border-white/5 flex justify-between items-center bg-slate-50/50 dark:bg-white/[0.01]">
-          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-rose-500">Top Clients</h3><p class="text-[9px] text-slate-400 font-bold uppercase mt-1">Sodiq mijozlar</p></div>
+          <div><h3 class="font-black dark:text-white uppercase tracking-widest text-sm italic text-rose-500">Top Clients</h3></div>
           <i class="fa-solid fa-gem text-rose-500 text-xl animate-pulse"></i>
         </div>
         <div class="p-4 h-[400px] overflow-y-auto custom-scrollbar">
@@ -305,37 +270,32 @@ Sotuvlar tahlili <span class="text-indigo-600 group-hover:animate-pulse">.</span
             <div v-for="(row, i) in topCustomers" :key="i" class="list-row group/item">
               <div class="flex items-center gap-4">
                 <span class="text-xl font-[1000] text-slate-200 group-hover/item:text-rose-500 italic w-8">#{{ i + 1 }}</span>
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-orange-500 flex items-center justify-center text-white font-[1000] text-lg shadow-lg">{{ (row.info?.fullname || 'C').charAt(0) }}</div>
-                <div><p class="font-black text-slate-800 dark:text-white text-sm leading-tight truncate w-[100px]">{{ row.info?.fullname }}</p><p class="text-[9px] text-rose-400 font-[1000] uppercase mt-1 tracking-tighter">Loyal</p></div>
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-orange-500 flex items-center justify-center text-white font-[1000] text-lg">{{ (row.info?.fullname || 'C').charAt(0) }}</div>
+                <div><p class="font-black text-slate-800 dark:text-white text-sm leading-tight truncate w-[100px]">{{ row.info?.fullname }}</p></div>
               </div>
               <div class="font-[1000] text-slate-900 dark:text-white text-sm tabular-nums">{{ formatPrice(row.totalSales) }}</div>
             </div>
-            <div v-if="!topCustomers.length && !loading" class="text-center py-10 text-slate-400 text-xs italic">Ma'lumot topilmadi</div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
-/* --- CUSTOM SCROLLBAR --- */
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f133; border-radius: 20px; transition: all 0.3s; }
-.custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #6366f188; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f133; border-radius: 20px; }
 
-/* --- UI COMPONENTS --- */
 .scoped-date-field { @apply w-full bg-slate-50 dark:bg-white/5 border-none rounded-2xl p-5 text-xs font-black dark:text-white outline-none focus:ring-4 focus:ring-indigo-500/20 transition-all cursor-pointer; }
 .scoped-label { @apply absolute left-4 -top-2 px-2 bg-white dark:bg-[#0f172a] text-[9px] font-black text-indigo-500 uppercase z-10; }
-.metric-card-pro { @apply bg-white dark:bg-white/[0.02] p-10 rounded-[3.5rem] border border-slate-100 dark:border-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-2 relative; }
-.chart-pro-container { @apply bg-white dark:bg-[#0b0f1a] p-12 rounded-[4rem] border border-slate-100 dark:border-white/5 shadow-2xl relative overflow-hidden transition-all duration-700; }
-.insight-container-modern { @apply bg-white dark:bg-white/[0.02] rounded-[3.5rem] border border-slate-100 dark:border-white/5 shadow-2xl overflow-hidden transition-all duration-500; }
-.list-row { @apply flex items-center justify-between p-5 bg-slate-50/50 dark:bg-white/[0.02] rounded-[2.5rem] border border-transparent hover:border-indigo-500/10 hover:bg-white dark:hover:bg-white/[0.05] transition-all duration-500; }
-.chart-loader-overlay { @apply absolute inset-0 flex flex-col items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-md rounded-[4rem]; }
+.metric-card-pro { @apply bg-white dark:bg-white/[0.02] p-10 rounded-[3.5rem] border border-slate-100 dark:border-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-2; }
+.chart-pro-container { @apply bg-white dark:bg-[#0b0f1a] p-12 rounded-[4rem] border border-slate-100 dark:border-white/5 shadow-2xl relative overflow-hidden; }
+.insight-container-modern { @apply bg-white dark:bg-white/[0.02] rounded-[3.5rem] border border-slate-100 dark:border-white/5 shadow-2xl overflow-hidden; }
+.list-row { @apply flex items-center justify-between p-5 bg-slate-50/50 dark:bg-white/[0.02] rounded-[2.5rem] border border-transparent hover:border-indigo-500/10 transition-all; }
+.chart-loader-overlay { @apply absolute inset-0 flex flex-col items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-md; }
 .loader-spinner { @apply w-14 h-14 border-4 border-indigo-600/20 border-t-indigo-600 rounded-full animate-spin; }
 .tabular-nums { font-variant-numeric: tabular-nums; }
 .fade-slide-enter-active, .fade-slide-leave-active { transition: all 0.3s ease; }

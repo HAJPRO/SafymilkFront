@@ -1,13 +1,13 @@
 <template>
-  <div class="">
+  <div class="z-[50]">
     <HeaderAnimatsion class="" :season="selectedAnimationTheme" />
 
     <div
-      class="fixed inset-0 bg-white dark:bg-slate-600 border-b border-slate-200 dark:border-slate-400 bg-opacity-30 z-40 transition-opacity duration-200"
-      :class="sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-      @click="handleSidebarClose"
-      aria-hidden="true"
-    ></div>
+  class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out dark:bg-black/60"
+  :class="sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
+  @click="handleSidebarClose"
+  aria-hidden="true"
+></div>
 
     <div
       id="sidebar"

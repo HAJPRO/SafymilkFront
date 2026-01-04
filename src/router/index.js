@@ -127,6 +127,12 @@ const routes = [
         component: () => import("../pages/Explore/Laboratory/rawmaterial/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
+       { 
+        path: "laboratory/analitic", 
+        name: "Laboratoriya analitik", 
+        component: () => import("../pages/Explore/Laboratory/analitic/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
     ],
   },
   {
