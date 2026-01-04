@@ -25,6 +25,12 @@ const employeeTabs = [
     routeName: "Laboratoriya analitik", 
     icon: "fa-solid fa-flask-vial" 
   },
+   { 
+    id: 3, 
+    label: "Kirim", 
+    routeName: "Kirim", 
+    icon: "fa-solid fa-plus" 
+  },
 ];
 
 // --- 2. ACTIVE TABNI ANIQLASH ---

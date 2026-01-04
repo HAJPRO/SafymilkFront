@@ -204,7 +204,7 @@ const columns = [
 
       <div class="flex items-center gap-2">
         <ExportDropdown @select="store.exportToExcel" label="Excel" icon="fa-solid fa-file-excel" />
-        <Button variant="primary" @click="router.push({ name: 'Kirim' })" size="sm" left-icon="fa-solid fa-plus"></Button>
+        <!-- <Button variant="primary" @click="router.push({ name: 'Kirim' })" size="sm" left-icon="fa-solid fa-plus"></Button> -->
       </div>
     </header>
 

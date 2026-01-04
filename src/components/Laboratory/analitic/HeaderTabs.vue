@@ -27,7 +27,7 @@ const employeeTabs = [
   },
   { 
     id: 3, 
-    label: "Kirim qilish", 
+    label: "Kirim", 
     routeName: "Kirim", 
     icon: "fa-solid fa-plus" 
   },
