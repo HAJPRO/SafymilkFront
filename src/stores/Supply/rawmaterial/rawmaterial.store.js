@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { RawMaterialService } from "../../../ApiServices/Supply/rawmaterial/rawmaterial.service";
 import { useToast } from "../../../UI/utils/useToast";
+import { Loading } from "../../../utils/Loading";
+const loading = Loading();
 
 const { toast } = useToast();
 
@@ -9,149 +11,96 @@ export const RawMaterialsStore = defineStore('RawMaterialsStore', {
     materials: [],
     loading: false,
     isSubmitting: false, 
-    
-    // Modallar holati
     isAddModalOpen: false,
-    isEditModalOpen: false,
-    isDetailModalOpen: false,
-    
-    // Tanlangan ma'lumot
-    selectedMaterial: null,
+    selectedMaterial: null, // Tahrirlash uchun tanlangan obyekt
   }),
 
-  getters: {
-    // Xomashyo analitikasi - hisob-kitoblar dinamik amalga oshiriladi
-    analytics: (state) => {
-      const all = state.materials || [];
-      const totalVolume = all.reduce((acc, item) => acc + Number(item.totalStock || 0), 0);
-      const totalValue = all.reduce((acc, item) => acc + (Number(item.totalStock || 0) * Number(item.costPrice || 0)), 0);
-      const lowStockCount = all.filter(item => Number(item.totalStock || 0) < 50).length;
-      
-      const avgFat = all.length > 0 
-        ? (all.reduce((acc, item) => acc + Number(item.fatContent || 0), 0) / all.length).toFixed(1) 
-        : 0;
-
-      return { 
-        totalVolume, 
-        totalValue, 
-        lowStockCount, 
-        count: all.length,
-        avgFat 
-      };
-    }
-  },
-
   actions: {
-    // --- MODALLARNI BOSHQARISH ---
-    openAddModal() {
-      this.selectedMaterial = null; // Yaratishda formani tozalash uchun
-      this.isAddModalOpen = true;
-    },
-    closeAddModal() {
-      this.isAddModalOpen = false;
-    },
-    openEditModal(id) {
-      // Id bo'yicha topamiz yoki obyektni o'zini qabul qilamiz
-      const material = this.materials.find(m => m._id === id);
-      if (material) {
-        this.selectedMaterial = JSON.parse(JSON.stringify(material)); // Deep copy - originalga tegmaslik uchun
-        this.isEditModalOpen = true;
-      }
-    },
-    closeEditModal() {
-      this.isEditModalOpen = false;
-      this.selectedMaterial = null;
-    },
-
-    // --- MA'LUMOTLARNI YUKLASH ---
+    // 1. Ma'lumotlarni o'qib olish (Hammasini yuklash)
     async GetAll() {
-      this.loading = true;
+     const loader = loading.show();
       try {
         const response = await RawMaterialService.GetAll();
+        // Backend { success: true, data: [...] } qaytarsa
         if (response.data?.success) {
           this.materials = response.data.data;
-          
         }
       } catch (error) {
-        toast.error("Xomashyolarni yuklashda xatolik yuz berdi!");
+        toast.error("Ma'lumotlarni yuklashda texnik xatolik!");
+        console.error("GetAll Error:", error);
       } finally {
-        this.loading = false;
+               loader.hide();
+
       }
     },
 
-    async GetById(id) {
-      this.loading = true;
-      try {
-        const response = await RawMaterialService.GetById(id);
-        if (response.data?.success) {
-          this.selectedMaterial = response.data.data;
-          this.isDetailModalOpen = true;
-        }
-      } catch (error) {
-        toast.error("Ma'lumot topilmadi!");
-      } finally {
-        this.loading = false;
-      }
-    },
-
-    // --- ASOSIY SAQLASH MANTIQI (BACKEND SAVE FUNKSIYASIGA MOS) ---
-    async saveRawMaterial(modelData) {
+    /**
+     * 2. Yaratish va Tahrirlash (Base64 mantiqi bilan)
+     * @param {Object} rawData - Komponentdan kelayotgan model (ichida base64 string rasm bilan)
+     */
+    async saveRawMaterial(rawData) {
       this.isSubmitting = true;
       try {
-        // Backenddagi Save(data) mantiqiga mos payload tayyorlaymiz
+        // Backend andozasiga muvofiq payload tayyorlaymiz
         const payload = {
-          action: modelData._id ? "update" : "create",
-          model: modelData
+          action: rawData._id ? "update" : "create",
+          model: rawData
         };
 
-        const response = await RawMaterialService.Create(payload); // RawMaterialService.Create aslida Save'ni chaqiradi
+        const response = await RawMaterialService.Create(payload); 
         
-        if (response.data?.status === "200") {
-          toast.success(response.data.msg || "Muvaffaqiyatli bajarildi!");
+        // Status 200 yoki 201 bo'lsa muvaffaqiyatli deb hisoblaymiz
+        if (response.data?.success || response.data?.status === "200") {
+          toast.success(response.data.message || response.data.msg || "Muvaffaqiyatli saqlandi!");
+          
           await this.GetAll(); // Ro'yxatni yangilash
           return true;
         } else {
-          toast.error(response.data?.msg || "Xatolik yuz berdi");
+          // Backenddan kelgan mantiqiy xato xabari
+          toast.error(response.data?.message || response.data?.msg || "Xatolik yuz berdi");
           return false;
         }
       } catch (error) {
-        const errorMsg = error.response?.data?.msg || "Saqlashda texnik xatolik!";
+        // HTTP xatoliklar (400, 500 va h.k.)
+        const errorMsg = error.response?.data?.message || "Server bilan bog'lanishda xatolik";
         toast.error(errorMsg);
+        console.error("Save Error:", error);
         return false;
       } finally {
         this.isSubmitting = false;
       }
     },
 
-    async DeleteById(id) {
-      if (!confirm("Ushbu xomashyoni o'chirishni tasdiqlaysizmi?")) return;
-      
-      try {
-        const response = await RawMaterialService.DeleteById(id);
-        if (response.data?.success) {
-          toast.success("Xomashyo muvaffaqiyatli o'chirildi");
-          this.materials = this.materials.filter(m => m._id !== id);
-          return true;
+    // 3. O'chirish (Soft-delete)
+    async deleteMaterial(id) {
+        try {
+            const response = await RawMaterialService.Delete({ id });
+            if (response.data?.success) {
+                toast.success("Resurs muvaffaqiyatli o'chirildi");
+                await this.GetAll();
+                return true;
+            }
+        } catch (error) {
+            toast.error("O'chirishda xatolik yuz berdi");
+            return false;
         }
-      } catch (error) {
-        toast.error("O'chirishda xatolik yuz berdi");
-        return false;
-      }
     },
 
-    async handleExcelExport(payload) {
-      try {
-        const response = await RawMaterialService.ExportExcel(payload);
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `Xomashyo_Hisoboti_${new Date().toLocaleDateString()}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        toast.success("Excel fayl yuklab olindi!");
-      } catch (error) {
-        toast.error("Eksport qilishda xatolik!");
+    // 4. Modallarni va formani boshqarish
+    openAddModal(item = null) { 
+      if (item) {
+        // Tahrirlash rejimi: Kelgan ma'lumotni selectedMaterial-ga yuklaymiz
+        this.selectedMaterial = { ...item }; 
+      } else {
+        // Yangi qo'shish rejimi
+        this.selectedMaterial = null; 
       }
+      this.isAddModalOpen = true; 
+    },
+
+    closeAddModal() { 
+      this.isAddModalOpen = false; 
+      this.selectedMaterial = null;
     }
   }
 });
