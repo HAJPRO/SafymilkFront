@@ -324,7 +324,7 @@
               </SidebarLinkGroup>
             </ul>
 
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -371,7 +371,7 @@
               </SidebarLinkGroup>
             </ul>
 
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -418,7 +418,7 @@
               </SidebarLinkGroup>
             </ul>
 
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -593,7 +593,7 @@
               </ul>
             </Guard>
             <Guard :roles="['30', '1000', '2000']">
-              <ul class="mt-1">
+              <ul >
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
                     class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -654,7 +654,7 @@
               </ul>
             </Guard>
             <Guard :roles="['20','1000','2000']">
-              <ul class="mt-1">
+              <ul >
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
                     class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -724,7 +724,7 @@
               </ul>
             </Guard>
             <Guard :roles="['40', '1000', '2000']">
-              <ul class="mt-1">
+              <ul >
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
                     class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -815,7 +815,7 @@
               </ul>
             </Guard>
 
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -874,99 +874,110 @@
                 </ul>
               </SidebarLinkGroup>
             </ul>
-                <ul class="mt-1">
+                <ul >
               <SidebarLinkGroup v-slot="parentLink">
-                <a
-                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                  href="#0"
-                  @click.prevent="
-                    sidebarExpanded
-                      ? parentLink.handleClick()
-                      : (sidebarExpanded = true)
-                  "
-                >
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                      <i
-                        class="fa-solid fa-boxes-packing text-indigo-400 text-lg"
-                      ></i>
-                      <span
-                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                        >Ta'minot</span
-                      >
-                    </div>
-                    <svg
-                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                      :class="parentLink.expanded && 'rotate-180'"
-                      viewBox="0 0 12 12"
-                    >
-                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                    </svg>
-                  </div>
-                </a>
-                <ul
-                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                  :class="!parentLink.expanded && 'hidden'"
-                >
-                  <li>
-                    <router-link
-                      :to="{ name: `Kirim` }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Kirm qilish</span
-                      >
-                    </router-link>
-                  </li>
-                   <li>
-                    <router-link
-                      :to="{ name: `Kirim ro'yxati` }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Kirim ro'yxati</span
-                      >
-                    </router-link>
-                  </li>
-                   <li>
-                    <router-link
-                      :to="{ name: `Mijozlar ro'yxati` }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Qaytarish</span
-                      >
-                    </router-link>
-                  </li>
-                    <li>
-                    <router-link
-                      :to="{ name: 'Xomashyo' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Xomashyo ro'yxati</span
-                      >
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link
-                      :to="{ name: 'Kontragentlar' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Kontragentlar ro'yxati</span
-                      >
-                    </router-link>
-                  </li>
-                </ul>
+             <a
+  class="block text-slate-200 transition duration-150 hover:text-white overflow-hidden"
+  href="#0"
+  @click.prevent="sidebarExpanded ? parentLink.handleClick() : (sidebarExpanded = true)"
+>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center overflow-hidden flex-1">
+      <i class="fa-solid fa-boxes-packing text-indigo-400 text-lg shrink-0"></i>
+      
+      <div class="ml-3 overflow-hidden flex-1 relative group-hover:cursor-pointer">
+        <span
+          class="marquee-text inline-block whitespace-nowrap text-sm font-medium text-slate-500 dark:text-white"
+        >
+          Ta'minot 
+        </span>
+      </div>
+    </div>
+
+    <svg
+      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+      :class="parentLink.expanded && 'rotate-180'"
+      viewBox="0 0 12 12"
+    >
+      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+    </svg>
+  </div>
+</a>
+              <ul
+  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+  :class="!parentLink.expanded && 'hidden'"
+>
+  <SidebarSubGroup>
+    <template #title>Xomashyo</template>
+    <template #content>
+      <li>
+        <router-link
+          :to="{ name: 'Kirim' }"
+          active-class="active-link"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+        >
+          <span class="text-[12.5px] font-medium">Kirim qilish</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'Kirim ro\'yxati' }"
+          active-class="active-link"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+        >
+          <span class="text-[12.5px] font-medium">Kirim ro'yxati</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'Xomashyo' }"
+          active-class="active-link"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+        >
+          <span class="text-[12.5px] font-medium">Xomashyo ro'yxati</span>
+        </router-link>
+      </li>
+    </template>
+  </SidebarSubGroup>
+
+  <SidebarSubGroup>
+    <template #title>Aksesuarlar</template>
+    <template #content>
+      <li>
+        <router-link
+          :to="{ name: 'Xomashyo' }" 
+          active-class="active-link"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+        >
+          <span class="text-[12.5px] font-medium">Aksesuarlar ro'yxati</span>
+        </router-link>
+      </li>
+      <li>
+        <router-link
+          :to="{ name: 'Mijozlar ro\'yxati' }"
+          active-class="active-link"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+        >
+          <span class="text-[12.5px] font-medium">Qaytarish</span>
+        </router-link>
+      </li>
+    </template>
+  </SidebarSubGroup>
+
+  <li class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+    <router-link
+      :to="{ name: 'Kontragentlar' }"
+      active-class="active-link"
+      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+    >
+      <i class="fa-solid fa-address-book text-[14px]"></i>
+      <span class="text-[13px] font-semibold">Kontragentlar</span>
+    </router-link>
+  </li>
+</ul>
               </SidebarLinkGroup>
             </ul>
-              <ul class="mt-1">
+              <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1027,7 +1038,7 @@
                 </ul>
               </SidebarLinkGroup>
             </ul>
-         <ul class="mt-1">
+         <ul >
   <SidebarLinkGroup v-slot="parentLink">
     <a
       class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1095,7 +1106,7 @@
     </ul>
   </SidebarLinkGroup>
 </ul>
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1150,7 +1161,7 @@
                 </ul>
               </SidebarLinkGroup>
             </ul>
-             <ul class="mt-1">
+             <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1252,7 +1263,7 @@
             v-if="is_reports === true"
             class="p-2.5 mt-1 rounded-lg border bg-white border-slate-200 dark:border-slate-600 dark:bg-slate-700 shadow-md transition"
           >
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1301,7 +1312,7 @@
               </SidebarLinkGroup>
             </ul>
 
-            <ul class="mt-1">
+            <ul >
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1755,12 +1766,14 @@ import { useRouter } from "vue-router";
 import SidebarLinkGroup from "./SidebarLinkGroup.vue";
 import HeaderAnimatsion from "./Settings/HeaderAnimatsion.vue";
 import Guard from "../Guard/AppGuard.vue";
+import SidebarSubGroup from "./SidebarSubGroup.vue";
 
 export default {
   name: "Sidebar",
   props: ["sidebarOpen"],
   components: {
     SidebarLinkGroup,
+    SidebarSubGroup,
     HeaderAnimatsion,
     Guard,
   },
@@ -1888,13 +1901,20 @@ export default {
 </script>
 
 <style scoped>
-/* Aktiv link uchun maxsus stil */
-.active-link {
-  @apply bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-l-4 border-indigo-500 !important;
+/* 1. Asosiy Aktiv Link Konteyneri */
+
+
+/* 5. Pulsatsiya animatsiyasi (Indikator uchun) */
+@keyframes pulse-glow {
+  0% { opacity: 0.8; box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6); }
+  50% { opacity: 1; box-shadow: 2px 0 15px rgba(99, 102, 241, 0.9); }
+  100% { opacity: 0.8; box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6); }
 }
 
-.active-link i {
-  @apply text-indigo-600 dark:text-indigo-400 !important;
+/* 6. Hover holati (Hali aktiv bo'lmagan linklar uchun) */
+.sidebar-link:hover:not(.active-link) {
+  @apply bg-slate-200/50 dark:bg-slate-700/40 text-slate-900 dark:text-white !important;
+  transform: translateX(4px);
+  transition: all 0.3s ease;
 }
-/* ... qolgan stillar ... */
 </style>

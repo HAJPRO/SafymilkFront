@@ -52,10 +52,10 @@ const addToInbound = (p) => {
     costPrice: p.costPrice || p.lastPurchasePrice || 3800,
     
     // Turlarga qarab laboratoriya ko'rsatkichlari
-    fat: category.includes('sut') ? (p.fatContent || 3.6) : null,
-    temp: category.includes('sut') ? 4 : null,
+    fat: (p.fatContent || 3.6),
+    temp:  p.temperature || 0,
     brix: (category.includes('meva') || category.includes('sirop')) ? 12 : null,
-    density: category.includes('sut') ? 1.028 : null,
+    density:  p.density || 0,
   };
 
   inputStore.addItem(cartItem);

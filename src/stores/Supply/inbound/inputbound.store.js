@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 import { SupplyInboundService } from "../../../ApiServices/Supply/inbound/inbound.service";
 import { useToast } from "../../../UI/utils/useToast";
+import { Loading } from "../../../utils/Loading";
+const loading = Loading();
+
 
 const { toast } = useToast();
 
@@ -28,14 +31,14 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
   actions: {
     // Barcha hujjatlarni olish
     async GetAll(params = {}) {
-      this.loading = true;
+ const loader  = loading.show();
       try {
         const res = await SupplyInboundService.GetAll(params);
         this.document = res.data.data;
       } catch (error) {
         toast.error("Ro'yxatni yuklashda xatolik!");
       } finally {
-        this.loading = false;
+        loader.hide()
       }
     },
 
@@ -59,13 +62,11 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
         };
 
         // Dinamik Lab maydonlari
-        if (cat.includes('sut')) {
+      
           newItem.fat = product.fatContent || 3.6;
-          newItem.temp = 4;
-          newItem.density = 1.028;
-        } else if (cat.includes('meva')) {
-          newItem.brix = 12;
-        }
+          newItem.temp = product.temperature || 3.6;;
+          newItem.density = product.density || 1.028;
+       
 
         this.document.items.push(newItem);
       }
