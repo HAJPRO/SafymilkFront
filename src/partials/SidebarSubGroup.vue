@@ -2,7 +2,7 @@
   <li class="list-none select-none">
     <button 
       @click.stop="toggleSub"
-      class="w-full flex items-center justify-between px-3 py-2 text-[13px] font-semibold transition-all duration-300 rounded-md group/sub"
+      class="w-full flex items-center justify-between px-2 py-1 text-[13px] font-semibold transition-all duration-300 rounded-md group/sub"
       :class="[
         isSubOpen 
           ? 'bg-indigo-500/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400' 
@@ -39,7 +39,7 @@
     >
       <ul 
         v-show="isSubOpen" 
-        class="pl-4 mt-1 ml-3.5 space-y-0.5 border-l-2 border-slate-200 dark:border-slate-700/40 overflow-hidden"
+        class="pl-2 mt-1  space-y-0.5 border-l-2 border-slate-200 dark:border-slate-700/70 overflow-hidden"
       >
         <div class="sub-items-container">
           <slot name="content" />

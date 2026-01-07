@@ -916,7 +916,7 @@
           active-class="active-link"
           class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
         >
-          <span class="text-[12.5px] font-medium">Kirim qilish</span>
+          <span class="text-[12px] font-medium">Kirim qilish</span>
         </router-link>
       </li>
       <li>
@@ -925,7 +925,7 @@
           active-class="active-link"
           class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
         >
-          <span class="text-[12.5px] font-medium">Kirim ro'yxati</span>
+          <span class="text-[12px] font-medium">Kirim ro'yxati</span>
         </router-link>
       </li>
       <li>
@@ -934,7 +934,7 @@
           active-class="active-link"
           class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
         >
-          <span class="text-[12.5px] font-medium">Xomashyo ro'yxati</span>
+          <span class="text-[12px] font-medium">Xomashyo ro'yxati</span>
         </router-link>
       </li>
     </template>
@@ -945,11 +945,11 @@
     <template #content>
       <li>
         <router-link
-          :to="{ name: 'Xomashyo' }" 
+          :to="{ name: 'Aksesuarlar' }" 
           active-class="active-link"
           class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
         >
-          <span class="text-[12.5px] font-medium">Aksesuarlar ro'yxati</span>
+          <span class="text-[12px] font-medium">Aksesuarlar ro'yxati</span>
         </router-link>
       </li>
       <li>
@@ -958,7 +958,7 @@
           active-class="active-link"
           class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
         >
-          <span class="text-[12.5px] font-medium">Qaytarish</span>
+          <span class="text-[12px] font-medium">Qaytarish</span>
         </router-link>
       </li>
     </template>

@@ -14,7 +14,7 @@
            text-slate-700 dark:text-indigo-100
            transition-all duration-300 ease-in-out"
   >
-    <h2 class="text-lg font-bold tracking-wide flex items-center gap-2">
+    <h2 class="text-lg  flex items-center gap-2 font-black italic tracking-tight">
       <slot name="title">
         <span>Sarlavha</span>
       </slot>

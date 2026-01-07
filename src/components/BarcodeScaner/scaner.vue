@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted, nextTick, reactive } from 'vue';
+import { ref, watch, onUnmounted,onMounted, nextTick, reactive } from 'vue';
 import { Html5Qrcode } from "html5-qrcode";
 
 const props = defineProps({
@@ -241,6 +241,48 @@ const restartScanner = () => startScanner();
 
 watch(() => props.modelValue, (isOpen) => { if (isOpen) setTimeout(startScanner, 400); else handleClose(); });
 onUnmounted(handleClose);
+
+
+
+
+//barkodeskaner
+let scannerBuffer = "";
+let lastKeyTime = Date.now();
+
+const handleExternalScanner = (event) => {
+  const currentTime = Date.now();
+  
+  // Agar tugmalar orasidagi farq juda qisqa bo'lsa (skaner tez yozadi)
+  if (currentTime - lastKeyTime > 50) {
+    scannerBuffer = ""; // Agar odam qo'lda yozsa, buferni tozalaymiz
+  }
+  
+  lastKeyTime = currentTime;
+
+  if (event.key === 'Enter') {
+    if (scannerBuffer.length > 2) {
+      playSuccessSound();
+      lastResult.value = scannerBuffer;
+      // Agar skaner o'qisa, kamerani to'xtatish ixtiyoriy
+      stopScannerInstance(); 
+      scannerBuffer = "";
+    }
+  } else {
+    // Faqat belgilarni yig'amiz (Shift, Ctrl kabilarni tashlab ketamiz)
+    if (event.key.length === 1) {
+      scannerBuffer += event.key;
+    }
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleExternalScanner);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleExternalScanner);
+  handleClose();
+});
 </script>
 
 <style scoped>

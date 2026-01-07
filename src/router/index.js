@@ -120,6 +120,28 @@ const routes = [
         meta: { role: ["40", "1000", "2000"] } 
       },
 
+      {
+  path: '/supply/accessories',
+  component: () => import('../pages/Explore/Supply/accessories/index.vue'),
+  children: [
+    {
+      path: 'list', // Default holatda list ochiladi
+      name: 'Aksesuarlar',
+      component: () => import('../components/Supply/accessories/Tabel.vue')
+    },
+    {
+      path: 'inventory',
+      name: 'AccessoryInventory',
+      component: () => import('../components/Supply/accessories/Tabel.vue')
+    },
+    {
+      path: 'add',
+      name: 'AccessoryAdd',
+      component: () => import('../components/Supply/accessories/InputAccessory.vue')
+    }
+  ]
+},
+
       // Laboratory
       { 
         path: "laboratory/rawmaterial", 
