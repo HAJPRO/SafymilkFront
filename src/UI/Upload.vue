@@ -32,16 +32,23 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const resolveUrl = (file) => {
   if (!file) return '';
   
-  // Agar bu yangi tanlangan fayl bo'lsa (File Object)
+  // 1. Yangi tanlangan fayl (File Object)
   if (file instanceof File) {
     return URL.createObjectURL(file);
   }
   
-  // Agar bu bazadan kelgan string (yo'l) bo'lsa
+  // 2. String bo'lsa (URL, Path yoki Base64)
   if (typeof file === 'string') {
-    if (file.startsWith('http')) return file; // To'liq URL bo'lsa
-    // 'uploads/products/...' kabi yo'lni to'liq URL ga aylantiramiz
-    return `${API_URL.replace(/\/+$/, '')}/${file.replace(/^\/+/, '')}`;
+    // Agar rasm allaqachon to'liq URL yoki Base64 bo'lsa
+    // Base64 odatda 'data:image/...' bilan boshlanadi
+    if (file.startsWith('http') || file.startsWith('data:image')) {
+      return file; 
+    }
+    
+    // Agar shunchaki serverdagi yo'l bo'lsa (uploads/...)
+    const cleanApiUrl = API_URL.replace(/\/+$/, '');
+    const cleanFilePath = file.replace(/^\/+/, '');
+    return `${cleanApiUrl}/${cleanFilePath}`;
   }
   
   return '';

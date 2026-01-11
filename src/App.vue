@@ -1,7 +1,7 @@
 <template>
   <router-view />
   <ToastContainer/>
-  
+  <ConfirmDialog ref="globalConfirm" />
   <Transition
     enter-active-class="transition ease-out duration-300"
     enter-from-class="opacity-0 transform scale-95"
@@ -59,10 +59,13 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, onBeforeUnmount, ref } from "vue";
+import { onMounted, onUnmounted, onBeforeUnmount, ref,provide} from "vue";
 import Cookies from "js-cookie";
 import ToastContainer from "./UI/Toast.vue";
+import ConfirmDialog from './UI/ConfirmDialog.vue';
 
+const globalConfirm = ref(null);
+provide('confirm', (config) => globalConfirm.value.open(config));
 
 const isOffline = ref(false);
 

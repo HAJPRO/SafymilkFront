@@ -86,7 +86,7 @@ onUnmounted(() => window.removeEventListener('resize', updateWidth));
 
 <style scoped>
 .premium-fade-enter-active, .premium-fade-leave-active {
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.5s linear;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.2s linear;
 }
 .premium-fade-enter-from, .premium-fade-leave-to {
   opacity: 0;

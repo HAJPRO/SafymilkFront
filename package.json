@@ -28,6 +28,7 @@
     "moment-timezone": "^0.5.48",
     "pinia": "^2.2.6",
     "socket.io-client": "^4.8.1",
+    "sweetalert2": "^11.26.17",
     "uuid": "^11.1.0",
     "vue": "^3.2.36",
     "vue-chartjs": "^5.3.2",

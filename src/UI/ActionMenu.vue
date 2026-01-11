@@ -5,17 +5,7 @@ const props = defineProps({
   items: {
     type: Array,
     required: true,
-    /**
-     * Item structure: 
-     * { 
-     * label: string, 
-     * description: string (optional),
-     * icon: string, 
-     * onClick: Function, 
-     * variant: 'default' | 'danger' | 'primary',
-     * show: boolean
-     * }
-     */
+   
   },
   title: {
     type: String,

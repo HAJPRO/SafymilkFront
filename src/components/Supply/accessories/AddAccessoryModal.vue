@@ -11,7 +11,7 @@
                 <div class="flex flex-col lg:flex-row gap-8 pt-2">
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
                         <div class="w-full max-w-[200px] aspect-square relative group rounded-[2.5rem] overflow-hidden ring-4 ring-slate-50 shadow-xl">
-                            <FileUpload v-model="form.image" type="image" />
+                            <FileUpload v-model="form.image" type="image" @remove="form.image = null" />
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                     </div>
                     <div class="bg-indigo-600 p-6 rounded-[2rem] shadow-xl shadow-indigo-200 flex flex-col items-center justify-center">
                         <label class="text-indigo-100 text-[10px] font-black uppercase mb-1">Boshlang'ich Qoldiq</label>
-                        <Input v-model.number="form.totalStock" type="number" :error="errors.totalStock" class="!border-transparent" input-class="text-center text-3xl font-black text-white placeholder-white/50" />
+                        <Input :disabled="!!form._id" v-model.number="form.totalStock" type="number" :error="errors.totalStock" class="!border-transparent" input-class="text-center text-3xl font-black text-white placeholder-white/50" />
                         <span class="text-indigo-200 text-[10px] font-bold uppercase mt-1">{{ form.unit }}</span>
                     </div>
                 </div>
@@ -87,10 +87,17 @@
                 </div>
                 <div class="flex gap-3">
                     <Button variant="outline" @click="handleClose" class="!rounded-2xl px-6 font-bold uppercase text-[11px]">Bekor qilish</Button>
-                    <button @click="submitForm" :disabled="isSubmitting" 
-                            class="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-[1.2rem] px-10 py-3 shadow-lg font-black uppercase text-[11px] transition-all active:scale-95 flex items-center gap-2">
-                        <i v-if="isSubmitting" class="fa-solid fa-circle-notch animate-spin"></i>
-                        {{ form._id ? "Saqlash" : "Qo'shish" }}
+                    <button @click="submitForm" 
+    :disabled="isSubmitting || !isDirty" 
+    :class="[
+        'rounded-[1.2rem] px-10 py-3 shadow-lg font-black uppercase text-[11px] transition-all flex items-center gap-2',
+        (isSubmitting || !isDirty) 
+            ? 'bg-slate-300 cursor-not-allowed text-slate-500 shadow-none' 
+            : 'bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95'
+    ]"
+>
+    <i v-if="isSubmitting" class="fa-solid fa-circle-notch animate-spin"></i>
+    {{ form._id ? "Saqlash" : "Qo'shish" }}
                     </button>
                 </div>
             </div>
@@ -101,7 +108,7 @@
 <script setup>
 import { reactive, watch, computed } from "vue";
 import { storeToRefs } from "pinia";
-import { RawMaterialsStore } from "../../../stores/Supply/rawmaterial/rawmaterial.store";
+import { AccessoriesStore } from "../../../stores/Supply/accessories/accessory.store";
 import { useToast } from "../../../UI/utils/useToast";
 
 import Modal from "../../../UI/Modal.vue";
@@ -111,7 +118,7 @@ import Input from "../../../UI/Input.vue";
 import FileUpload from "../../../UI/Upload.vue"; 
 
 const { toast } = useToast();
-const store = RawMaterialsStore();
+const store = AccessoriesStore();
 const { isAddModalOpen, isSubmitting, selectedMaterial } = storeToRefs(store);
 
 const typeOptions = [
@@ -134,14 +141,34 @@ const form = reactive({
 const errors = reactive({});
 
 const resetForm = () => {
-    Object.assign(form, { _id: null, type: null, name: "", code: "", unit: "kg", costPrice: 0, totalStock: 0, image: null, description: "" });
+    Object.assign(form, { 
+        _id: null, 
+        type: null, 
+        name: "", 
+        code: "", 
+        unit: "kg", 
+        costPrice: 0, 
+        totalStock: 0, 
+        image: null, 
+        description: "",
+        volume: null,      // Qo'shildi
+        volumeUnit: 'L'    // Qo'shildi
+    });
+    // Xatoliklarni ham tozalash
+    Object.keys(errors).forEach(key => errors[key] = false);
 };
 
 const handleClose = () => { store.closeAddModal(); resetForm(); };
 
 watch(selectedMaterial, (val) => {
-    if (val) Object.assign(form, JSON.parse(JSON.stringify(val)));
-    else resetForm();
+    if (val) {
+        // Ob'ektni chuqur nusxalash, lekin File ob'ektlarini saqlab qolish
+        Object.keys(form).forEach(key => {
+            form[key] = val[key] !== undefined ? val[key] : form[key];
+        });
+    } else {
+        resetForm();
+    }
 }, { immediate: true });
 
 watch(() => form.type, (newType) => {
@@ -157,12 +184,67 @@ watch(() => form.type, (newType) => {
 const needsVolume = computed(() => ['pkg_plastic', 'ingredient_liquid'].includes(form.type));
 const formatPrice = (v) => new Intl.NumberFormat('uz-UZ', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(v || 0);
 
+// Modal komponentingiz ichida
 const submitForm = async () => {
-    if (!form.type || !form.name || form.costPrice <= 0) {
-        toast.warning("Ma'lumotlarni to'liq kiriting!");
+    // Validatsiya
+    errors.type = !form.type;
+    errors.name = !form.name;
+    errors.costPrice = !form.costPrice || form.costPrice <= 0;
+    if (!form._id) errors.totalStock = form.totalStock < 0;
+
+    if (Object.values(errors).some(e => e)) {
+        toast.warning("Majburiy maydonlarni to'ldiring!");
         return;
     }
-    const success = await store.saveRawMaterial({ ...form });
-    if (success) handleClose();
+
+    try {
+        const payload = { ...form };
+        
+        // Agar hajm kerak bo'lmasa, uni yubormaymiz
+        if (!needsVolume.value) {
+            delete payload.volume;
+            delete payload.volumeUnit;
+        }
+
+        if (form.image instanceof File) {
+            payload.image = await fileToBase64(form.image);
+        }
+
+        const success = await store.saveRawMaterial(payload);
+        if (success) {
+            toast.success(form._id ? "O'zgarishlar saqlandi" : "Yangi resurs qo'shildi");
+            handleClose();
+        }
+    } catch (err) {
+        toast.error("Amalni bajarishda xatolik yuz berdi");
+    }
+};
+// script setup ichiga qo'shing
+const isDirty = computed(() => {
+    if (!form._id) return true;
+    const original = selectedMaterial.value;
+    if (!original) return false;
+
+    // Rasm o'zgarganini tekshirish (File obyekti bo'lsa demak yangi yuklangan)
+    const imageChanged = (form.image instanceof File) || (form.image !== original.image);
+
+    return (
+        form.name !== original.name ||
+        form.type !== original.type ||
+        form.unit !== original.unit ||
+        form.costPrice !== original.costPrice ||
+        form.description !== (original.description || "") ||
+        form.volume != original.volume || // != ishlatish null vs 0 muammosini kamaytiradi
+        form.volumeUnit !== original.volumeUnit ||
+        imageChanged
+    );
+});
+const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
 };
 </script>
