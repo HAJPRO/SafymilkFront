@@ -151,6 +151,17 @@ export const PricePrinterTemplateStore = defineStore('PricePrinterTemplateStore'
     closeTemplateModal() {
       this.isAddModalOpen = false;
       this.currentTemplate = null;
-    }
+    },
+
+     async sendToPrintBulk(payload) {
+      try {
+       const respons = await PricePrinterTemplateService.sendToPrintBulk(payload)
+       console.log(respons)
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Serverda xatolik");
+        return false;
+      } finally {
+      }
+    },
   }
 });

@@ -43,5 +43,10 @@ export const PricePrinterTemplateService = {
         return api.post(url, payload || {});
     },
 
+      sendToPrintBulk(payload) {
+        let url = `${BaseUrl}/printing`;
+        return api.post(url, payload || []);
+    },
+
   
 };

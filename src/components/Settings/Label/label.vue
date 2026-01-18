@@ -359,19 +359,56 @@ const clearQueue = () => {
   globalQuantity.value = null;
 };
 
+// 1. Loading holati uchun o'zgaruvchi
+// const isPrinting = ref(false);
+
 const handleBulkPrint = async () => {
-  if (!printQueue.value.length) return;
-  
+  if (!printQueue.value.length) {
+    // Bu yerda o'zingizni Notification tizimingizni ishlating (masalan, $toast)
+    alert("Navbat bo'sh!"); 
+    return;
+  }
+
+  if (!form.templateId) {
+    alert("Iltimos, shablonni tanlang!");
+    openTemplateModal();
+    return;
+  }
+
+  // 2. Loadingni yoqamiz
+  // isPrinting.value = true;
+
+  // Ma'lumotlarni yig'ish (Siz ko'rsatgan obyekt)
   const payload = {
-    items: printQueue.value.map(i => ({ id: i.id, quantity: i.quantity })),
+    templateId: form.templateId,
+    printerConfig: printerStore.settings?.labelPrinter || null,
     settings: { ...form },
-    printer: printerStore.settings?.selectedPrinter
+    items: printQueue.value.map(i => ({
+      _id: i._id,
+      name: i.name,
+      code: i.code,
+      qr: i.qr, // Base64 rasm ketadi
+      price: i.costPrice,
+      quantity: i.quantity,
+      unit: i.unit
+    }))
   };
-  
+
   try {
-    await printerStore.sendToPrintBulk(payload);
+    // 3. Store orqali yuborish
+    const response = await printerStore.sendToPrintBulk(payload);
+    
+    // 4. Muvaffaqiyatli bo'lsa
+    if (response) {
+      console.log("Chop etish muvaffaqiyatli yakunlandi");
+      // Ixtiyoriy: printQueue.value = []; // Savatni tozalash
+    }
   } catch (error) {
     console.error("Chop etishda xatolik:", error);
+    alert("Chop etishda xatolik yuz berdi. Printer ulanishini tekshiring.");
+  } finally {
+    // 5. Har qanday holatda ham loadingni o'chiramiz
+    // isPrinting.value = false;
   }
 };
 
