@@ -67,7 +67,7 @@
   <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-3">
     <template v-if="activeListTab === 'products'">
    <div 
-  v-for="item in filteredProducts" :key="item.id" 
+  v-for="item in filteredProducts" :key="item._id" 
   @click="addToQueue(item)"
   class="p-3 rounded-[1.8rem] bg-white dark:bg-slate-800 border border-transparent hover:border-indigo-500/50 shadow-sm cursor-pointer transition-all active:scale-[0.98] group relative overflow-hidden"
 >
@@ -337,7 +337,7 @@ const handleKeyup = (e) => {
 };
 
 const addToQueue = (product) => {
-  const existing = printQueue.value.find(p => p.id === product.id);
+  const existing = printQueue.value.find(p => p._id === product._id);
   if (existing) {
     existing.quantity++;
   } else {
