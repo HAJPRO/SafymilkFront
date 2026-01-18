@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
-import { SupplyInboundService } from "../../../ApiServices/Supply/inbound/inbound.service";
+import { AccessoriesInboundService } from "../../../ApiServices/Supply/accessories/inputinbound.service";
 import { useToast } from "../../../UI/utils/useToast";
 import { Loading } from "../../../utils/Loading";
 const loading = Loading();
 const { toast } = useToast();
 
-export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
+export const AccessoriesInputboundStore = defineStore('AccessoriesInputboundStore', {
   state: () => ({
     inbounds: [], // Barcha kirimlar ro'yxati
     document: {
@@ -22,7 +22,15 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
   }),
 
   getters: {
-    totalSum: (state) => state.document.items.reduce((acc, item) => acc + (item.qty * (item.costPrice || 0)), 0),
+   totalSum: (state) => {
+    // items mavjudligini va massivligini qat'iy tekshiramiz
+    const items = state.document?.items || [];
+    return items.reduce((sum, item) => {
+      const price = Number(item.costPrice) || 0;
+      const qty = Number(item.qty) || 0;
+      return sum + (price * qty);
+    }, 0);
+  },
     itemsCount: (state) => state.document.items.length,
   },
 
@@ -31,7 +39,8 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
     async GetAll(params = {}) {
  const loader  = loading.show();
       try {
-        const res = await SupplyInboundService.GetAll(params);
+        const res = await AccessoriesInboundService.GetAll(params);
+        console.log(res.data.data)
         this.document = res.data.data;
       } catch (error) {
         toast.error("Ro'yxatni yuklashda xatolik!");
@@ -86,7 +95,7 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
       }
       this.isSubmitting = true;
       try {
-        await SupplyInboundService.Create(this.document);
+        await AccessoriesInboundService.Create(this.document);
         this.clearDocument();
         toast.success("Muvaffaqiyatli saqlandi!");
         return true;
@@ -114,7 +123,7 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
       try {
         // API Service orqali backendga yuborish
         // Payload tarkibi: { inboundBatchIds, labResults, distribution, totalPhysicalVolume }
-        const response = await SupplyInboundService.SaveLabResult(payload);
+        const response = await AccessoriesInboundService.SaveLabResult(payload);
 
         if (response.status === 200 || response.data?.success) {
           toast.success("Laboratoriya xulosasi va taqsimot muvaffaqiyatli saqlandi!");

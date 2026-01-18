@@ -131,12 +131,12 @@ const routes = [
     },
     {
       path: 'inventory',
-      name: 'AccessoryInventory',
-      component: () => import('../components/Supply/accessories/Tabel.vue')
+      name: `Kirim ro'yxati`,
+      component: () => import('../components/Supply/inboundhistorys/Table.vue')
     },
     {
       path: 'add',
-      name: 'AccessoryAdd',
+      name: 'Kirim qilish',
       component: () => import('../components/Supply/accessories/InputAccessory.vue')
     }
   ]
@@ -147,6 +147,20 @@ const routes = [
         path: "laboratory/rawmaterial", 
         name: "Xomashyo analiz", 
         component: () => import("../pages/Explore/Laboratory/rawmaterial/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
+       { 
+        path: "laboratory/analitic", 
+        name: "Laboratoriya analitik", 
+        component: () => import("../pages/Explore/Laboratory/analitic/index.vue"),
+        meta: { role: ["40", "1000", "2000"] } 
+      },
+
+       // Settings
+      { 
+        path: "settings/label", 
+        name: "Yorliq", 
+        component: () => import("../pages/Explore/Settings/label/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
        { 

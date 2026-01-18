@@ -1195,6 +1195,15 @@
                   class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
                   :class="!parentLink.expanded && 'hidden'"
                 >
+                 <li>
+                    <router-link
+                      :to="{ name: 'Yorliq' }"
+                       active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium">Yorliq</span>
+                    </router-link>
+                  </li>
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"

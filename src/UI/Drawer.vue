@@ -57,7 +57,7 @@ onUnmounted(() => {
         leave-to-class="opacity-0"
       >
         <div 
-          class="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] transition-opacity" 
+          class="absolute inset-0 bg-transparent backdrop-blur-[2px] transition-opacity" 
           @click="close" 
         />
       </Transition>
@@ -77,7 +77,7 @@ onUnmounted(() => {
           class="duration-500"
         >
           <div 
-            class="flex h-full w-full flex-col bg-white dark:bg-[#040507] shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] border-l dark:border-white/5"
+            class="flex h-full w-full flex-col bg-white/90 dark:bg-[#0f172a]/90 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] border-l dark:border-white/5"
             @click.stop
           >
             

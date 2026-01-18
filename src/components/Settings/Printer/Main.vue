@@ -4,7 +4,7 @@
       <template v-slot:title>
         <h3 class="font-black italic tracking-tight flex items-center">
           <i class="fa-solid fa-gem mr-3 text-indigo-500"></i>
-          Aksessuarlar boshqaruvi
+          Printer sozlamalari
         </h3>
       </template>
     </Title>

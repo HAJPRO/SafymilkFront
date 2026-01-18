@@ -4,6 +4,9 @@
     @close="themeSidebarOpen = false"
     class="z-[150] transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
   />
+   <SettingDrawer class="absolute inset-0 z-0 pointer-events-none opacity-25 dark:opacity-10" v-model="settingOpen" 
+  title="Sozlamalar" 
+  subtitle="Printer va tizim parametrlarini boshqarish" />
 
   <header class="sticky top-0 z-[50] w-full select-none transition-all duration-700">
     <div class="absolute inset-0 bg-white/60 dark:bg-[#020617]/80 backdrop-blur-[30px] border-b border-slate-200/50 dark:border-white/5 shadow-sm transition-all duration-700"></div>
@@ -11,6 +14,7 @@
     <div class="absolute -top-16 left-1/3 w-1/3 h-32 bg-indigo-500/10 dark:bg-indigo-400/10 blur-[120px] rounded-full animate-pulse pointer-events-none transition-opacity duration-1000"></div>
     
     <HeaderAnimatsion class="absolute inset-0 z-0 pointer-events-none opacity-25 dark:opacity-10" :season="selectedAnimationTheme" />
+   
 
     <div class="relative z-10 px-4 lg:px-12">
       <div class="flex items-center justify-between h-16 sm:h-20 gap-4">
@@ -152,6 +156,7 @@ import ThemeSidebar from "./Settings/ThemeSidebar.vue";
 import HeaderAnimatsion from "./Settings/HeaderAnimatsion.vue";
 import SearchModal from "../components/ModalSearch.vue";
 import UserMenu from "../components/DropdownProfile.vue";
+import SettingDrawer from "../components/Settings/Printer/SettingDrawe.vue";
 
 const props = defineProps(["sidebarOpen"]);
 const emit = defineEmits(["toggle-sidebar"]);
@@ -159,6 +164,7 @@ const emit = defineEmits(["toggle-sidebar"]);
 const router = useRouter();
 const route = useRoute();
 const themeSidebarOpen = ref(false);
+const settingOpen = ref(false);
 const dropdownOpen = ref(false);
 const dropdownRef = ref(null);
 const searchModalOpen = ref(false);
@@ -245,9 +251,9 @@ onMounted(() => {
 
 // --- 7. NAVIGATION ACTIONS ---
 const handleMobileAction = (action) => {
-  console.log(action)
   dropdownOpen.value = false;
   if (action === "theme") themeSidebarOpen.value = true;
+  if (action === "settings") settingOpen.value = true;
   else if (action === "search") searchModalOpen.value = true;
 };
 
@@ -257,6 +263,7 @@ const goReload = () => window.location.reload();
 const goToTab = (path) => router.push(path);
 
 const actions = [
+  { value: "settings", label: "Sozlamalar", icon: "fa-solid fa-wrench" },
   { value: "edo", label: "Hujjatlar", icon: "fa-solid fa-folder-tree" },
   { value: "chat", label: "Xabarlar", icon: "fa-solid fa-comments" },
   { value: "search", label: "Qidiruv", icon: "fa-solid fa-magnifying-glass" },
