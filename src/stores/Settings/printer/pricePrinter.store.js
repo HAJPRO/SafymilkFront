@@ -46,7 +46,7 @@ export const PricePrinterTemplateStore = defineStore('PricePrinterTemplateStore'
 
     async fetchPrinters() {
         const response = await PricePrinterTemplateService.GetAllPrinter();
-        console.log(response)
+        console.log(response.data.data.data)
       this.printers = response.data.data.data
     },
 
