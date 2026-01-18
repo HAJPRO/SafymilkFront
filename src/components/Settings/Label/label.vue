@@ -29,14 +29,15 @@
     </div>
   </template>
 </AppModal>
-    <div class="shrink-0 p-4 bg-white dark:bg-slate-800 border-b border-slate-100 dark:border-slate-700 shadow-sm z-10">
-      <div class="max-w-[1600px] mx-auto">
+    <div class="shrink-0 p-1 bg-white dark:bg-transparent border-b border-slate-100 dark:border-slate-700 shadow-sm z-10">
+      <div class="">
         <AppInput 
           v-model="searchQuery" 
           placeholder="Mahsulot nomi yoki shtrix-kod orqali qidirish..." 
-          prefix-icon="fa-solid fa-magnifying-glass"
-          class="!rounded-2xl shadow-sm"
+          icon-pre="fa-solid fa-search"
+          :size="md"
           @keyup="handleKeyup"
+          class=""
         />
       </div>
     </div>
@@ -48,7 +49,7 @@
   
   <div class="bg-white dark:bg-slate-800 p-1.5 rounded-[1.5rem] shadow-sm border border-slate-100 dark:border-slate-700 flex items-center shrink-0">
     <button 
-      v-for="tab in ['products', 'agents']" 
+      v-for="tab in ['products', 'counterparties']" 
       :key="tab"
       @click="activeListTab = tab"
       :class="[
@@ -65,37 +66,59 @@
 
   <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-3">
     <template v-if="activeListTab === 'products'">
-      <div 
-        v-for="item in filteredProducts" :key="item.id" 
-        @click="addToQueue(item)"
-        class="p-4 rounded-[1.8rem] bg-white dark:bg-slate-800 border border-transparent hover:border-indigo-500/50 shadow-sm cursor-pointer transition-all active:scale-[0.98] group relative overflow-hidden"
-      >
-        <div class="flex justify-between items-start">
-          <div class="flex-1">
-            <h3 class="text-[13px] font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-indigo-600 transition-colors italic">
-              {{ item.name }}
-            </h3>
-            <p class="text-[10px] text-slate-400 mt-1 font-mono tracking-tighter italic uppercase">{{ item.barcode }}</p>
-            <div class="mt-3">
-              <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-lg text-[9px] font-black text-slate-500 uppercase">
-                <i class="fa-solid fa-box mr-1 opacity-60"></i> {{ item.stock }} {{ item.unit }}
-              </span>
-            </div>
-          </div>
-          <div class="text-right shrink-0">
-            <div class="text-[13px] font-black text-slate-800 dark:text-white">{{ item.price?.toLocaleString() }}</div>
-            <div class="text-[8px] font-bold text-slate-400 uppercase italic">SUM</div>
-          </div>
+   <div 
+  v-for="item in filteredProducts" :key="item.id" 
+  @click="addToQueue(item)"
+  class="p-3 rounded-[1.8rem] bg-white dark:bg-slate-800 border border-transparent hover:border-indigo-500/50 shadow-sm cursor-pointer transition-all active:scale-[0.98] group relative overflow-hidden"
+>
+  <div class="flex gap-4 items-center">
+    <div class="relative w-16 h-16 shrink-0 overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700">
+      <img 
+        :src="item.image || '/placeholder-product.png'" 
+        :alt="item.name"
+        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+      />
+      <div v-if="item.stock <= 0" class="absolute inset-0 bg-white/60 dark:bg-black/60 flex items-center justify-center">
+        <span class="text-[7px] font-black uppercase bg-red-500 text-white px-1.5 py-0.5 rounded-full">Yo'q</span>
+      </div>
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <div class="flex justify-between items-start">
+        <div class="flex-1 pr-2">
+          <h3 class="text-[12px] font-bold text-slate-700 dark:text-slate-200 leading-tight group-hover:text-indigo-600 transition-colors italic truncate">
+            {{ item.name }}
+          </h3>
+          <p class="text-[9px] text-slate-400 mt-0.5 font-mono tracking-tighter italic uppercase line-clamp-1">
+            Kod: {{ item.code }}
+          </p>
         </div>
-        <div class="absolute right-0 bottom-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <i class="fa-solid fa-circle-plus text-indigo-500 text-lg"></i>
+        
+        <div class="text-right shrink-0">
+          <div class="text-[13px] font-black text-slate-800 dark:text-white leading-none">
+            {{ item.costPrice?.toLocaleString() }}
+          </div>
+          <div class="text-[8px] font-bold text-slate-400 uppercase italic mt-1">SUM</div>
         </div>
       </div>
+
+      <div class="mt-2 flex items-center justify-between">
+        <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded-lg text-[9px] font-black text-slate-500 uppercase flex items-center gap-1">
+          <i class="fa-solid fa-box opacity-60"></i> {{ item.stock }} {{ item.unit }}
+        </span>
+        
+        <div class="opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
+           <i class="fa-solid fa-circle-plus text-indigo-500 text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     </template>
 
     <template v-else>
       <div 
-        v-for="agent in agents" :key="agent.id"
+        v-for="agent in counterparties" :key="agent.id"
         class="p-4 rounded-[1.8rem] bg-white dark:bg-slate-800 border border-transparent hover:border-emerald-500/50 shadow-sm cursor-pointer transition-all active:scale-[0.98] group relative"
       >
         <div class="flex items-center gap-4">
@@ -103,8 +126,12 @@
             <i class="fa-solid fa-user-tie"></i>
           </div>
           <div class="flex-1">
-            <h3 class="text-[12px] font-black text-slate-700 dark:text-slate-200 uppercase italic tracking-tight">{{ agent.name }}</h3>
-            <p class="text-[10px] text-slate-400 mt-0.5">{{ agent.phone }}</p>
+            <h3 class="text-[12px] font-black text-slate-700 dark:text-slate-200 uppercase italic tracking-tight">{{ agent.fullname }}</h3>
+            <div class="flex justify-between">
+            <p class="text-[10px] text-slate-400 mt-0.5">{{ agent.code }}</p>
+
+            <p class="text-[10px] text-slate-400 mt-0.5">{{ agent.phoneNumber }}</p>
+            </div>
           </div>
           <div class="text-right">
             <span class="text-[9px] font-black text-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-lg uppercase">Faol</span>
@@ -130,45 +157,67 @@
           </div>
 
           <div class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar bg-slate-50/20 dark:bg-transparent">
-            <transition-group name="queue-list">
-              <div v-for="(q, index) in printQueue" :key="q.id" 
-                class="group relative flex items-center gap-4 p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[1.8rem] shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-300">
-                
-                <div class="flex-1 min-w-0">
-                  <div class="text-[12px] font-black text-slate-700 dark:text-slate-200 truncate leading-tight tracking-tight italic">{{ q.name }}</div>
-                  <div class="text-[9px] text-slate-400 font-mono mt-1 uppercase">{{ q.barcode }}</div>
-                </div>
+  <transition-group name="queue-list">
+    <div v-for="(q, index) in printQueue" :key="q.id" 
+      class="group relative flex items-center gap-3 p-3 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[1.8rem] shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-300">
+      
+      <div class="relative w-12 h-12 shrink-0 overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+        <img 
+          :src="q.image || '/placeholder-product.png'" 
+          :alt="q.name"
+          class="w-full h-full object-cover"
+        />
+      </div>
 
-                <div class="flex items-center bg-slate-50 dark:bg-slate-800 rounded-2xl p-0.5 border border-slate-100 dark:border-slate-700 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-inner">
-                  <button @click="q.quantity > 1 ? q.quantity-- : removeFromQueue(index)"
-                    :class="['w-8 h-8 flex items-center justify-center rounded-xl transition-all', q.quantity === 1 ? 'text-red-400' : 'text-slate-400']">
-                    <i :class="['fa-solid', q.quantity === 1 ? 'fa-trash-can text-[11px]' : 'fa-minus text-[10px]']"></i>
-                  </button>
-                  <input v-model.number="q.quantity" type="number" @focus="$event.target.select()" 
-                    class="w-10 text-center text-[14px] font-black bg-transparent border-none outline-none text-slate-800 dark:text-white" />
-                  <button @click="q.quantity++" class="w-8 h-8 flex items-center justify-center rounded-xl text-indigo-500 hover:text-indigo-600 transition-colors">
-                    <i class="fa-solid fa-plus text-[10px]"></i>
-                  </button>
-                </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[11px] font-black text-slate-700 dark:text-slate-200 truncate leading-tight tracking-tight italic uppercase">
+          {{ q.name }}
+        </div>
+        <div class="flex items-center gap-3 mt-1">
+          <span class="text-[8px] text-slate-400 font-mono uppercase bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded-md border border-slate-100 dark:border-slate-700">
+            Kod: {{ q.code }}
+          </span>
+          <span class="text-[9px] text-indigo-500 font-black italic">
+            {{ q.costPrice?.toLocaleString() }} <small class="text-[7px]">SUM</small>
+          </span>
+        </div>
+      </div>
 
-                <button @click="removeFromQueue(index)" class="absolute -right-1 -top-1 w-5 h-5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-md flex items-center justify-center">
-                  <i class="fa-solid fa-xmark text-[10px]"></i>
-                </button>
-              </div>
-            </transition-group>
+      <div class="flex items-center bg-slate-50 dark:bg-slate-800 rounded-2xl p-0.5 border border-slate-100 dark:border-slate-700 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all shadow-inner shrink-0">
+        <button @click="q.quantity > 1 ? q.quantity-- : removeFromQueue(index)"
+          :class="['w-7 h-7 flex items-center justify-center rounded-xl transition-all', q.quantity === 1 ? 'text-red-400 hover:bg-red-50' : 'text-slate-400 hover:text-indigo-500']">
+          <i :class="['fa-solid', q.quantity === 1 ? 'fa-trash-can text-[10px]' : 'fa-minus text-[9px]']"></i>
+        </button>
+        
+        <input v-model.number="q.quantity" type="number" @focus="$event.target.select() " 
+          class="w-16 text-center text-[12px] font-black bg-transparent border-none outline-none text-slate-800 dark:text-white rounded-xl" />
+        
+        <button @click="q.quantity++" class="w-7 h-7 flex items-center justify-center rounded-xl text-indigo-500 hover:bg-indigo-50 transition-colors">
+          <i class="fa-solid fa-plus text-[9px]"></i>
+        </button>
+      </div>
 
-            <div v-if="!printQueue.length" class="h-full flex flex-col items-center justify-center text-slate-300 opacity-40 italic py-20">
-              <i class="fa-solid fa-receipt text-5xl mb-3"></i>
-              <p class="text-[10px] font-black uppercase text-center">Navbat bo'sh</p>
-            </div>
-          </div>
+      <button @click="removeFromQueue(index)" class="absolute -right-1 -top-1 w-5 h-5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all shadow-md flex items-center justify-center hover:scale-110 active:scale-90">
+        <i class="fa-solid fa-xmark text-[10px]"></i>
+      </button>
+    </div>
+  </transition-group>
+
+  <div v-if="!printQueue.length" class="h-full flex flex-col items-center justify-center text-slate-300 opacity-40 italic py-20">
+    <div class="relative mb-4">
+      <i class="fa-solid fa-receipt text-6xl"></i>
+      <i class="fa-solid fa-slash absolute inset-0 text-red-400 opacity-50 scale-150"></i>
+    </div>
+    <p class="text-[10px] font-black uppercase text-center tracking-[0.2em]">Navbat hozircha bo'sh</p>
+  </div>
+</div>
         </div>
 
         <div class="md:col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-4 order-3">
-          <AppButton theme="indigo" class="!py-7 !rounded-[2rem] shadow-xl shrink-0 transition-transform active:scale-95" @click="openTemplateModal">
+          <AppButton variant="primary" class="!py-7 !rounded-2xl shadow-sm shrink-0 transition-transform active:scale-95" @click="openTemplateModal">
             <div class="flex flex-col items-center gap-1">
-              <span class="uppercase font-black text-[10px] tracking-widest italic leading-none">Shablon tanlash</span>
-              <span class="text-[9px] opacity-60 font-medium tracking-tight mt-1 text-center">Hozirgi: {{ currentTemplateName }}</span>
+              <span class="uppercase font-black text-[12px] tracking-widest italic leading-none">Shablon tanlash</span>
+              <span class="text-[12px] opacity-60 font-medium tracking-tight mt-1 text-center">Hozirgi: {{ currentTemplateName }}</span>
             </div>
           </AppButton>
 
@@ -200,15 +249,14 @@
           </div>
 
           <AppButton 
-            theme="success" 
-            class="!py-10 !rounded-[2.5rem] shadow-2xl mt-auto group relative overflow-hidden shrink-0 transition-transform active:scale-95"
+            variant="primary" class="!py-7 !rounded-2xl shadow-sm shrink-0 transition-transform active:scale-95"
             :disabled="!printQueue.length"
             @click="handleBulkPrint"
           >
             <div class="flex items-center justify-center gap-4 relative z-10">
               <i class="fa-solid fa-print text-3xl group-hover:scale-110 transition-transform duration-300"></i>
               <div class="flex flex-col items-start leading-none text-left">
-                <span class="font-black uppercase tracking-tight text-xl italic leading-none">Chop etish</span>
+                <span class="font-black uppercase tracking-tight text-sm italic leading-none">Chop etish</span>
                 <span class="text-[9px] mt-1 opacity-80 font-bold uppercase tracking-widest">{{ totalCopies }} dona etiketka</span>
               </div>
             </div>
@@ -222,15 +270,21 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch,onMounted } from 'vue';
 import { PricePrinterTemplateStore } from "../../../stores/Settings/printer/pricePrinter.store";
+import { ProductsManagmentStore } from "../../../stores/Sale/products/product.store";
+import { CounterpartyStore } from "../../../stores/Supply/counterparty/counterparty.store";
 import AppInput from "../../../UI/Input.vue";
 import AppSelect from "../../../UI/Select.vue";
 import AppButton from "../../../UI/Button.vue";
 import AppModal from "../../../UI/Modal.vue";
 import LabelSettings from "../../../components/Settings/Printer/LabelSettings.vue";
-
+import { storeToRefs } from "pinia";
 const printerStore = PricePrinterTemplateStore();
+const productStore = ProductsManagmentStore();
+const counterpartyStore = CounterpartyStore();
+const { products } = storeToRefs(productStore);
+const {counterparties } = storeToRefs(counterpartyStore);
 
 // --- STATE ---
 const searchQuery = ref('');
@@ -242,31 +296,12 @@ const form = reactive({
   currency: 'SUM'
 });
 
-// --- MOCK DATA ---
-const products = ref([
-  { id: 1, name: 'бальзам для волос Carbon', barcode: '4780021894333', price: 45000, stock: 2, unit: 'шт' },
-  { id: 2, name: 'Dada leto Nok Kivi 0.5l', barcode: '4870001573072', price: 7990, stock: 12, unit: 'dona' },
-  { id: 3, name: 'Crafers, Глазурланмаган лимон таъмли ёгли', barcode: '4780059605888', price: 11990, stock: 5, unit: 'штук' },
-  { id: 4, name: 'Batton Lazzat Moskovskiy', barcode: '2100000055623', price: 4500, stock: 8, unit: 'шт' },
-  { id: 5, name: 'бальзам для волос Carbon', barcode: '4780021894333', price: 45000, stock: 2, unit: 'шт' },
-  { id: 6, name: 'бальзам для волос Carbon', barcode: '4780021894333', price: 45000, stock: 2, unit: 'шт' },
-  { id: 7, name: 'Dada leto Nok Kivi 0.5l', barcode: '4870001573072', price: 7990, stock: 12, unit: 'dona' },
-  { id: 8, name: 'Crafers, Глазурланмаган лимон таъмли ёгли', barcode: '4780059605888', price: 11990, stock: 5, unit: 'штук' },
-  { id: 9, name: 'Batton Lazzat Moskovskiy', barcode: '2100000055623', price: 4500, stock: 8, unit: 'шт' },
-  { id: 10, name: 'бальзам для волос Carbon', barcode: '4780021894333', price: 45000, stock: 2, unit: 'шт' },
-]);
+
+
 // Qaysi tab faolligini saqlaydi
 const activeListTab = ref('products');
 
-// Kontragentlar uchun mock ma'lumotlar
-const agents = ref([
-  { id: 1, name: 'Premium Trade LLC', phone: '+998 90 123 45 67' },
-  { id: 2, name: 'Sarvar Aliyev (Mijoz)', phone: '+998 99 888 77 66' },
-  { id: 3, name: 'Global Food Import', phone: '+998 71 200 11 22' },
-    { id: 4, name: 'Premium Trade LLC', phone: '+998 90 123 45 67' },
-  { id: 5, name: 'Sarvar Aliyev (Mijoz)', phone: '+998 99 888 77 66' },
-  { id: 6, name: 'Global Food Import', phone: '+998 71 200 11 22' },
-]);
+
 const warehouses = [{ label: 'Основной', value: 'Main' }];
 const priceTypes = [{ label: 'Цена для продажи', value: 'Retail' }];
 const currencies = [{ label: 'SUM', value: 'SUM' }];
@@ -389,6 +424,11 @@ const saveTemplateSettings = async () => {
     console.error("Shablonni saqlashda xatolik:", error);
   }
 };
+onMounted(()=>{
+  productStore.GetAll(),
+  counterpartyStore.GetAll()
+
+})
 </script>
 
 <style scoped>
