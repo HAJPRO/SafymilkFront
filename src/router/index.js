@@ -186,7 +186,7 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const token = Cookies.get("token");
+  const token = localStorage.getItem("token");
 
   // 1. Kirish majburiy bo'lgan sahifalar uchun
   if (to.meta.requiresAuth && !token) {
@@ -219,7 +219,7 @@ router.beforeEach((to, from, next) => {
       }
     } catch (e) {
       console.error("JWT Decode error:", e);
-      Cookies.remove("token");
+      localStorage.remove("token");
       return next({ name: "Login" });
     }
   }

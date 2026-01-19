@@ -11,7 +11,7 @@ const loading = Loading();
 export const AuthStore = defineStore("AuthStore", {
     state: () => {
         // Sahifa yangilanganda ham foydalanuvchi ma'lumotlarini saqlab qolamiz
-        const token = Cookies.get("token");
+        const token =  localStorage.setItem("token", res.data.accessToken);
         return {
             user: token ? jwtDecode(token) : null, // Guard aynan shu 'user'ni qidiradi
             items: "",
@@ -30,34 +30,34 @@ export const AuthStore = defineStore("AuthStore", {
             }
         },
 
-        async login(payload) {
-            try {
-                const loader = loading.show();
-                const res = await LoginService.Login(payload);
-                
-                if (res.data && res.data.accessToken) {
-                    // 1. Ma'lumotlarni saqlash
-                    Cookies.set("account", JSON.stringify(res.data.user));
-                    Cookies.set("token", res.data.accessToken);
+       async login(payload) {
+    try {
+        const loader = loading.show();
+        const res = await LoginService.Login(payload);
+        
+        if (res.data && res.data.accessToken) {
+            // 1. LocalStorage orqali saqlash
+            localStorage.setItem("account", JSON.stringify(res.data.user));
+            localStorage.setItem("token", res.data.accessToken);
 
-                    // 2. Store'dagi user'ni yangilash (MUHIM!)
-                    this.user = jwtDecode(res.data.accessToken);
+            // 2. User ma'lumotini yangilash
+            this.user = jwtDecode(res.data.accessToken);
 
-                    loader.hide();
-                    
-                    // 3. Yo'naltirish
-                    window.location.href = "/explore/dashboard/statistic/sale";
-                } else {
-                    this.is_alert = true;
-                    this.items = res.data;
-                    loader.hide();
-                }
-            } catch (err) {
-                loader.hide();
-                console.error("Login xatosi:", err.response?.data?.message || err.message);
-                ToastifyService.ToastError({ msg: "Login yoki parol xato!" });
-            }
-        },
+            loader.hide();
+            
+            // 3. Router orqali sahifaga o'tish
+            this.router.push("/explore/dashboard/statistic/sale"); 
+        } else {
+            this.is_alert = true;
+            this.items = res.data;
+            loader.hide();
+        }
+    } catch (err) {
+        loader.hide();
+        console.error("Login xatosi:", err.response?.data?.message || err.message);
+        ToastifyService.ToastError({ msg: "Login yoki parol xato!" });
+    }
+},
 
         async update(payload) {
             try {
@@ -72,8 +72,8 @@ export const AuthStore = defineStore("AuthStore", {
 
         logout() {
             this.user = null;
-            Cookies.remove("token");
-            Cookies.remove("account");
+            localStorage.remove("token");
+            localStorage.remove("account");
             window.location.href = "/login";
         }
     },
