@@ -270,7 +270,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch,onMounted } from 'vue';
+import { ref, reactive, computed, watch,onMounted,onUnmounted } from 'vue';
 import { PricePrinterTemplateStore } from "../../../stores/Settings/printer/pricePrinter.store";
 import { ProductsManagmentStore } from "../../../stores/Sale/products/product.store";
 import { CounterpartyStore } from "../../../stores/Supply/counterparty/counterparty.store";
@@ -466,6 +466,8 @@ onMounted(()=>{
   counterpartyStore.GetAll()
 
 })
+
+
 </script>
 
 <style scoped>
@@ -484,3 +486,20 @@ onMounted(()=>{
 input::-webkit-outer-spin-button, 
 input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 </style>
+
+
+<!-- <template>
+  <div class="status-panel">
+    <div class="flex items-center gap-2">
+      <div :class="['w-3 h-3 rounded-full', isOnline ? 'bg-green-500' : 'bg-red-500']"></div>
+      <span class="font-bold">
+        Agent Holati: {{ isOnline ? 'Online' : 'Offline' }}
+      </span>
+    </div>
+
+    <div v-if="!isOnline" class="alert-error">
+      Diqqat! {{ storeId }} kompyuteridagi Agent o'chiq. Printerlar bilan aloqa yo'q.
+    </div>
+  </div>
+</template> -->
+

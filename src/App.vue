@@ -59,6 +59,7 @@
 </template>
 
 <script setup>
+  import socketService from './socket/socket';
 import { onMounted, onUnmounted, onBeforeUnmount, ref,provide} from "vue";
 import Cookies from "js-cookie";
 import ToastContainer from "./UI/Toast.vue";
@@ -83,6 +84,7 @@ onMounted(() => {
   
   // Dastlabki tekshiruv
   updateNetworkStatus();
+  socketService.connect();
 });
 
 // onUnmounted hooki bo'sh edi, o'chirilmasligi kerak bo'lgan boshqa listenerlar uchun qoldirildi
