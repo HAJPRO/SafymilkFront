@@ -1769,7 +1769,6 @@
 </template>
 
 <script>
-import Cookies from "js-cookie";
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import SidebarLinkGroup from "./SidebarLinkGroup.vue";
@@ -1800,7 +1799,7 @@ export default {
     const is_settings = ref(false);
 
     // Cookie logic
-    const role = ref(JSON.parse(Cookies.get("account") || "{}").role);
+    const role = ref(JSON.parse(localStorage.getItem("account") || "{}").role);
 
     // --- Sidebar expanded state from localStorage ---
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");

@@ -91,14 +91,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import Cookie from "js-cookie";
 
 const dropdownOpen = ref(false);
 const trigger = ref(null);
 const dropdown = ref(null);
 
 // Get data from cookie
-const account = JSON.parse(Cookie.get("account") || "{}");
+const account = JSON.parse(localStorage.getItem("account") || "{}");
 const username = ref(account.username || "User");
 const department = ref(account.department || "General");
 const fullname = ref(account.fullname || "");
@@ -110,8 +109,8 @@ const menuItems = [
 ];
 
 const logout = () => {
-  Cookie.remove("token");
-  Cookie.remove("account");
+  localStorage.removeItem("token");
+  localStorage.removeItem("account");
   dropdownOpen.value = false;
   // Professional reload logic
   document.body.style.opacity = '0';

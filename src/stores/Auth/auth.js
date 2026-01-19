@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { LoginService } from "../../ApiServices/Auth/login.service.js";
 import { RegisterService } from "../../ApiServices/Auth/register.service.js";
 import { defineStore } from "pinia";
@@ -11,7 +10,8 @@ const loading = Loading();
 export const AuthStore = defineStore("AuthStore", {
     state: () => {
         // Sahifa yangilanganda ham foydalanuvchi ma'lumotlarini saqlab qolamiz
-        const token =  localStorage.setItem("token", res.data.accessToken);
+        const token = localStorage.getItem("token");
+        
         return {
             user: token ? jwtDecode(token) : null, // Guard aynan shu 'user'ni qidiradi
             items: "",
@@ -30,23 +30,26 @@ export const AuthStore = defineStore("AuthStore", {
             }
         },
 
-       async login(payload) {
+      async login(payload) {
     try {
         const loader = loading.show();
         const res = await LoginService.Login(payload);
         
         if (res.data && res.data.accessToken) {
-            // 1. LocalStorage orqali saqlash
-            localStorage.setItem("account", JSON.stringify(res.data.user));
+            // 1. Ma'lumotlarni saqlash
             localStorage.setItem("token", res.data.accessToken);
+            localStorage.setItem("account", JSON.stringify(res.data.user));
 
-            // 2. User ma'lumotini yangilash
+            // 2. Store-ni yangilash
             this.user = jwtDecode(res.data.accessToken);
+            this.is_alert = false;
 
             loader.hide();
             
-            // 3. Router orqali sahifaga o'tish
-            this.router.push("/explore/dashboard/statistic/sale"); 
+            // 3. DARHOL YO'NALTIRISH
+            // Agar this.router ishlamasa, window.location.replace ishlating
+            window.location.replace("/explore/dashboard/statistic/sale");
+            
         } else {
             this.is_alert = true;
             this.items = res.data;
@@ -54,7 +57,7 @@ export const AuthStore = defineStore("AuthStore", {
         }
     } catch (err) {
         loader.hide();
-        console.error("Login xatosi:", err.response?.data?.message || err.message);
+        console.error("Login xatosi:", err);
         ToastifyService.ToastError({ msg: "Login yoki parol xato!" });
     }
 },
@@ -70,11 +73,17 @@ export const AuthStore = defineStore("AuthStore", {
             }
         },
 
-        logout() {
-            this.user = null;
-            localStorage.remove("token");
-            localStorage.remove("account");
-            window.location.href = "/login";
-        }
+   logout() {
+    console.log("Logout boshlandi...");
+    
+    // Avval o'chirishni bajaramiz
+    localStorage.removeItem("token");
+    localStorage.removeItem("account");
+    
+    console.log("LocalStorage tozalandi. Token hozir:", localStorage.getItem("token"));
+
+    this.user = null;
+    window.location.href = "/login";
+}
     },
 });

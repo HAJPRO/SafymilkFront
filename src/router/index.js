@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ExploreLayout from "../layouts/ExploreView.vue";
 import LandingLayout from "../layouts/LandingView.vue";
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; 
 
 const routes = [
@@ -187,39 +186,40 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
-
-  // 1. Kirish majburiy bo'lgan sahifalar uchun
-  if (to.meta.requiresAuth && !token) {
+  // 1. Agar sahifa login talab qilsa va token bo'lmasa
+  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
     return next({ name: "Login" });
   }
 
-  // 2. Login qilgan foydalanuvchini Login sahifasiga qaytarmaslik
+  // 2. Login qilgan odamni yana login sahifasiga yubormaslik
   if (to.meta.guestOnly && token) {
-    return next({ name: "Explore" });
+    return next({ name: "StatisticSale" }); // Explore emas, ichki sahifaga yo'naltirish aniqroq
   }
 
   // 3. Rol tekshiruvi
   if (token) {
     try {
       const decoded = jwtDecode(token);
-      // Tokendan kelgan rollarni string massiviga aylantiramiz
-      const userRoles = Array.isArray(decoded.roles) ? decoded.roles.map(String) : [];
+      
+      // JWT muddati tugaganini tekshirish (ixtiyoriy lekin muhim)
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+        localStorage.removeItem("token");
+        return next({ name: "Login" });
+      }
+
+      const userRoles = Array.isArray(decoded.roles) ? decoded.roles.map(String) : [String(decoded.roles)];
 
       if (to.meta.role) {
-        // Meta dagi rolni massiv holatiga keltiramiz (xoh string bo'lsin, xoh massiv)
         const requiredRoles = Array.isArray(to.meta.role) ? to.meta.role.map(String) : [String(to.meta.role)];
-        
-        // Foydalanuvchi rollaridan biri kutilayotgan rollar ichida bormi?
-        const hasAccess = requiredRoles.some(r => userRoles.includes(r));
+        const hasAccess = requiredRoles.some(role => userRoles.includes(role));
 
         if (!hasAccess) {
-          console.warn("Ruxsat etilmadi: Rol mos kelmadi");
-          return next({ name: "Explore" }); // Ruxsat bo'lmasa asosiy sahifaga
+          return next({ name: "notfound" }); // Ruxsat bo'lmasa 404 yoki maxsus 403 sahifaga
         }
       }
     } catch (e) {
-      console.error("JWT Decode error:", e);
-      localStorage.remove("token");
+      localStorage.removeItem("token");
       return next({ name: "Login" });
     }
   }

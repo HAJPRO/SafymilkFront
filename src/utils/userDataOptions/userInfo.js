@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 
 /**
  * Cookie ichidan account ma'lumotlarini olish
@@ -7,7 +6,7 @@ import Cookies from "js-cookie";
  * @returns {Object|null} faqat so‘ralgan maydonlardan iborat obyekt yoki null
  */
 export function getAccountFields(fields = []) {
-  const raw = Cookies.get("account");
+  const raw = localStorage.getItem("account");
   if (!raw) return null;
 
   let account;
