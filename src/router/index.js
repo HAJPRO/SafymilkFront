@@ -11,7 +11,7 @@ const routes = [
     component: LandingLayout,
     meta: { guestOnly: true },
     children: [
-      { path: "", name: "landingPage", component: () => import("../pages/Landing/index.vue") },
+      { path: "", name: "landingPage", component: () => import("../pages/Landing/Login.vue") },
       { path: "register", name: "Register", component: () => import("../pages/Landing/Register.vue") },
       { path: "login", name: "Login", component: () => import("../pages/Landing/Login.vue") },
     ],
