@@ -71,13 +71,13 @@
       "output": "dist_electron"
     },
     "files": [
-     "dist/**/*",
-     "electron/**/*", 
-     "electron/main.js",
+    "dist/**/*",
+      "electron/**/*",
       "package.json"
     ],
     "win": {
       "target": "nsis"
-    }
+    },
+    "asar": true
   }
 }

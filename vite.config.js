@@ -1,54 +1,61 @@
-import { fileURLToPath, URL } from "url";
+import { fileURLToPath, URL } from "node:url"; // url o'rniga node:url tavsiya etiladi
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  darkMode: "class", // yoki 'media'
-  server: {
-    host: "0.0.0.0",
-    port: 5173, // kerakli port
-  },
-  define: {
-    "process.env": {}, // yoki "import.meta.env" ni ishlatishingiz mumkin
-  },
- plugins: [vue()],
- base: process.env.NODE_ENV === 'production' ? './' : '/',
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    // MIME xatoligini oldini olish uchun emptyOutDir muhim
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 1600, // Limitni oshirib qo'yamiz
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+export default defineConfig(({ command, mode }) => {
+  return {
+    // Electron va Mobile (Capacitor) uchun './' juda muhim. 
+    // Webda ham muammosiz ishlashi uchun nisbiy yo'lni qoldiramiz.
+    base: './',
+
+    server: {
+      host: "0.0.0.0",
+      port: 5173,
+    },
+
+    define: {
+      "process.env": {},
+    },
+
+    plugins: [vue()],
+
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        // Agar ~ belgisi bilan muammo bo'lsa, shunday qoldiring:
+        "~": fileURLToPath(new URL("./node_modules", import.meta.url)),
+      },
+    },
+
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      emptyOutDir: true,
+      chunkSizeWarningLimit: 2000,
+      
+      // CommonJS modullarini (masalan, ayrim Electron paketlarini) to'g'ri o'qish uchun
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
+
+      rollupOptions: {
+        // MIME xatolarini oldini olish uchun external-ni ehtiyotkorlik bilan ishlating
+        external: ["emoji-mart-vue-fast/data/all.json"],
+        
+        output: {
+          // Fayl nomlarida chalkashlik bo'lmasligi uchun tartiblaymiz
+          entryFileNames: `assets/[name].js`,
+          chunkFileNames: `assets/[name]-[hash].js`,
+          assetFileNames: `assets/[name]-[hash].[ext]`,
+          
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // Kutubxonalarni alohida chunklarga bo'lish (Web tezligi uchun)
+              return id.toString().split('node_modules/')[1].split('/')[0].toString();
+            }
           }
         }
       }
     }
-  },
-  resolve: {
-    alias: [
-      {
-        find: /^~(.*)/, // ~ prefiksni olib tashlaydi
-        replacement: (_, s1) => s1,
-      },
-      {
-        find: "@",
-        replacement: fileURLToPath(new URL("./src", import.meta.url)),
-      },
-    ],
-  },
-  build: {
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-    rollupOptions: {
-      // katta JSON fayllarni external qilish mumkin
-      external: ["emoji-mart-vue-fast/data/all.json"],
-    },
-  },
+  };
 });
