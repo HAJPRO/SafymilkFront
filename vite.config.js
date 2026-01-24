@@ -6,7 +6,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     // Electron va Mobile (Capacitor) uchun './' juda muhim. 
     // Webda ham muammosiz ishlashi uchun nisbiy yo'lni qoldiramiz.
-    base: './',
+    base: '/',
 
     server: {
       host: "0.0.0.0",
