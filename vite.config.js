@@ -13,8 +13,12 @@ export default defineConfig({
     "process.env": {}, // yoki "import.meta.env" ni ishlatishingiz mumkin
   },
  plugins: [vue()],
-  base: './',
+ base: process.env.NODE_ENV === 'production' ? './' : '/',
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    // MIME xatoligini oldini olish uchun emptyOutDir muhim
+    emptyOutDir: true,
     chunkSizeWarningLimit: 1600, // Limitni oshirib qo'yamiz
     rollupOptions: {
       output: {
