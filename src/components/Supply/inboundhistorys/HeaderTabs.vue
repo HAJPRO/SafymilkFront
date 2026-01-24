@@ -15,8 +15,7 @@ const employeeTabs = [
   { 
     id: 1, 
     label: "Kirimlar", 
-    path: "/supply/inbound-list", // Bu yerga routening to'liq pathini yozing
-    routeName: "Kirim ro'yxati", 
+    routeName: "Xomashyo kirim ro'yxati", 
     icon: "fa-solid fa-file-lines" 
   },
   { 
@@ -27,8 +26,8 @@ const employeeTabs = [
   },
    { 
     id: 3, 
-    label: "Kirim", 
-    routeName: "Kirim", 
+    label: "Xomashyo kirim", 
+    routeName: "Xomashyo kirim", 
     icon: "fa-solid fa-plus" 
   },
 ];

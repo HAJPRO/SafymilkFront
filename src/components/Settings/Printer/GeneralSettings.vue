@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import socketService from '../../../socket/socket';
 import { PricePrinterTemplateStore } from '../../../stores/Settings/printer/pricePrinter.store';
@@ -154,17 +154,20 @@ onUnmounted(() => {
   cursor: pointer;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
-</style>
+</style> -->
 
 
-<!-- <script setup>
-import { computed, onMounted } from 'vue';
+<script setup>
+import { computed, onMounted,watch } from 'vue';
 import { PricePrinterTemplateStore } from '../../../stores/Settings/printer/pricePrinter.store';
 import AppSelect from '../../../UI/Select.vue';
 import AppButton from '../../../UI/Button.vue';
-
+import { storeToRefs } from "pinia";
 const store = PricePrinterTemplateStore();
-
+const { printers } = storeToRefs(store);
+watch(printers, (newVal) => {
+  console.log("Printers yangilandi:", newVal);
+}, { deep: true });
 // Store bilan reaktiv bog'lanish
 const labelPrinter = computed({
   get: () => store.settings.labelPrinter,
@@ -186,7 +189,7 @@ const pcMode = computed({
   set: (val) => store.updateSettings({ pcMode: val })
 });
 
-const printers = computed(() => store.printers);
+// const printers = computed(() => store.printers);
 console.log(printers);
 
 onMounted(() => {
@@ -199,7 +202,7 @@ onMounted(() => {
   <div class="max-w-4xl mx-auto p-2 md:p-6 space-y-8 pb-20 animate-in fade-in duration-700">
     
     <section class="space-y-4">
-      <h3 class="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 px-1">
+      <h3 @click="store.connectPrinter()" class="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 px-1">
         <i class="fa-solid fa-print text-indigo-500"></i> Printerlar
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -215,7 +218,7 @@ onMounted(() => {
     </section>
 
     <section class="space-y-4">
-      <h3 class="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 px-1">
+      <h3 @click="store.printSticker({  title: 'SAFY MILK', name: 'Qatiq 0.5L', price: '7,000' })" class="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500 px-1">
         <i class="fa-solid fa-display text-amber-500"></i> Ko'rinish
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -272,4 +275,4 @@ onMounted(() => {
   cursor: pointer;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
-</style> -->
+</style>

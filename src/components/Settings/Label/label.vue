@@ -421,7 +421,6 @@ watch(printQueue, (newQueue) => {
 }, { deep: true });
 
 const isTemplateModalOpen = ref(false);
-const selectedTemplate = ref({ id: 1, name: 'Standart etiketka', size: '40x30 mm' });
 const openTemplateModal = () => {
   isTemplateModalOpen.value = true;
 };
@@ -449,7 +448,7 @@ const saveTemplateSettings = async () => {
 
     // 3. Tanlangan shablon ID-sini asosiy printer formasiga o'rnatamiz
     // Bu ID keyinchalik chop etishda backend-ga qaysi shablondan foydalanishni aytadi
-    form.templateId = template._id;
+    form.templateId = template;
 
     // 4. Modalni yopamiz
     isTemplateModalOpen.value = false;

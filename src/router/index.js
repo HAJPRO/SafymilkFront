@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory,createWebHashHistory } from "vue-router";
 import ExploreLayout from "../layouts/ExploreView.vue";
 import LandingLayout from "../layouts/LandingView.vue";
 import { jwtDecode } from "jwt-decode"; 
@@ -94,28 +94,32 @@ const routes = [
       },
 
       //Taminot
-       { 
-        path: "supply/counterparty", 
+         {
+  path: '/supply',
+  component: () => import('../pages/Explore/Supply/rawmaterial/index.vue'),
+  children: [
+    {
+      path: 'rawmaterial', // Default holatda list ochiladi
+      name: 'Xomashyolar',
+      component: () => import('../components/Supply/rawmaterial/Tabel.vue')
+    },
+    {
+      path: 'inbound/historys',
+      name: `Xomashyo kirim ro'yxati_1`,
+      component: () => import('../components/Supply/inboundhistorys/Table.vue')
+    },
+    {
+      path: 'inbound/input',
+      name: 'Xomashyo kirim qilish',
+      component: () => import('../components/Supply/inbound/Inbound.vue')
+    },
+     
+  ],
+},
+{ 
+        path: "counterparty", 
         name: "Kontragentlar", 
         component: () => import("../pages/Explore/Supply/counterparty/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
-      },
-       { 
-        path: "supply/inbound", 
-        name: "Kirim", 
-        component: () => import("../pages/Explore/Supply/inbound/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
-      },
-      { 
-        path: "supply/inbound/historys", 
-        name: "Kirim ro'yxati", 
-        component: () => import("../pages/Explore/Supply/inboundhistorys/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
-      },
-       { 
-        path: "supply/rawmaterial", 
-        name: "Xomashyo", 
-        component: () => import("../pages/Explore/Supply/rawmaterial/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },
 
@@ -142,19 +146,23 @@ const routes = [
 },
 
       // Laboratory
-      { 
-        path: "laboratory/rawmaterial", 
-        name: "Xomashyo analiz", 
-        component: () => import("../pages/Explore/Laboratory/rawmaterial/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
-      },
-       { 
-        path: "laboratory/analitic", 
-        name: "Laboratoriya analitik", 
-        component: () => import("../pages/Explore/Laboratory/analitic/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
-      },
-
+     {
+path: '/laboratory',
+  component: () => import('../pages/Explore/Laboratory/analitic/index.vue'),
+  children: [
+    {
+      path: 'rawmaterial', // Default holatda list ochiladi
+      name: `Xomashyo kirim ro'yxati`,
+      component: () => import('../components/Supply/inboundhistorys/Table.vue')
+    },
+    {
+      path: 'analitic',
+      name: `Analizlar ro'yxati`,
+      component: () => import('../components/Laboratory/analitic/Table.vue')
+    },
+   
+  ]
+},
        // Settings
       { 
         path: "settings/label", 
@@ -178,7 +186,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes,
 });
 
@@ -186,37 +194,36 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("token");
-  // 1. Agar sahifa login talab qilsa va token bo'lmasa
-  if (to.matched.some(record => record.meta.requiresAuth) && !token) {
+
+  // 1. Agar foydalanuvchi login qilmagan bo'lsa va himoyalangan sahifaga bormoqchi bo'lsa
+  if (to.meta.requiresAuth && !token) {
     return next({ name: "Login" });
   }
 
-  // 2. Login qilgan odamni yana login sahifasiga yubormaslik
+  // 2. Agar foydalanuvchi login qilgan bo'lsa va Login sahifasiga bormoqchi bo'lsa
   if (to.meta.guestOnly && token) {
-    return next({ name: "StatisticSale" }); // Explore emas, ichki sahifaga yo'naltirish aniqroq
+    // FAQAT login/register dan keyin yo'naltiradi
+    return next({ name: "StatisticSale" }); 
   }
 
-  // 3. Rol tekshiruvi
-  if (token) {
+  // 3. Rol tekshiruvi (faqat token bo'lsa va borayotgan sahifada meta.role bo'lsa)
+  if (token && to.meta.role) {
     try {
       const decoded = jwtDecode(token);
       
-      // JWT muddati tugaganini tekshirish (ixtiyoriy lekin muhim)
-      const currentTime = Date.now() / 1000;
-      if (decoded.exp < currentTime) {
+      // Muddati o'tganini tekshirish
+      if (decoded.exp < Date.now() / 1000) {
         localStorage.removeItem("token");
         return next({ name: "Login" });
       }
 
       const userRoles = Array.isArray(decoded.roles) ? decoded.roles.map(String) : [String(decoded.roles)];
+      const requiredRoles = Array.isArray(to.meta.role) ? to.meta.role.map(String) : [String(to.meta.role)];
+      
+      const hasAccess = requiredRoles.some(role => userRoles.includes(role));
 
-      if (to.meta.role) {
-        const requiredRoles = Array.isArray(to.meta.role) ? to.meta.role.map(String) : [String(to.meta.role)];
-        const hasAccess = requiredRoles.some(role => userRoles.includes(role));
-
-        if (!hasAccess) {
-          return next({ name: "notfound" }); // Ruxsat bo'lmasa 404 yoki maxsus 403 sahifaga
-        }
+      if (!hasAccess) {
+        return next({ name: "notfound" });
       }
     } catch (e) {
       localStorage.removeItem("token");
@@ -224,6 +231,7 @@ router.beforeEach((to, from, next) => {
     }
   }
 
+  // Boshqa barcha holatlarda davom etish
   next();
 });
 

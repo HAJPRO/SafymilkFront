@@ -254,7 +254,9 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { AuthStore } from "../../stores/Auth/auth.js";
-
+import { useRouter, useRoute } from "vue-router";
+const router = useRouter();
+const route = useRoute();
 const store = AuthStore();
 const credentials = reactive({ username: "", password: "" });
 const showPassword = ref(false);
@@ -292,7 +294,11 @@ const handleLogin = async () => {
   await new Promise(resolve => setTimeout(resolve, 1500));
   
   try {
-    await store.login(credentials);
+    const isOk = await store.login(credentials);
+  if (isOk) {
+    // Electron uchun eng xavfsiz yo'naltirish
+    router.push({ name: "StatisticSale" });
+  }
   } catch (e) {
     console.error(e);
   } finally {

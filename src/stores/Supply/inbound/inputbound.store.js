@@ -22,9 +22,19 @@ export const SupplyInputboundStore = defineStore('SupplyInputboundStore', {
   }),
 
   getters: {
-    totalSum: (state) => state.document.items.reduce((acc, item) => acc + (item.qty * (item.costPrice || 0)), 0),
-    itemsCount: (state) => state.document.items.length,
+  // totalSum: items mavjud bo'lmasa 0 qaytaradi
+  totalSum: (state) => {
+    const items = state.document?.items || [];
+    return items.reduce((acc, item) => {
+      const qty = Number(item.qty) || 0;
+      const price = Number(item.costPrice) || 0;
+      return acc + (qty * price);
+    }, 0);
   },
+
+  // itemsCount: items mavjud bo'lmasa 0 qaytaradi (Xatolikni aynan shu qator berayotgan edi)
+  itemsCount: (state) => (state.document?.items || []).length,
+},
 
   actions: {
     // Barcha hujjatlarni olish

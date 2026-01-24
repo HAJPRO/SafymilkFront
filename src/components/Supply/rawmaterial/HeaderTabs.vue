@@ -11,38 +11,23 @@ const route = useRoute();
 const store_employees = EmployeeManagmentStore();
 const { all_length } = storeToRefs(store_employees);
 
-// MUHIM: id qismidagi nomlar router/index.js dagi 'name' bilan bir xil bo'lishi shart!
 const supplyTabs = [
-  { 
-    id: "Xomashyo kirim ro'yxati", 
-    label: "Xomashyo kirim ro'yxati", 
-    icon: "fa-solid fa-file-import" // Kirim/Import ma'nosida
-  },
-  { 
-    id: "Analizlar ro'yxati", 
-    label: "Analizlar ro'yxati", 
-    icon: "fa-solid fa-chart-line" // Analitika va grafik ma'nosida
-  },
+  { id: "Xomashyolar", label: "Xomashyolar", icon: "fa-solid fa-boxes-stacked" },
+  { id: "Xomashyo kirim ro'yxati_1", label: "Xomashyo kirim ro'yxati", icon: "fa-solid fa-list-check" },
+  { id: "Xomashyo kirim qilish", label: "Xomashyo kirim qilish", icon: "fa-solid fa-file-circle-plus" },
 ];
 
 
 const handleUpdate = async (newValue) => {
+  // Tabdan kelgan ID (bu routerdagi name bilan bir xil bo'lishi shart)
   const targetName = typeof newValue === 'object' ? newValue.id : newValue;
   
-  // Agar hozirgi sahifada bo'lsa, qayta push qilmaslik (Xatolikni oldini oladi)
-  if (route.name === targetName) return;
-
-  try {
-    // Routerda bunday sahifa borligini tekshirish
-    if (router.hasRoute(targetName)) {
+  if (route.name !== targetName) {
+    try {
       await router.push({ name: targetName });
-    } else {
-      console.warn(`Yo'nalish topilmadi: ${targetName}. Router/index.js ni tekshiring.`);
-    }
-  } catch (error) {
-    // Navigatsiya duplikatsiyasi xatosini e'tiborsiz qoldirish
-    if (error.name !== 'NavigationDuplicated') {
-      console.error("Navigatsiyada xato:", error);
+      // Reload shart emas, chunki Parent'dagi :key="childRoute.fullPath" render qiladi
+    } catch (err) {
+      console.error("Navigatsiya xatosi:", err);
     }
   }
 };
@@ -53,7 +38,6 @@ const handleUpdate = async (newValue) => {
     <BaseTabs
       :model-value="modelValue" 
       :tabs="supplyTabs"
-      :counts="all_length"
       @update:model-value="handleUpdate"
     />
   </div>

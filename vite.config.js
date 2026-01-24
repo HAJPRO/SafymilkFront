@@ -9,13 +9,23 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5173, // kerakli port
   },
-  base: "/", // bu to‘g‘ri
   define: {
     "process.env": {}, // yoki "import.meta.env" ni ishlatishingiz mumkin
   },
-  plugins: [
-    vue(), // JSON uchun alohida plugin kerak emas
-  ],
+ plugins: [vue()],
+  base: './',
+  build: {
+    chunkSizeWarningLimit: 1600, // Limitni oshirib qo'yamiz
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        }
+      }
+    }
+  },
   resolve: {
     alias: [
       {

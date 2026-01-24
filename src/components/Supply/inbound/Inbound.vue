@@ -174,7 +174,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div v-if="inboundDocument.items.some(i => i.productId === product._id)" 
+      <div v-if="inboundDocument.items?.some(i => i.productId === product._id)" 
            class="absolute inset-0 bg-indigo-600/60 backdrop-blur-[2px] flex items-center justify-center z-20">
         <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-2xl">
           <i class="fa-solid fa-check text-xl"></i>
@@ -229,7 +229,7 @@ onMounted(() => {
 </div>
 
       <div class="flex-1 overflow-y-auto p-3 md:p-4 space-y-3 custom-scroll">
-  <div v-if="!inboundDocument.items.length" class="h-full flex flex-col items-center justify-center opacity-20 italic text-xs dark:text-white">
+  <div v-if="!inboundDocument.items?.length" class="h-full flex flex-col items-center justify-center opacity-20 italic text-xs dark:text-white">
     <i class="fa-solid fa-cart-flatbed text-4xl mb-3"></i> Savatcha bo'sh...
   </div>
 
@@ -336,7 +336,7 @@ onMounted(() => {
             <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Jami Summa:</span>
             <span class="text-2xl font-black dark:text-white tracking-tighter">{{ formatPrice(totalSum) }}</span>
           </div>
-          <button @click="processInbound" :disabled="!inboundDocument.items.length || isSubmitting" class="w-full h-14 bg-indigo-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-indigo-500/30 active:scale-95 transition-all disabled:opacity-50">
+          <button @click="processInbound" :disabled="!inboundDocument.items?.length || isSubmitting" class="w-full h-14 bg-indigo-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-indigo-500/30 active:scale-95 transition-all disabled:opacity-50">
             <i v-if="isSubmitting" class="fa-solid fa-spinner fa-spin mr-2"></i> Qabulni Yakunlash
           </button>
         </div>
@@ -346,7 +346,7 @@ onMounted(() => {
     <div class="lg:hidden fixed bottom-6 left-6 right-6 h-16 bg-white dark:bg-slate-900 rounded-[2rem] flex items-center px-4 gap-4 z-50 shadow-2xl border border-slate-200 dark:border-slate-800">
       <button @click="mobileTab = 'catalog'" class="flex-1 h-12 rounded-2xl font-black text-[10px] uppercase" :class="mobileTab === 'catalog' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400'">Baza</button>
       <button @click="mobileTab = 'inbound'" class="flex-1 h-12 rounded-2xl font-black text-[10px] uppercase relative" :class="mobileTab === 'inbound' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400'">
-        Savat <span v-if="inboundDocument.items.length" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center border-2 border-white">{{ inboundDocument.items.length }}</span>
+        Savat <span v-if="inboundDocument.items?.length" class="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center border-2 border-white">{{ inboundDocument.items.length }}</span>
       </button>
     </div>
 

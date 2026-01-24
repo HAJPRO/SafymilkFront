@@ -3,3 +3,40 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Kutubxonalar (Eng muhimi!)
+node_modules/
+jspm_packages/
+
+# Build natijalari (Bular push qilinmaydi, serverda qaytadan yaratiladi)
+dist/
+dist_electron/
+.electron-builder/
+
+# Capacitor / Android / iOS build fayllari
+# Eslatma: Agar 'android' papkasini o'zgartirgan bo'lsangiz uni saqlang, 
+# lekin ichidagi generatsiya qilingan fayllarni ignor qilish kerak.
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# Atrof-muhit o'zgaruvchilari (Maxfiy kalitlar)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Loglar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE sozlamalari
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp

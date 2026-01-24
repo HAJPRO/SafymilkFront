@@ -1,6 +1,5 @@
-<template>
+<!-- <template>
   <div class="flex justify-end mb-2"></div>
-  <!-- Manzil, Mahalla va Ko'cha nomlari uchun input maydonlari -->
   <div class="grid grid-cols-12 w-full">
     <div class="col-span-4">
       <el-input
@@ -258,4 +257,5 @@ async function toggleSatellite() {
   object-fit: cover;
   overflow: hidden;
 }
-</style>
+</style> -->
+<template>map</template>

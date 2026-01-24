@@ -14,11 +14,11 @@ import ActionMenu from '../../../UI/ActionMenu.vue';
 import LaboratoryModal from "./LaboratoryModal.vue";
 
 // --- 🟢 STORE ---
-import { AccessoriesInputboundStore } from "../../../stores/Supply/accessories/inputinbound.store";
+import { SupplyInputboundStore } from "../../../stores/Supply/inbound/inputbound.store";
 
 const { toast } = useToast();
 const router = useRouter();
-const store = AccessoriesInputboundStore();
+const store = SupplyInputboundStore();
 
 // Store-dan ma'lumotlarni olish
 const { document: inboundDocs, loading } = storeToRefs(store);

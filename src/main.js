@@ -10,7 +10,7 @@ import QrReader from 'vue3-qr-reader';
 import toast from "vue3-toastify";
 import Loading from 'vue-loading-overlay';
 
-import router from "./router/index";
+import router from "./router/index.js";
 import App from "./App.vue";
 import "./css/style.css";
 
