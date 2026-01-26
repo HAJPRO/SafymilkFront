@@ -44,16 +44,23 @@
            <div class="flex gap-3 mb-4 items-center justify-center">
                <div class="relative w-12 h-12 flex items-center justify-center">
                   <div class="absolute inset-0 bg-indigo-500 rounded-xl rotate-6 opacity-20 animate-pulse"></div>
-                  <div class="absolute inset-0 rounded-xl -rotate-3 flex items-center justify-center shadow-lg transition-colors duration-500"
-                       :class="isDarkMode ? 'bg-indigo-600 shadow-indigo-500/50' : 'bg-white shadow-indigo-200 border border-indigo-100'">
-                     <i class="fas fa-cube text-xl transition-colors duration-500"
-                        :class="isDarkMode ? 'text-white' : 'text-indigo-600'"></i>
-                  </div>
+                 <div class="relative group">
+  <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+
+  <div class="relative flex items-center justify-center w-16 h-16 rounded-xl rotate-[-3deg] shadow-2xl transition-all duration-500 ease-in-out transform group-hover:rotate-0 group-hover:scale-105"
+       :class="isDarkMode ? 'bg-slate-900 border border-slate-700 shadow-indigo-500/20' : 'bg-white border border-indigo-50 shadow-indigo-200/50'">
+    
+    <img src="/public/unit_logo_1.png" 
+         alt="Flow Logo"
+         class="w-14 h-14 object-contain rounded-lg transition-all duration-500 filter"
+         :class="isDarkMode ? 'brightness-125 contrast-110' : 'grayscale-0'">
+  </div>
+</div>
                </div>
                <div>
                   <h1 class="text-2xl font-bold tracking-tight transition-colors duration-500"
                       :class="isDarkMode ? 'text-white' : 'text-slate-800'">
-                    Safymilk <span class="text-indigo-500">ERP</span>
+                    Unit <span class="text-indigo-500">Eco System</span>
                   </h1>
                   <div class="flex items-center gap-2">
                      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
@@ -241,7 +248,7 @@
                  <i class="fas fa-leaf text-sm"></i>
               </div>
               <div>
-                 <div class="text-[10px]" :class="isDarkMode ? 'text-slate-300' : 'text-slate-500'">Safymilk Mode</div>
+                 <div class="text-[10px]" :class="isDarkMode ? 'text-slate-300' : 'text-slate-500'">Unit Mode</div>
                  <div class="text-xs font-bold" :class="isDarkMode ? 'text-white' : 'text-slate-800'">Active</div>
               </div>
           </div>

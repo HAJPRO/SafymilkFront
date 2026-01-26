@@ -4,7 +4,73 @@
     @detected="handleGlobalScan" 
     @close="isScannerOpen = false"
   />
+<Modal 
+  v-model="isMixedModalOpen" 
+  title="Aralash to'lov taqsimoti" 
+  :subtitle="`Jami summa: ${formatPrice(grandTotal)}`"
+  icon="fa-solid fa-calculator"
+  width="max-w-md"
+>
+  <div class="space-y-5">
+    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-800">
+      <div class="flex justify-between items-center text-sm mb-1">
+        <span class="text-indigo-600 dark:text-indigo-400 font-medium">Kiritilgan summa:</span>
+        <span class="font-bold text-slate-700 dark:text-white">{{ formatPrice(mixedTotalEntered) }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-slate-500 font-medium">Qolgan summa:</span>
+        <span :class="mixedRemaining === 0 ? 'text-emerald-500' : 'text-rose-500'" class="text-xl font-black">
+          {{ formatPrice(mixedRemaining) }}
+        </span>
+      </div>
+    </div>
 
+    <div class="space-y-4">
+  <div 
+    v-for="method in paymentMethods.filter(m => m.value !== 'mixed')" 
+    :key="method.value" 
+
+    class="group"
+  >
+    <label class="text-xs font-bold text-slate-500 uppercase ml-2 mb-1.5 block transition-colors group-focus-within:text-indigo-500">
+      {{ method.label }}
+    </label>
+    <div class="relative">
+      <div class="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 transition-colors group-focus-within:bg-indigo-50 group-focus-within:text-indigo-500">
+        <i :class="method.icon"></i>
+      </div>
+      <input 
+        type="number" 
+        v-model.number="mixedPayments[method.value]"
+        @focus="$event.target.select()"
+        class="w-full pl-16 pr-4 py-3.5 rounded-xl border-2 border-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-bold text-lg"
+        placeholder="0"
+      />
+    </div>
+  </div>
+
+    </div>
+  </div>
+
+  <template #footer="{ close }">
+    <button 
+      @click="close" 
+      class="px-6 py-3 rounded-xl font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+    >
+      Bekor qilish
+    </button>
+    <button 
+      @click="confirmMixedPayment" 
+      :disabled="mixedRemaining !== 0"
+      class="px-8 py-3 rounded-xl font-bold text-white transition-all shadow-lg"
+      :class="mixedRemaining === 0 
+        ? 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none' 
+        : 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed grayscale'"
+    >
+      Tasdiqlash
+    </button>
+  </template>
+</Modal>
   <div class="h-screen w-full bg-[#F1F5F9] dark:bg-[#020617] flex flex-col lg:flex-row font-sans overflow-hidden text-slate-600 dark:text-slate-400 selection:bg-indigo-500 selection:text-white transition-colors duration-300">
     
     <div class="flex-1 flex flex-col min-w-0 h-full relative z-0 transition-all duration-300" :class="mobileTab === 'catalog' ? 'flex' : 'hidden lg:flex'">
@@ -172,8 +238,8 @@
               </div>
           </div>
 
-          <div class="grid grid-cols-4 gap-2 mb-4">
-              <button v-for="pm in paymentMethods" :key="pm.value" @click="paymentType = pm.value" class="flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all relative" :class="paymentType === pm.value ? `bg-${pm.color}-50 border-${pm.color}-500 text-${pm.color}-700 dark:bg-${pm.color}-900/20 dark:text-${pm.color}-300` : 'bg-white border-slate-100 text-slate-400 dark:bg-slate-800 dark:border-slate-700'">
+          <div class="grid grid-cols-5 gap-2 mb-4">
+              <button v-for="pm in paymentMethods" :key="pm.value" @click="setPaymentMethod(pm.value)"  class="flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all relative" :class="paymentType === pm.value ? `bg-${pm.color}-50 border-${pm.color}-500 text-${pm.color}-700 dark:bg-${pm.color}-900/20 dark:text-${pm.color}-300` : 'bg-white border-slate-100 text-slate-400 dark:bg-slate-800 dark:border-slate-700'">
                   <i :class="pm.icon" class="text-sm mb-1"></i>
                   <span class="text-[9px] font-black uppercase">{{ pm.label }}</span>
                   <div v-if="paymentType === pm.value" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-indigo-600 text-white text-[8px] flex items-center justify-center border-2 border-white"><i class="fa-solid fa-check"></i></div>
@@ -212,6 +278,7 @@ import { ref, computed, onMounted } from "vue"
 import { storeToRefs } from 'pinia';
 import { useToast } from "../../../UI/utils/useToast";
 import Select from "../../../UI/Select.vue"
+import Modal from "../../../UI/Modal.vue"
 import BarcodeScannerModal from "../../../components/BarcodeScaner/scaner.vue";
 
 // STORES
@@ -248,10 +315,20 @@ const productSearch = ref("")
 const searchCategoryData = ref(null)
 const currentTime = ref("")
 
+// --- ARALASH TO'LOV UCHUN YANGI STATE'LAR ---
+const isMixedModalOpen = ref(false)
+const mixedPayments = ref({
+    naqd: 0,
+    terminal: 0,
+    click: 0,
+    qarz: 0
+})
+
 const paymentMethods = [
     { value: "naqd", label: "Naqd", icon: "fa-solid fa-money-bill-1-wave", color: "emerald" },
-    { value: "karta", label: "Karta", icon: "fa-regular fa-credit-card", color: "blue" },
-    { value: "click", label: "Click", icon: "fa-solid fa-mobile-screen", color: "sky" },
+    { value: "terminal", label: "Terminal", icon: "fa-regular fa-credit-card", color: "blue" },
+    { value: "click", label: "Click", icon: "fa-solid fa-mobile-screen", color: "indigo" },
+    { value: "mixed", label: "Aralash", icon: "fa-solid fa-layer-group", color: "violet" },
     { value: "qarz", label: "Nasiya", icon: "fa-solid fa-file-invoice", color: "rose" }
 ]
 
@@ -268,6 +345,15 @@ const products = computed(() => {
         category: item.category || 'Barchasi',
         code: item.code || ''
     }))
+})
+
+// --- ARALASH TO'LOV HISOB-KITOBI ---
+const mixedTotalEntered = computed(() => {
+    return Object.values(mixedPayments.value).reduce((a, b) => a + Number(b || 0), 0);
+})
+
+const mixedRemaining = computed(() => {
+    return grandTotal.value - mixedTotalEntered.value;
 })
 
 const categories = computed(() => {
@@ -300,56 +386,43 @@ const addToCart = (p) => {
     }
 }
 
-const handleGlobalScan = (code) => {
-  if (!code) return;
-  const scannedCode = String(code).trim().toLowerCase();
+// --- TO'LOV TURINI BOSHGARIUVCHI FUNKSIYA ---
+const setPaymentMethod = (method) => {
+  paymentType.value = method
   
-  const foundProduct = products.value.find(p => 
-    String(p.code || "").trim().toLowerCase() === scannedCode
-  );
-
-  if (foundProduct) {
-    if (foundProduct.stock > 0) {
-      addToCart(foundProduct);
-      toast.success(`${foundProduct.name} qo'shildi`);
-    } else {
-      toast.error("Mahsulot omborda tugagan!");
+  if (paymentType.value === 'mixed') {
+    // Agar aralash tanlansa, summalarni nolga tushirib modalni ochamiz
+    if(isMixedModalOpen.value === false){
+    // mixedPayments.value = { naqd: 0, karta: 0, click: 0, qarz: 0 };
     }
+    isMixedModalOpen.value = true;
+    // paymentType faqat modalda "Tasdiqlash" bosilganda o'zgargani ma'qul, 
+    // lekin dizaynga qarab shu yerda ham o'zgartirish mumkin:
+    paymentType.value = 'mixed';
   } else {
-    toast.error("Mahsulot topilmadi: " + scannedCode);
+    // Oddiy to'lov turi tanlansa
+    paymentType.value = method;
+    isMixedModalOpen.value = false;
   }
-  isScannerOpen.value = false;
 };
 
-const changeQty = (item, delta) => {
-    const p = products.value.find(prod => prod.id === item.id);
-    if (delta > 0 && item.qty >= p.stock) {
-        toast.error("Maksimal miqdor!");
+const confirmMixedPayment = () => {
+    if (mixedRemaining.value !== 0) {
+        toast.error(`Xatolik! Farq: ${formatPrice(mixedRemaining.value)}`);
         return;
     }
-    if (item.qty + delta > 0) item.qty += delta;
-    else removeItem(item.id);
-}
-
-const removeItem = (id) => {
-    activeSessionData.value.cart = activeSessionData.value.cart.filter(i => i.id !== id);
-}
-
-const validateInput = (item) => {
-    const product = products.value.find(p => p.id === item.id);
-    const maxStock = product ? product.stock : 0;
-    if (item.qty > maxStock) {
-        item.qty = maxStock;
-        toast.error(`Omborda faqat ${maxStock} dona bor!`);
-    }
-    if (item.qty < 1 && item.qty !== "") item.qty = 1;
-}
-
-const checkEmpty = (item) => {
-    if (!item.qty || item.qty < 1) item.qty = 1;
+    isMixedModalOpen.value = false;
+    toast.success("To'lov taqsimlandi");
 }
 
 const processSale = async () => {
+    // Aralash to'lov tekshiruvi
+    if (paymentType.value === 'mixed' && mixedRemaining.value !== 0) {
+        toast.error("Iltimos, aralash to'lov summalarini to'g'ri kiriting!");
+        isMixedModalOpen.value = true;
+        return;
+    }
+
     const cartItems = activeSessionData.value.cart.map(item => ({
         productId: item.id,
         quantity: item.qty,
@@ -369,20 +442,18 @@ const processSale = async () => {
         taxEnabled: taxEnabled.value,
         grandTotal: grandTotal.value,
         paymentType: paymentType.value,
+        // Backend'ga aralash to'lov detallarini yuborish
+        mixedDetails: paymentType.value === 'mixed' ? mixedPayments.value : null,
         date: new Date().toISOString()
     };
 
     const success = await store_salepos.CreateSaleTransaction(payload);
     if (success) {
         toast.success("To'lov muvaffaqiyatli!");
+        activeSessionData.value.cart = []; // Savatni tozalash
         store_product.GetAll();
         mobileTab.value = 'catalog';
     }
-}
-
-const toggleTheme = () => {
-    isDark.value = !isDark.value;
-    document.documentElement.classList.toggle("dark");
 }
 
 const formatPrice = (v) => new Intl.NumberFormat('uz-UZ').format(v) + " so'm";

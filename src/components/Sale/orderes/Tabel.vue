@@ -129,7 +129,7 @@ const columns = [
   { key: 'author.fullname', label: 'Sotuvchi', width: '130px', sortable: true },
   { key: 'customerId.fullname', label: 'Mijoz', width: '220px', sortable: true },
   { key: 'driverId.fullname', label: 'Haydovchi', width: '160px' },
-  { key: 'paymentType', label: 'To\'lov', width: '110px', align: 'center' },
+  { key: 'paymentType', label: 'To\'lov turi', width: '110px', align: 'center' },
   { key: 'date', label: 'Vaqt', width: '130px', align: 'center', sortable: true },
   // totalAmount ustunida showSum: true jami summani chiqaradi
   { key: 'totalAmount', label: 'Summa', width: '150px', align: 'right', sortable: true, showSum: true },
@@ -400,14 +400,55 @@ onMounted(() => store_salepos.GetAll());
           </div>
         </template>
 
-        <template #paymentType="{ row }">
-          <div class="flex justify-center">
-            <div :class="['flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border', row.paymentType === 'cash' ? 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400' : 'bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400']">
-              <i :class="row.paymentType === 'cash' ? 'fa-solid fa-money-bill-wave' : 'fa-solid fa-credit-card'"></i>
-              {{ row.paymentType }}
-            </div>
+      <template #paymentType="{ row }">
+  <div class="flex flex-col items-center gap-1.5 py-1 min-w-[140px]">
+    
+    <div v-if="row.paymentType === 'mixed'" 
+         class="w-full flex items-center justify-between px-2 py-1 rounded-lg bg-violet-50 dark:bg-violet-500/10 border border-violet-100 dark:border-violet-500/20 shadow-sm">
+      <div class="flex items-center gap-1.5">
+        <div class="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse"></div>
+        <span class="text-[10px] font-black uppercase tracking-tight text-violet-700 dark:text-violet-300">Aralash</span>
+      </div>
+      <i class="fa-solid fa-layer-group text-[10px] text-violet-400"></i>
+    </div>
+
+    <div v-else :class="[
+      'w-full flex items-center justify-between px-2 py-1 rounded-lg border shadow-sm transition-all',
+      row.paymentType === 'naqd' ? 'bg-emerald-50 border-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400' :
+      row.paymentType === 'terminal' ? 'bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-500/10 dark:border-blue-500/20 dark:text-blue-400' :
+      row.paymentType === 'click' ? 'bg-indigo-50 border-indigo-100 text-indigo-700 dark:bg-indigo-500/10 dark:border-indigo-500/20 dark:text-indigo-400' :
+      'bg-rose-50 border-rose-100 text-rose-700 dark:bg-rose-500/10 dark:border-rose-500/20 dark:text-rose-400'
+    ]">
+      <span class="text-[10px] font-black uppercase tracking-tight">{{ row.paymentType }}</span>
+      <i :class="row.paymentType === 'naqd' ? 'fa-solid fa-money-bill-wave' : 'fa-solid fa-credit-card'" class="text-[10px] opacity-70"></i>
+    </div>
+
+    <div v-if="row.paymentType === 'mixed' && row.mixedDetails?.[0]" 
+         class="w-full grid grid-cols-1 gap-0.5">
+      
+      <div v-for="(val, key) in row.mixedDetails[0]" :key="key">
+        <div v-if="val > 0" 
+             class="flex items-center justify-between px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 hover:border-slate-200 transition-colors">
+          
+          <div class="flex items-center gap-1.5">
+            <span :class="[
+              'w-1.5 h-1.5 rounded-full',
+              key === 'naqd' ? 'bg-emerald-500' : 
+              key === 'terminal' ? 'bg-blue-500' : 
+              key === 'click' ? 'bg-indigo-500' : 'bg-rose-500'
+            ]"></span>
+            <span class="text-[9px] font-medium text-slate-500 dark:text-slate-400 capitalize">{{ key }}</span>
           </div>
-        </template>
+
+          <span class="text-[9px] font-black text-slate-800 dark:text-slate-200">
+            {{ formatPrice(val) }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
 
         <template #date="{ row }">
           <div class="flex flex-col items-center justify-center py-1 group min-w-[100px]">

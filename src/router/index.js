@@ -82,7 +82,7 @@ const routes = [
       },
       { 
         path: "warehouses/input", 
-        name: "Kirim qilish", 
+        name: "Mahsulot kirim qilish", 
         component: () => import("../pages/Explore/Warehouses/input/index.vue"),
         meta: { role: ["40", "1000", "2000"] } 
       },

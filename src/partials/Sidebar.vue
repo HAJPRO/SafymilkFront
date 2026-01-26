@@ -30,8 +30,8 @@
               :class="!sidebarExpanded ? 'justify-center' : ''"
             >
               <img
-                src="../../public/safymilk_logo_4.jpg"
-                alt="safy logo"
+                src="../../public/unit_logo_1.png"
+                alt="Flow logo"
                 class="rounded-full border dark:border-white border-slate-200 shadow object-cover cursor-pointer transition-all duration-300"
                 :class="sidebarExpanded ? 'w-16 h-16' : 'w-10 h-10'"
                 @click="handleSidebarClose"
@@ -41,7 +41,7 @@
                 <h1
                   class="text-slate-600 dark:text-white text-xl font-sans tracking-wide font-bold mb-[0.5]"
                 >
-                  Safymilk
+                  Unit
                 </h1>
                 <p
                   class="text-[10px] dark:text-slate-400 text-slate-500 font-sans tracking-wide font-medium"
@@ -760,7 +760,7 @@
                   >
                     <li>
                       <router-link
-                        :to="{ name: 'Kirim qilish' }"
+                        :to="{ name: 'Mahsulot kirim qilish' }"
                          active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
@@ -1726,7 +1726,7 @@
         <div
           class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400"
         >
-          <span class="font-medium tracking-wide">safymilk</span>
+          <span class="font-medium tracking-wide">flow</span>
           <span
             class="font-semibold text-[11px] text-slate-700 dark:text-slate-200"
             >v1.0.0</span

@@ -5,20 +5,20 @@
         <div class="liquid-ring"></div>
         <div class="logo-container">
           <img
-            src="/public/safymilk_logo_4.jpg"
+            src="/public/unit_logo_1.png"
             alt="Safy Logo"
             class="main-logo"
           />
         </div>
       </div>
 
-      <div class="text-container">
-        <span class="brand-name">Safymilk</span>
+      <!-- <div class="text-container">
+        <span class="brand-name">Unit Eco System</span>
         <div class="loading-bar-container">
           <div class="loading-bar-fill"></div>
         </div>
         <p class="slogan">Tabiiylik va Mehr uyg'unligi</p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
