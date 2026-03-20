@@ -10,10 +10,7 @@
     "electron:build": "vite build && electron-builder"
   },
   "dependencies": {
-    "@capacitor/android": "^8.0.1",
-    "@capacitor/cli": "^8.0.1",
-    "@capacitor/core": "^8.0.1",
-    "@capacitor/preferences": "^8.0.0",
+   
     "@element-plus/icons-vue": "^2.1.0",
     "@tailwindcss/forms": "^0.5.3",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
