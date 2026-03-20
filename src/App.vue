@@ -86,8 +86,7 @@ onMounted(() => {
   socketService.connect();
 });
 
-// onUnmounted hooki bo'sh edi, o'chirilmasligi kerak bo'lgan boshqa listenerlar uchun qoldirildi
-// yoki to'liq olib tashlandi, ammo onBeforeUnmount mavjud bo'lgani uchun mantiqiy jihatdan qoldirish shart emas.
+
 
 onBeforeUnmount(() => {
   // Listenerlarni to'g'ri tozalash
