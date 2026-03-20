@@ -101,6 +101,7 @@ const reloadPage = () => {
 
 <style scoped>
 /* Suzib yuruvchi animatsiya (Icon uchun) */
+/* Suzib yuruvchi animatsiya (Icon uchun) */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
