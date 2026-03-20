@@ -72,7 +72,7 @@ const saveSettings = () => {
       v-if="activeTab === 'receipt'" 
     />
 
-    <template #footer-actions>
+    <!-- <template #footer-actions>
       <div class="flex gap-4 w-full">
         <button @click="emit('update:modelValue', false)" class="flex-1 py-4 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 font-black uppercase text-[11px] tracking-widest">
           Bekor qilish
@@ -81,6 +81,6 @@ const saveSettings = () => {
           Saqlash
         </button>
       </div>
-    </template>
+    </template> -->
   </DrawerBase>
 </template>

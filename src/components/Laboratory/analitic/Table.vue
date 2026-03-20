@@ -271,7 +271,7 @@ const getPlannedAverage = (batches, field) => {
     </div>
 
     <main class="flex-1 min-h-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm relative transition-all duration-500">
-      <DataTable :items="filteredDocs" :columns="columns" :loading="loading" class="h-full">
+      <DataTable :items="analyticsData" :columns="columns" :loading="loading" class="h-full">
         
         <template #checkbox="{ row }">
           <input type="checkbox" v-model="selectedIds" :value="row._id" class="w-5 h-5 rounded-lg border-2 text-indigo-600 bg-white dark:bg-slate-800 cursor-pointer appearance-none checked:bg-indigo-600 checked:border-indigo-600 transition-all">

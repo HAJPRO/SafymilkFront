@@ -75,7 +75,32 @@
         </div>
 
         <form @submit.prevent="handleLogin" class="space-y-6 relative" autocomplete="off">
-          
+             <div class="group relative">
+             <label class="block text-[11px] font-bold uppercase tracking-wider mb-2 transition-colors duration-300"
+                    :class="isDarkMode ? 'text-indigo-300 group-focus-within:text-white' : 'text-slate-500 group-focus-within:text-indigo-600'">
+                Server nomi
+             </label>
+             <div class="relative overflow-hidden rounded-xl border transition-all duration-300"
+                  :class="isDarkMode 
+                    ? 'bg-white/5 border-white/10 hover:border-indigo-500/50 group-focus-within:bg-white/10 group-focus-within:border-indigo-500 shadow-indigo-500/10' 
+                    : 'bg-white border-slate-200 hover:border-indigo-300 group-focus-within:border-indigo-500 group-focus-within:shadow-lg group-focus-within:shadow-indigo-100'">
+                
+                <input 
+                   v-model="credentials.companyCode"
+                   type="text" 
+                   class="w-full h-14 px-12 bg-transparent focus:outline-none font-medium tracking-wide transition-colors duration-300"
+                   :class="isDarkMode ? 'text-white placeholder-slate-500' : 'text-slate-900 placeholder-slate-400'"
+                   placeholder="Server nomi"
+                />
+                
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-300"
+                     :class="isDarkMode ? 'text-slate-500 group-focus-within:text-indigo-400' : 'text-slate-400 group-focus-within:text-indigo-600'">
+                   <i class="fas fa-server text-lg"></i>
+                </div>
+                
+                <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-indigo-500 to-cyan-500 transition-all duration-500 group-focus-within:w-full"></div>
+             </div>
+          </div>
           <div class="group relative">
              <label class="block text-[11px] font-bold uppercase tracking-wider mb-2 transition-colors duration-300"
                     :class="isDarkMode ? 'text-indigo-300 group-focus-within:text-white' : 'text-slate-500 group-focus-within:text-indigo-600'">

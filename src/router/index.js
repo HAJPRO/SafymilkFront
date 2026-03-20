@@ -49,6 +49,24 @@ const routes = [
         component: () => import("../pages/Explore/HR/employees/index.vue"),
         meta: { role: ["1000", "30", "2000"] } 
       },
+      { 
+        path: "tabel", 
+        name: "Tabel", 
+        component: () => import("../components/HR/tabel/tabel.vue"),
+        meta: { role: ["1000", "30", "2000"] } 
+      },
+        { 
+        path: "grafik", 
+        name: "Grafik", 
+        component: () => import("../components/HR/work/grafik.vue"),
+        meta: { role: ["1000", "30", "2000"] } 
+      },
+       { 
+        path: "qabul", 
+        name: "Qabul", 
+        component: () => import("../components/HR/work/faildwork.vue"),
+        meta: { role: ["1000", "30", "2000"] } 
+      },
       
       // Sotuv Bo'limi
       { 
@@ -71,6 +89,7 @@ const routes = [
       },
       
       { path: "customers", name: "Mijozlar ro'yxati", component: () => import("../pages/Explore/Customers/customers/index.vue") },
+      { path: "tasks", name: "Vazifalar", component: () => import("../pages/Explore/Customers/tasks/index.vue") },
       { path: "drivers/monitoring", name: "Monitoring", component: () => import("../pages/Explore/Drivers/monitoring/index.vue") },
       
       // Ombor Bo'limi
@@ -120,7 +139,7 @@ const routes = [
         path: "counterparty", 
         name: "Kontragentlar", 
         component: () => import("../pages/Explore/Supply/counterparty/index.vue"),
-        meta: { role: ["40", "1000", "2000"] } 
+        meta: {role: ["40", "1000", "2000"]} 
       },
 
       {
@@ -134,8 +153,8 @@ const routes = [
     },
     {
       path: 'inventory',
-      name: `Kirim ro'yxati`,
-      component: () => import('../components/Supply/inboundhistorys/Table.vue')
+      name: `Aksessuar kirim ro'yxati`,
+      component: () => import('../components/Supply/accessories/Tabel.vue')
     },
     {
       path: 'add',
@@ -147,7 +166,7 @@ const routes = [
 
       // Laboratory
      {
-path: '/laboratory',
+path: 'laboratory',
   component: () => import('../pages/Explore/Laboratory/analitic/index.vue'),
   children: [
     {
@@ -186,7 +205,7 @@ path: '/laboratory',
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

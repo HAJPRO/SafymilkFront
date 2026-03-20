@@ -32,10 +32,10 @@ const activeElement = computed(() => {
 // --- ELEMENT TURLARI (MM LARDA) ---
 const ELEMENT_TYPES = {
   name: { v: 'MAHSULOT NOMI', w: 30, h: 6, fs: 3.5, icon: 'fa-font' },
-  fullname: { v: 'Mahsulot haqida batafsil ma\'lumot va tarkibi', w: 35, h: 10, fs: 2.5, icon: 'fa-align-left' },
-  price: { v: '150,000', w: 25, h: 10, fs: 8, icon: 'fa-tag' },
-  qr: { v: 'https://gemini.uz', w: 10, h: 10, fs: null, icon: 'fa-qrcode' },
-  quantity: { v: '1 dona', w: 15, h: 5, fs: 3, icon: 'fa-boxes-stacked' },
+  fullname: { v: 'F.I.O', w: 35, h: 10, fs: 3.5, icon: 'fa-align-left' },
+  price: { v: '150,000', w: 25, h: 6, fs: 3.5, icon: 'fa-tag' },
+  qr: { v: 'unic code', w: 32, h: 16, fs: null, icon: 'fa-qrcode' },
+  quantity: { v: '1 dona', w: 15, h: 6, fs: 3, icon: 'fa-boxes-stacked' },
   barcode: { v: '1234567890', w: 30, h: 10, fs: null, icon: 'fa-barcode' }
 };
 

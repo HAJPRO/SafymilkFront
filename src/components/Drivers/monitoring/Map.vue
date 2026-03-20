@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="relative h-screen w-full overflow-hidden bg-gray-100">
     <div id="map" class="h-full w-full z-10"></div>
 
@@ -337,5 +337,4 @@ function recenterMap() {
 .driver-popup-card .leaflet-popup-tip {
   background: white;
 }
-</style> -->
-<template>map</template>
+</style>

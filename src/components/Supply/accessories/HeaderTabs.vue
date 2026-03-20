@@ -14,7 +14,7 @@ const { all_length } = storeToRefs(store_employees);
 // MUHIM: id qismidagi nomlar router/index.js dagi 'name' bilan bir xil bo'lishi shart!
 const supplyTabs = [
   { id: "Aksesuarlar", label: "Aksesuarlar", icon: "fa-solid fa-table-list" },
-  { id: "Kirim ro'yxati", label: "Kirim ro'yxati", icon: "fa-solid fa-boxes-packing" },
+  { id: "Aksessuar kirim ro'yxati", label: "Aksessuar kirim ro'yxati", icon: "fa-solid fa-boxes-packing" },
   { id: "Kirim qilish", label: "Kirim qilish", icon: "fa-solid fa-circle-plus" },
 ];
 

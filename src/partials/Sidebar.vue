@@ -279,215 +279,366 @@
             v-if="is_production === true"
             class="p-2.5 mt-1 rounded-lg border bg-white border-slate-200 dark:border-slate-600 dark:bg-slate-700 shadow-md transition"
           >
-            <ul>
-              <SidebarLinkGroup v-slot="parentLink">
-                <a
-                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                  href="#0"
-                  @click.prevent="
-                    sidebarExpanded
-                      ? parentLink.handleClick()
-                      : (sidebarExpanded = true)
-                  "
-                >
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                      <i class="fa-solid fa-water text-indigo-400 text-lg"></i>
-                      <span
-                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                        >Suv tozalash</span
+            <Guard :roles="['30', '1000', '2000']">
+              <ul class="">
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-fill-drip text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Sutni qayta ishlash</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
                       >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
                     </div>
-                    <svg
-                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                      :class="parentLink.expanded && 'rotate-180'"
-                      viewBox="0 0 12 12"
-                    >
-                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                    </svg>
-                  </div>
-                </a>
-                <ul
-                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                  :class="!parentLink.expanded && 'hidden'"
-                >
-                  <li>
-                    <router-link
-                      :to="{ name: 'Employees' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium">Xodimlar</span>
-                    </router-link>
-                  </li>
-                </ul>
-              </SidebarLinkGroup>
-            </ul>
-
-            <ul >
-              <SidebarLinkGroup v-slot="parentLink">
-                <a
-                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                  href="#0"
-                  @click.prevent="
-                    sidebarExpanded
-                      ? parentLink.handleClick()
-                      : (sidebarExpanded = true)
-                  "
-                >
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                      <i
-                        class="fa-solid fa-bottle-water text-indigo-400 text-lg"
-                      ></i>
-                      <span
-                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                        >Idish to'ldirish</span
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
+                        <span class="text-[13px] font-medium"
+                          >Hisobvaraqlar reestri</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kassa operatsiyalari</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Debit/Kredit</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
+             <Guard :roles="['30', '1000', '2000']">
+              <ul class="">
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-shirt text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Tikuv fabrika</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
+                      >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
                     </div>
-                    <svg
-                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                      :class="parentLink.expanded && 'rotate-180'"
-                      viewBox="0 0 12 12"
-                    >
-                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                    </svg>
-                  </div>
-                </a>
-                <ul
-                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                  :class="!parentLink.expanded && 'hidden'"
-                >
-                  <li>
-                    <router-link
-                      :to="{ name: 'Employees' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium">Xodimlar</span>
-                    </router-link>
-                  </li>
-                </ul>
-              </SidebarLinkGroup>
-            </ul>
-
-            <ul >
-              <SidebarLinkGroup v-slot="parentLink">
-                <a
-                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                  href="#0"
-                  @click.prevent="
-                    sidebarExpanded
-                      ? parentLink.handleClick()
-                      : (sidebarExpanded = true)
-                  "
-                >
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                      <i
-                        class="fa-solid fa-box-open text-indigo-400 text-lg"
-                      ></i>
-                      <span
-                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                        >Qadoqlash</span
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
+                        <span class="text-[13px] font-medium"
+                          >Hisobvaraqlar reestri</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kassa operatsiyalari</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Debit/Kredit</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
+              <Guard :roles="['30', '1000', '2000']">
+              <ul class="">
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-wheat-awn text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Un zavodi</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
+                      >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
                     </div>
-                    <svg
-                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                      :class="parentLink.expanded && 'rotate-180'"
-                      viewBox="0 0 12 12"
-                    >
-                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                    </svg>
-                  </div>
-                </a>
-                <ul
-                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                  :class="!parentLink.expanded && 'hidden'"
-                >
-                  <li>
-                    <router-link
-                      :to="{ name: 'Orders' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium">Buyurtmalar</span>
-                    </router-link>
-                  </li>
-                </ul>
-              </SidebarLinkGroup>
-            </ul>
-
-            <ul >
-              <SidebarLinkGroup v-slot="parentLink">
-                <a
-                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                  href="#0"
-                  @click.prevent="
-                    sidebarExpanded
-                      ? parentLink.handleClick()
-                      : (sidebarExpanded = true)
-                  "
-                >
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                      <i
-                        class="fa-solid fa-clipboard-check text-indigo-400 text-lg"
-                      ></i>
-                      <span
-                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                        >Sifat nazorati</span
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
+                        <span class="text-[13px] font-medium"
+                          >Hisobvaraqlar reestri</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kassa operatsiyalari</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Debit/Kredit</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
+             <Guard :roles="['30', '1000', '2000']">
+              <ul class="">
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-faucet text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Suvni qayta ishlash</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
+                      >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
                     </div>
-                    <svg
-                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                      :class="parentLink.expanded && 'rotate-180'"
-                      viewBox="0 0 12 12"
-                    >
-                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                    </svg>
-                  </div>
-                </a>
-                <ul
-                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                  :class="!parentLink.expanded && 'hidden'"
-                >
-                  <li>
-                    <router-link
-                      :to="{ name: 'Orders' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Laboratoriya natijalari</span
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link
-                      :to="{ name: 'Orders' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Qayta ishlashga yuborilganlari</span
+                        <span class="text-[13px] font-medium"
+                          >Hisobvaraqlar reestri</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                    </router-link>
-                  </li>
-                  <li>
-                    <router-link
-                      :to="{ name: 'Orders' }"
-                       active-class="active-link"
-                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                    >
-                      <span class="text-[13px] font-medium"
-                        >Rad etilgan partiyalar</span
+                        <span class="text-[13px] font-medium"
+                          >Kassa operatsiyalari</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                    </router-link>
-                  </li>
-                </ul>
-              </SidebarLinkGroup>
-            </ul>
+                        <span class="text-[13px] font-medium"
+                          >Debit/Kredit</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
+              <Guard :roles="['30', '1000', '2000']">
+              <ul class="">
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-recycle text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Sement zavodi</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
+                      >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
+                    </div>
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Hisobvaraqlar reestri</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kassa operatsiyalari</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Debit/Kredit</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
           </div>
         </div>
 
@@ -555,14 +706,14 @@
                     class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
                     :class="!parentLink.expanded && 'hidden'"
                   >
-                    <li>
+                   <li>
                       <router-link
                         :to="{ name: 'Employees' }"
                          active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
-                          >Hisobvaraqlar reestri</span
+                          >Asosiy vositalar</span
                         >
                       </router-link>
                     </li>
@@ -573,7 +724,18 @@
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
-                          >Kassa operatsiyalari</span
+                          >Bank kassa</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Markirovka</span
                         >
                       </router-link>
                     </li>
@@ -640,12 +802,67 @@
                     </li>
                     <li>
                       <router-link
+                        :to="{ name: 'Qabul' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Ishga qabul qilish</span
+                        >
+                      </router-link>
+                    </li>
+                       <li>
+                      <router-link
                         :to="{ name: 'Employees' }"
                          active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
-                          >Ish haqi va bonuslar</span
+                          >Xodim ko'chiruvi</span
+                        >
+                      </router-link>
+                    </li>
+                       <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Ishdan bo'shatish</span
+                        >
+                      </router-link>
+                    </li>
+                       <li>
+                      <router-link
+                        :to="{ name: 'Tabel' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Tabel</span
+                        >
+                      </router-link>
+                    </li>
+                       <li>
+                      <router-link
+                        :to="{ name: 'Employees' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Ta'tillar va kasallik varaqalari</span
+                        >
+                      </router-link>
+                    </li>
+                       <li>
+                      <router-link
+                        :to="{ name: 'Grafik' }"
+                         active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Ish grafik</span
                         >
                       </router-link>
                     </li>
@@ -868,6 +1085,17 @@
                     >
                       <span class="text-[13px] font-medium"
                         >Kontragentlar ro'yxati</span
+                      >
+                    </router-link>
+                  </li>
+                    <li>
+                    <router-link
+                      :to="{ name: `Vazifalar` }"
+                       active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Vazifalar</span
                       >
                     </router-link>
                   </li>

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-import EmptyState from '@/components/Helpers/empty/EmptyState.vue'
+import EmptyState from '../components/Helpers/empty/EmptyState.vue'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },

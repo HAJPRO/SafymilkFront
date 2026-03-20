@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="flex justify-end mb-2"></div>
   <div class="grid grid-cols-12 w-full">
     <div class="col-span-4">
@@ -257,5 +257,4 @@ async function toggleSatellite() {
   object-fit: cover;
   overflow: hidden;
 }
-</style> -->
-<template>map</template>
+</style>

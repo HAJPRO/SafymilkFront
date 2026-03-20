@@ -3,10 +3,11 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig(({ command, mode }) => {
+  const isElectron = mode === 'electron'
   return {
-    // Electron va Mobile (Capacitor) uchun './' juda muhim. 
-    // Webda ham muammosiz ishlashi uchun nisbiy yo'lni qoldiramiz.
-    base: '/',
+    
+    // Web uchun '/', Electron uchun './'
+    base:  './',
 
     server: {
       host: "0.0.0.0",

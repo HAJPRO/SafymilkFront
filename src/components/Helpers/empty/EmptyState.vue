@@ -48,9 +48,9 @@ const handleAction = () => {
         <div class="absolute inset-0 bg-indigo-500/20 rounded-full blur-[50px] animate-pulse-slow"></div>
 
         <img 
-          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Person%20Shrugging.png" 
+          src="../../../../public/not_search.avif" 
           alt="No Data Person" 
-          class="w-full h-full object-contain drop-shadow-2xl animate-float relative z-10"
+          class="w-full h-full object-contain drop-shadow-2xl animate-float relative z-10 rounded-full"
         />
 
         <div class="absolute top-0 right-4 animate-bounce-slow z-20">

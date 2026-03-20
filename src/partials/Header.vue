@@ -60,6 +60,8 @@
         </div>
 
         <div class="flex items-center gap-3 sm:gap-5">
+    <Shift  />
+
           <div class="hidden xl:flex items-center gap-6 px-6 py-2 bg-white/20 dark:bg-slate-900/30 rounded-[22px] border border-white/20 dark:border-white/5 shadow-inner backdrop-blur-lg">
             <div class="flex flex-col items-start border-r border-slate-300/50 dark:border-slate-700/50 pr-6">
               <span class="text-[8px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mb-1.5">Tizim</span>
@@ -141,9 +143,11 @@
   </transition>
 </div>
 
+
           <UserMenu class="hover:scale-110 hover:ring-4 hover:ring-indigo-500/10 rounded-full transition-all duration-500" />
         </div>
       </div>
+      
     </div>
     
     <SearchModal id="search-modal" :modalOpen="searchModalOpen" @close-modal="searchModalOpen = false" class="z-[200]" />
@@ -156,6 +160,7 @@ import ThemeSidebar from "./Settings/ThemeSidebar.vue";
 import HeaderAnimatsion from "./Settings/HeaderAnimatsion.vue";
 import SearchModal from "../components/ModalSearch.vue";
 import UserMenu from "../components/DropdownProfile.vue";
+import Shift from "../components/Shift/Shift.vue";
 import SettingDrawer from "../components/Settings/Printer/SettingDrawe.vue";
 
 const props = defineProps(["sidebarOpen"]);

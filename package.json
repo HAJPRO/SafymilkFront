@@ -1,6 +1,6 @@
 {
   "name": "safy-erp",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -52,6 +52,7 @@
     "vue3-moment": "^1.0.0",
     "vue3-qr-reader": "^1.0.0",
     "vue3-toastify": "^0.1.14",
+    "vuedraggable": "^2.24.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
@@ -71,7 +72,7 @@
       "output": "dist_electron"
     },
     "files": [
-    "dist/**/*",
+      "dist/**/*",
       "electron/**/*",
       "package.json"
     ],
