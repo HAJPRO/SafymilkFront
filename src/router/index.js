@@ -206,7 +206,7 @@ path: 'laboratory',
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("/explore/"),
   routes,
 });
 

@@ -7,7 +7,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     
     // Web uchun '/', Electron uchun './'
-    base:  '/',
+   base: '/explore/',
 
     server: {
       host: "0.0.0.0",
