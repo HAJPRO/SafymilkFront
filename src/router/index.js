@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory,createWebHashHistory } from "vue-router";
+// createWebHashHistory
+import { createRouter, createWebHistory } from "vue-router";
 import ExploreLayout from "../layouts/ExploreView.vue";
 import LandingLayout from "../layouts/LandingView.vue";
 import { jwtDecode } from "jwt-decode"; 
