@@ -56,7 +56,7 @@ onUnmounted(() => window.removeEventListener('click', closeDropdown));
 </script>
 
 <template>
-  <div class="w-full bg-transparent dark:bg-transparent rounded-xl shadow-sm   px-2 transition-colors duration-300">
+  <div class="w-full bg-transparent dark:bg-transparent rounded-xl shadow-sm px-2 transition-colors duration-300">
     
     <div v-if="!isMobile" class="w-full">
       <div class="flex items-center gap-4 border-b border-slate-200 dark:border-slate-700 px-1 relative">

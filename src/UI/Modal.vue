@@ -144,7 +144,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
         <div 
           @mousedown="initDrag" 
           @touchstart="initDrag"
-          class="drag-handle cursor-grab active:cursor-grabbing px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center select-none shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-20"
+          class="drag-handle cursor-grab active:cursor-grabbing px-4 py-3 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center select-none shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-20"
         >
           <div class="flex items-center gap-4 pointer-events-none">
             <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30">
@@ -165,11 +165,11 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto custom-scrollbar p-8 bg-white dark:bg-slate-900">
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-4 bg-white dark:bg-slate-900">
           <slot />
         </div>
 
-        <div v-if="$slots.footer" class="px-6 py-4 bg-slate-50/80 dark:bg-slate-800/40 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 shrink-0">
+        <div v-if="$slots.footer" class="px-4 py-1 bg-slate-50/80 dark:bg-slate-800/40 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3 shrink-0">
           <slot name="footer" :close="close" />
         </div>
 

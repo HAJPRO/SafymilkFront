@@ -3,11 +3,11 @@
     <HeaderAnimatsion class="" :season="selectedAnimationTheme" />
 
     <div
-  class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out dark:bg-black/60"
-  :class="sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-  @click="handleSidebarClose"
-  aria-hidden="true"
-></div>
+      class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out dark:bg-black/60"
+      :class="sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'"
+      @click="handleSidebarClose"
+      aria-hidden="true"
+    ></div>
 
     <div
       id="sidebar"
@@ -34,7 +34,7 @@
                 alt="Flow logo"
                 class="rounded-full border dark:border-white border-slate-200 shadow object-cover cursor-pointer transition-all duration-300"
                 :class="sidebarExpanded ? 'w-16 h-16' : 'w-10 h-10'"
-                @click="handleSidebarClose"
+                @click.prevent="sidebarExpanded = !sidebarExpanded"
               />
 
               <div v-if="sidebarExpanded" class="leading-tight">
@@ -199,7 +199,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'StatisticSale' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <i class="fa-solid fa-chart-pie text-indigo-400"></i>
@@ -317,7 +317,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -328,7 +328,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -339,7 +339,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -351,7 +351,7 @@
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-             <Guard :roles="['30', '1000', '2000']">
+            <Guard :roles="['30', '1000', '2000']">
               <ul class="">
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
@@ -389,7 +389,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -400,7 +400,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -411,7 +411,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -423,7 +423,7 @@
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-              <Guard :roles="['30', '1000', '2000']">
+            <Guard :roles="['30', '1000', '2000']">
               <ul class="">
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
@@ -461,7 +461,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -472,7 +472,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -483,7 +483,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -495,7 +495,7 @@
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-             <Guard :roles="['30', '1000', '2000']">
+            <Guard :roles="['30', '1000', '2000']">
               <ul class="">
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
@@ -533,7 +533,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -544,7 +544,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -555,7 +555,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -567,7 +567,7 @@
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-              <Guard :roles="['30', '1000', '2000']">
+            <Guard :roles="['30', '1000', '2000']">
               <ul class="">
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
@@ -605,7 +605,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -616,7 +616,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -627,7 +627,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -706,10 +706,10 @@
                     class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
                     :class="!parentLink.expanded && 'hidden'"
                   >
-                   <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -720,29 +720,25 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                        <span class="text-[13px] font-medium"
-                          >Bank kassa</span
-                        >
+                        <span class="text-[13px] font-medium">Bank kassa</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                        <span class="text-[13px] font-medium"
-                          >Markirovka</span
-                        >
+                        <span class="text-[13px] font-medium">Markirovka</span>
                       </router-link>
                     </li>
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -755,7 +751,7 @@
               </ul>
             </Guard>
             <Guard :roles="['30', '1000', '2000']">
-              <ul >
+              <ul>
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
                     class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -792,7 +788,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -803,7 +799,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Qabul' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -811,10 +807,10 @@
                         >
                       </router-link>
                     </li>
-                       <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -822,10 +818,10 @@
                         >
                       </router-link>
                     </li>
-                       <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -833,21 +829,19 @@
                         >
                       </router-link>
                     </li>
-                       <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Tabel' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                        <span class="text-[13px] font-medium"
-                          >Tabel</span
-                        >
+                        <span class="text-[13px] font-medium">Tabel</span>
                       </router-link>
                     </li>
-                       <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Employees' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -855,23 +849,21 @@
                         >
                       </router-link>
                     </li>
-                       <li>
+                    <li>
                       <router-link
                         :to="{ name: 'Grafik' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
-                        <span class="text-[13px] font-medium"
-                          >Ish grafik</span
-                        >
+                        <span class="text-[13px] font-medium">Ish grafik</span>
                       </router-link>
                     </li>
                   </ul>
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-            <Guard :roles="['20','1000','2000']">
-              <ul >
+            <Guard :roles="['20', '1000', '2000']">
+              <ul>
                 <SidebarLinkGroup v-slot="parentLink">
                   <a
                     class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -908,7 +900,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Sotuv (POS)' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Sotuv (POS)</span>
@@ -917,7 +909,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Sotuvlar' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -928,7 +920,7 @@
                     <li>
                       <router-link
                         :to="{ name: 'Products' }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -940,99 +932,8 @@
                 </SidebarLinkGroup>
               </ul>
             </Guard>
-            <Guard :roles="['40', '1000', '2000']">
-              <ul >
-                <SidebarLinkGroup v-slot="parentLink">
-                  <a
-                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
-                    href="#0"
-                    @click.prevent="
-                      sidebarExpanded
-                        ? parentLink.handleClick()
-                        : (sidebarExpanded = true)
-                    "
-                  >
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center">
-                        <i
-                          class="fa-solid fa-warehouse text-indigo-400 text-lg"
-                        ></i>
-                        <span
-                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
-                          >Omborlar</span
-                        >
-                      </div>
-                      <svg
-                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-                        :class="parentLink.expanded && 'rotate-180'"
-                        viewBox="0 0 12 12"
-                      >
-                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                      </svg>
-                    </div>
-                  </a>
-                  <ul
-                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-                    :class="!parentLink.expanded && 'hidden'"
-                  >
-                    <li>
-                      <router-link
-                        :to="{ name: 'Mahsulot kirim qilish' }"
-                         active-class="active-link"
-                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                      >
-                        <span class="text-[13px] font-medium"
-                          >Kirim qilish</span
-                        >
-                      </router-link>
-                    </li>
-
-                    <li>
-                      <router-link
-                        :to="{ name: 'ReadyWarehouse' }"
-                         active-class="active-link"
-                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                      >
-                        <span class="text-[13px] font-medium"
-                          >Kirm ro'yxati</span
-                        >
-                      </router-link>
-                    </li>
-                    <li>
-                      <router-link
-                        :to="{ name: 'Products' }"
-                         active-class="active-link"
-                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                      >
-                        <span class="text-[13px] font-medium">Qoldiq</span>
-                      </router-link>
-                    </li>
-                    <li>
-                      <router-link
-                        :to="{ name: 'Rivizya' }"
-                         active-class="active-link"
-                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                      >
-                        <span class="text-[13px] font-medium">Riviziya</span>
-                      </router-link>
-                    </li>
-                    <li>
-                      <router-link
-                        :to="{ name: 'ReadyWarehouse' }"
-                         active-class="active-link"
-                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-                      >
-                        <span class="text-[13px] font-medium"
-                          >Xom ashyo (ombori)</span
-                        >
-                      </router-link>
-                    </li>
-                  </ul>
-                </SidebarLinkGroup>
-              </ul>
-            </Guard>
-
-            <ul >
+            
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1069,7 +970,7 @@
                   <li>
                     <router-link
                       :to="{ name: `Mijozlar ro'yxati` }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1080,7 +981,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1088,57 +989,63 @@
                       >
                     </router-link>
                   </li>
-                    <li>
+                  <li>
                     <router-link
                       :to="{ name: `Vazifalar` }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
-                      <span class="text-[13px] font-medium"
-                        >Vazifalar</span
-                      >
+                      <span class="text-[13px] font-medium">Vazifalar</span>
                     </router-link>
                   </li>
                 </ul>
               </SidebarLinkGroup>
             </ul>
-                <ul >
+              <ul>
               <SidebarLinkGroup v-slot="parentLink">
-             <a
-  class="block text-slate-200 transition duration-150 hover:text-white overflow-hidden"
-  href="#0"
-  @click.prevent="sidebarExpanded ? parentLink.handleClick() : (sidebarExpanded = true)"
->
-  <div class="flex items-center justify-between">
-    <div class="flex items-center overflow-hidden flex-1">
-      <i class="fa-solid fa-boxes-packing text-indigo-400 text-lg shrink-0"></i>
-      
-      <div class="ml-3 overflow-hidden flex-1 relative group-hover:cursor-pointer">
-        <span
-          class="marquee-text inline-block whitespace-nowrap text-sm font-medium text-slate-500 dark:text-white"
-        >
-          Ta'minot 
-        </span>
-      </div>
-    </div>
+                <a
+                  class="block text-slate-200 transition duration-150 hover:text-white overflow-hidden"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center overflow-hidden flex-1">
+                      <i
+                        class="fa-solid fa-boxes-packing text-indigo-400 text-lg shrink-0"
+                      ></i>
 
-    <svg
-      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-      :class="parentLink.expanded && 'rotate-180'"
-      viewBox="0 0 12 12"
-    >
-      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-    </svg>
-  </div>
-</a>
-              <ul
-  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-  :class="!parentLink.expanded && 'hidden'"
->
-  <SidebarSubGroup>
-    <template #title>Xomashyo</template>
-    <template #content>
-      <!-- <li>
+                      <div
+                        class="ml-3 overflow-hidden flex-1 relative group-hover:cursor-pointer"
+                      >
+                        <span
+                          class="marquee-text inline-block whitespace-nowrap text-sm font-medium text-slate-500 dark:text-white"
+                        >
+                          Ta'minot
+                        </span>
+                      </div>
+                    </div>
+
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <SidebarSubGroup>
+                    <template #title>Xomashyo</template>
+                    <template #content>
+                      <!-- <li>
         <router-link
           :to="{ name: 'Xomashyo kirim' }"
           active-class="active-link"
@@ -1147,16 +1054,18 @@
           <span class="text-[12px] font-medium">Kirim qilish</span>
         </router-link>
       </li> -->
-      <li>
-        <router-link
-          :to="{ name: `Xomashyolar` }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
-        >
-          <span class="text-[12px] font-medium">Xomashyo kirim ro'yxati</span>
-        </router-link>
-      </li>
-      <!-- <li>
+                      <li>
+                        <router-link
+                          :to="{ name: `Xomashyolar` }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Xomashyo kirim ro'yxati</span
+                          >
+                        </router-link>
+                      </li>
+                      <!-- <li>
         <router-link
           :to="{ name: 'Xomashyolar' }"
           active-class="active-link"
@@ -1165,47 +1074,198 @@
           <span class="text-[12px] font-medium">Xomashyo ro'yxati</span>
         </router-link>
       </li> -->
-    </template>
-  </SidebarSubGroup>
+                    </template>
+                  </SidebarSubGroup>
 
-  <SidebarSubGroup>
-    <template #title>Aksesuarlar</template>
-    <template #content>
-      <li>
-        <router-link
-          :to="{ name: 'Aksesuarlar' }" 
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
-        >
-          <span class="text-[12px] font-medium">Aksesuarlar ro'yxati</span>
-        </router-link>
-      </li>
-      <li>
-        <router-link
-          :to="{ name: 'Mijozlar ro\'yxati' }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
-        >
-          <span class="text-[12px] font-medium">Qaytarish</span>
-        </router-link>
-      </li>
-    </template>
-  </SidebarSubGroup>
+                  <SidebarSubGroup>
+                    <template #title>Aksesuarlar</template>
+                    <template #content>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Aksesuarlar' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Aksesuarlar ro'yxati</span
+                          >
+                        </router-link>
+                      </li>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Mijozlar ro\'yxati' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium">Qaytarish</span>
+                        </router-link>
+                      </li>
+                    </template>
+                  </SidebarSubGroup>
 
-  <li class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">
-    <router-link
-      :to="{ name: 'Kontragentlar' }"
-      active-class="active-link"
-      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-    >
-      <i class="fa-solid fa-address-book text-[14px]"></i>
-      <span class="text-[13px] font-semibold">Kontragentlar</span>
-    </router-link>
-  </li>
-</ul>
+                  <li
+                    class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700"
+                  >
+                    <router-link
+                      :to="{ name: 'Kontragentlar' }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <i class="fa-solid fa-address-book text-[14px]"></i>
+                      <span class="text-[13px] font-semibold"
+                        >Kontragentlar</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
               </SidebarLinkGroup>
             </ul>
-              <ul >
+            <ul>
+              <SidebarLinkGroup v-slot="parentLink">
+                <a
+                  class="block text-slate-200 transition duration-150 hover:text-white overflow-hidden"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                  <div class="flex items-center overflow-hidden flex-1">
+  <i class="fa-solid fa-chart-line text-indigo-400 text-lg shrink-0"></i>
+
+  <div class="ml-3 overflow-hidden flex-1 relative group-hover:cursor-pointer">
+    <span class="marquee-text inline-block whitespace-nowrap text-sm font-medium text-slate-500 dark:text-white">
+      Reja iqtisod
+    </span>
+  </div>
+</div>
+
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <SidebarSubGroup>
+                    <template #title>Harakatlar</template>
+                    <template #content>
+                   
+                      <li>
+                        <router-link
+                          :to="{ name: `Xomashyolar` }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Xomashyolar</span
+                          >
+                        </router-link>
+                      </li>
+                           <li>
+                        <router-link
+                          :to="{ name: `Planning` }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 mt-1 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Rejalashtirish</span
+                          >
+                        </router-link>
+                      </li>
+                          <li>
+                        <router-link
+                          to="{ name: `Xomashyolar` }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 mt-1 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Buyurtmalar</span
+                          >
+                        </router-link>
+                      </li>
+                    
+                    </template>
+                  </SidebarSubGroup>
+                  
+
+                  <SidebarSubGroup>
+                    <template #title>Ma'lumotlar</template>
+                    <template #content>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Aksesuarlar' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Aksesuarlar ro'yxati</span
+                          >
+                        </router-link>
+                      </li>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Mijozlar ro\'yxati' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium">Qaytarish</span>
+                        </router-link>
+                      </li>
+                    </template>
+                  </SidebarSubGroup>
+ <SidebarSubGroup>
+                    <template #title>Hisobotlar</template>
+                    <template #content>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Aksesuarlar' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium"
+                            >Tannarx tahlili</span
+                          >
+                        </router-link>
+                      </li>
+                      <li>
+                        <router-link
+                          :to="{ name: 'Mijozlar ro\'yxati' }"
+                          active-class="active-link"
+                          class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all"
+                        >
+                          <span class="text-[12px] font-medium">Qaytarish</span>
+                        </router-link>
+                      </li>
+                    </template>
+                  </SidebarSubGroup>
+                  <li
+                    class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700"
+                  >
+                    <router-link
+                      :to="{ name: 'Kontragentlar' }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <i class="fa-solid fa-address-book text-[14px]"></i>
+                      <span class="text-[13px] font-semibold"
+                        >Kontragentlar</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
+                
+              </SidebarLinkGroup>
+            </ul>
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1242,7 +1302,7 @@
                   <li>
                     <router-link
                       :to="{ name: `Laboratoriya analitik` }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1250,11 +1310,11 @@
                       >
                     </router-link>
                   </li>
-                  
-                   <li>
+
+                  <li>
                     <router-link
                       :to="{ name: `Mijozlar ro'yxati` }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium"
@@ -1262,79 +1322,344 @@
                       >
                     </router-link>
                   </li>
-                  
                 </ul>
               </SidebarLinkGroup>
             </ul>
-         <ul >
-  <SidebarLinkGroup v-slot="parentLink">
-    <a
-      class="block text-slate-200 truncate transition duration-150 hover:text-white"
-      href="#0"
-      @click.prevent="sidebarExpanded ? parentLink.handleClick() : (sidebarExpanded = true)"
-    >
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <i class="fa-solid fa-chart-line text-indigo-400 text-lg"></i>
-          <span class="text-sm font-medium ml-3 text-slate-500 dark:text-white">Reja iqtisod</span>
-        </div>
-        <svg
-          class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
-          :class="parentLink.expanded && 'rotate-180'"
-          viewBox="0 0 12 12"
-        >
-          <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-        </svg>
-      </div>
-    </a>
-    
-    <ul
-      class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
-      :class="!parentLink.expanded && 'hidden'"
-    >
-      <li>
-        <router-link
-          to="{ name: 'InboundAnalysis' }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-        >
-          <span class="text-[13px] font-medium">Kiruvchi partyalar</span>
-        </router-link>
-      </li>
+            <ul>
+              <SidebarLinkGroup v-slot="parentLink">
+                <a
+                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i class="fa-solid fa-gears text-indigo-400 text-lg"></i>
+                      <span
+                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                      >
+                        Liniya
+                      </span>
+                    </div>
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <li>
+                    <router-link
+                      :to="{ name: `Laboratoriya analitik` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Kirim analizi (Xomashyo)</span
+                      >
+                    </router-link>
+                  </li>
 
-      <li>
-        <router-link
-          to="{ name: 'CostCalculation' }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-        >
-          <span class="text-[13px] font-medium">Mahsulot kalkulyatsiyasi</span>
-        </router-link>
-      </li>
+                  <li>
+                    <router-link
+                      :to="{ name: `Mijozlar ro'yxati` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Tayyor mahsulot xulosasi</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
+              </SidebarLinkGroup>
+            </ul>
+            <ul>
+              <SidebarLinkGroup v-slot="parentLink">
+                <a
+                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i
+                        class="fa-solid fa-boxes-packing text-indigo-400 text-lg"
+                      ></i>
+                      <span
+                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                      >
+                        Qadoqlash
+                      </span>
+                    </div>
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <li>
+                    <router-link
+                      :to="{ name: `Laboratoriya analitik` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Kirim analizi (Xomashyo)</span
+                      >
+                    </router-link>
+                  </li>
 
-      <li>
-        <router-link
-          to="{ name: 'ProductionControl' }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-        >
-          <span class="text-[13px] font-medium">Sexlararo hisoboti</span>
-        </router-link>
-      </li>
+                  <li>
+                    <router-link
+                      :to="{ name: `Mijozlar ro'yxati` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Tayyor mahsulot xulosasi</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
+              </SidebarLinkGroup>
+            </ul>
+            <ul>
+              <SidebarLinkGroup v-slot="parentLink">
+                <a
+                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i
+                        class="fa-solid fa-clipboard-check text-indigo-400 text-lg"
+                      ></i>
+                      <span
+                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                      >
+                        Sifat nazorati
+                      </span>
+                    </div>
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <li>
+                    <router-link
+                      :to="{ name: `Laboratoriya analitik` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Kirim analizi (Xomashyo)</span
+                      >
+                    </router-link>
+                  </li>
 
-      <li>
-        <router-link
-          to="{ name: 'LossReport' }"
-          active-class="active-link"
-          class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
-        >
-          <span class="text-[13px] font-medium"></span>
-        </router-link>
-      </li>
-    </ul>
-  </SidebarLinkGroup>
-</ul>
-            <ul >
+                  <li>
+                    <router-link
+                      :to="{ name: `Mijozlar ro'yxati` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Tayyor mahsulot xulosasi</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
+              </SidebarLinkGroup>
+            </ul>
+         <Guard :roles="['40', '1000', '2000']">
+              <ul>
+                <SidebarLinkGroup v-slot="parentLink">
+                  <a
+                    class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                    href="#0"
+                    @click.prevent="
+                      sidebarExpanded
+                        ? parentLink.handleClick()
+                        : (sidebarExpanded = true)
+                    "
+                  >
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <i
+                          class="fa-solid fa-warehouse text-indigo-400 text-lg"
+                        ></i>
+                        <span
+                          class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                          >Omborlar</span
+                        >
+                      </div>
+                      <svg
+                        class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                        :class="parentLink.expanded && 'rotate-180'"
+                        viewBox="0 0 12 12"
+                      >
+                        <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                      </svg>
+                    </div>
+                  </a>
+                  <ul
+                    class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                    :class="!parentLink.expanded && 'hidden'"
+                  >
+                    <li>
+                      <router-link
+                        :to="{ name: 'Mahsulot kirim qilish' }"
+                        active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kirim qilish</span
+                        >
+                      </router-link>
+                    </li>
+
+                    <li>
+                      <router-link
+                        :to="{ name: 'ReadyWarehouse' }"
+                        active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Kirm ro'yxati</span
+                        >
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Products' }"
+                        active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium">Qoldiq</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'Rivizya' }"
+                        active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium">Riviziya</span>
+                      </router-link>
+                    </li>
+                    <li>
+                      <router-link
+                        :to="{ name: 'ReadyWarehouse' }"
+                        active-class="active-link"
+                        class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                      >
+                        <span class="text-[13px] font-medium"
+                          >Xom ashyo (ombori)</span
+                        >
+                      </router-link>
+                    </li>
+                  </ul>
+                </SidebarLinkGroup>
+              </ul>
+            </Guard>
+
+            <ul>
+              <SidebarLinkGroup v-slot="parentLink">
+                <a
+                  class="block text-slate-200 truncate transition duration-150 hover:text-white"
+                  href="#0"
+                  @click.prevent="
+                    sidebarExpanded
+                      ? parentLink.handleClick()
+                      : (sidebarExpanded = true)
+                  "
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <i
+                        class="fa-solid fa-users-gear text-indigo-400 text-lg"
+                      ></i>
+                      <span
+                        class="text-sm font-medium ml-3 text-slate-500 dark:text-white"
+                      >
+                        Agentlar
+                      </span>
+                    </div>
+                    <svg
+                      class="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 transition-transform duration-300"
+                      :class="parentLink.expanded && 'rotate-180'"
+                      viewBox="0 0 12 12"
+                    >
+                      <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                    </svg>
+                  </div>
+                </a>
+                <ul
+                  class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
+                  :class="!parentLink.expanded && 'hidden'"
+                >
+                  <li>
+                    <router-link
+                      :to="{ name: `Laboratoriya analitik` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Kirim analizi (Xomashyo)</span
+                      >
+                    </router-link>
+                  </li>
+
+                  <li>
+                    <router-link
+                      :to="{ name: `Mijozlar ro'yxati` }"
+                      active-class="active-link"
+                      class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
+                    >
+                      <span class="text-[13px] font-medium"
+                        >Tayyor mahsulot xulosasi</span
+                      >
+                    </router-link>
+                  </li>
+                </ul>
+              </SidebarLinkGroup>
+            </ul>
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1371,7 +1696,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">GPS nazorati</span>
@@ -1380,7 +1705,7 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Haydovchilar</span>
@@ -1389,7 +1714,7 @@
                 </ul>
               </SidebarLinkGroup>
             </ul>
-             <ul >
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1423,10 +1748,10 @@
                   class="pl-5 mt-2 space-y-1 border-l border-indigo-200 dark:border-indigo-400 transition-all duration-500 ease-in-out"
                   :class="!parentLink.expanded && 'hidden'"
                 >
-                 <li>
+                  <li>
                     <router-link
                       :to="{ name: 'Yorliq' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
                       <span class="text-[13px] font-medium">Yorliq</span>
@@ -1435,37 +1760,45 @@
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
-                      <span class="text-[13px] font-medium">Kategorya ro'yxati</span>
+                      <span class="text-[13px] font-medium"
+                        >Kategorya ro'yxati</span
+                      >
                     </router-link>
                   </li>
                   <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
-                      <span class="text-[13px] font-medium">Birlik ro'yxati</span>
+                      <span class="text-[13px] font-medium"
+                        >Birlik ro'yxati</span
+                      >
                     </router-link>
                   </li>
-                   <li>
+                  <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
-                      <span class="text-[13px] font-medium">Ombor ro'yxati</span>
+                      <span class="text-[13px] font-medium"
+                        >Ombor ro'yxati</span
+                      >
                     </router-link>
                   </li>
-                   <li>
+                  <li>
                     <router-link
                       :to="{ name: 'Monitoring' }"
-                       active-class="active-link"
+                      active-class="active-link"
                       class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                     >
-                      <span class="text-[13px] font-medium">Asosiy vosita ro'yxati</span>
+                      <span class="text-[13px] font-medium"
+                        >Asosiy vosita ro'yxati</span
+                      >
                     </router-link>
                   </li>
                 </ul>
@@ -1500,7 +1833,7 @@
             v-if="is_reports === true"
             class="p-2.5 mt-1 rounded-lg border bg-white border-slate-200 dark:border-slate-600 dark:bg-slate-700 shadow-md transition"
           >
-            <ul >
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1549,7 +1882,7 @@
               </SidebarLinkGroup>
             </ul>
 
-            <ul >
+            <ul>
               <SidebarLinkGroup v-slot="parentLink">
                 <a
                   class="block text-slate-200 truncate transition duration-150 hover:text-white"
@@ -1664,7 +1997,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Foydalanuvchilar` }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -1675,7 +2008,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Foydalanuvchilar` }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium">Bo'limlar</span>
@@ -1684,7 +2017,7 @@
                     <li>
                       <router-link
                         :to="{ name: `Rollar boshqaruvi` }"
-                         active-class="active-link"
+                        active-class="active-link"
                         class="flex items-center gap-2 px-2 py-2 rounded-lg text-slate-400 hover:text-indigo-500 hover:bg-indigo-500/10 transition-all duration-200"
                       >
                         <span class="text-[13px] font-medium"
@@ -1954,7 +2287,7 @@
         <div
           class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400"
         >
-          <span class="font-medium tracking-wide">flow</span>
+          <span class="font-medium tracking-wide">unit</span>
           <span
             class="font-semibold text-[11px] text-slate-700 dark:text-slate-200"
             >v1.0.0</span
@@ -2015,10 +2348,8 @@ export default {
   },
   emits: ["close-sidebar"],
   setup(props, { emit }) {
-    // --- Refs ---
     const trigger = ref(null);
     const sidebar = ref(null);
-    // Menu States (EcoWater bo'limlari)
     const is_dashboard = ref(false);
     const is_production = ref(false);
     const is_reports = ref(false);
@@ -2026,18 +2357,14 @@ export default {
     const is_mores = ref(false);
     const is_settings = ref(false);
 
-    // Cookie logic
-    const role = ref(JSON.parse(localStorage.getItem("account") || "{}").role);
+    const router = useRouter();
+    const currentRoute = router.currentRoute;
 
-    // --- Sidebar expanded state from localStorage ---
     const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
     const sidebarExpanded = ref(
-      storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
+      storedSidebarExpanded === null ? true : storedSidebarExpanded === "true",
     );
 
-    const currentRoute = useRouter().currentRoute.value;
-
-    // --- Click outside to close sidebar ---
     const clickHandler = ({ target }) => {
       if (!sidebar.value || !trigger.value) return;
       if (
@@ -2048,43 +2375,27 @@ export default {
         return;
       emit("close-sidebar");
     };
-    // --- ESC key to close sidebar ---
+
     const keyHandler = ({ keyCode }) => {
       if (!props.sidebarOpen || keyCode !== 27) return;
       emit("close-sidebar");
     };
 
-    // --- Responsive resize handler ---
     const resizeHandler = () => {
-      const width = window.innerWidth;
-      if ((width < 1024 || width >= 1536) && props.sidebarOpen) {
+      if (window.innerWidth < 1024 && props.sidebarOpen) {
         emit("close-sidebar");
       }
     };
-    const defaultAnimation = "0";
-
-    const selectedAnimationTheme = ref(
-      localStorage.getItem("animation") || defaultAnimation
-    );
-
-    setInterval(() => {
-      const newValue = localStorage.getItem("animation") || defaultAnimation;
-      if (selectedAnimationTheme.value !== newValue) {
-        selectedAnimationTheme.value = newValue;
-      }
-    }, 500);
 
     onMounted(() => {
       document.addEventListener("click", clickHandler);
       document.addEventListener("keydown", keyHandler);
       window.addEventListener("resize", resizeHandler);
-      resizeHandler();
 
-      const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-      sidebarExpanded.value =
-        storedSidebarExpanded === null
-          ? true
-          : storedSidebarExpanded === "false";
+      // Boshlang'ich klassni sozlash
+      if (sidebarExpanded.value) {
+        document.body.classList.add("sidebar-expanded");
+      }
     });
 
     onUnmounted(() => {
@@ -2093,30 +2404,16 @@ export default {
       window.removeEventListener("resize", resizeHandler);
     });
 
-    watch(sidebarExpanded, () => {
-      localStorage.setItem("sidebar-expanded", sidebarExpanded.value);
-      if (sidebarExpanded.value) {
-        document.querySelector("body").classList.add("sidebar-expanded");
+    watch(sidebarExpanded, (newValue) => {
+      localStorage.setItem("sidebar-expanded", newValue);
+      if (newValue) {
+        document.body.classList.add("sidebar-expanded");
       } else {
-        document.querySelector("body").classList.remove("sidebar-expanded");
+        document.body.classList.remove("sidebar-expanded");
       }
     });
 
-    const handleSidebarClose = () => {
-      sidebarExpanded.value = true;
-      emit("close-sidebar");
-    };
-
-    const openEdoSidebar = () => {
-      window.dispatchEvent(new Event("toggle-edo-sidebar"));
-    };
-
-    const openChatSidebar = () => {
-      window.dispatchEvent(new Event("toggle-chat-sidebar"));
-    };
-
     return {
-      role,
       trigger,
       sidebar,
       sidebarExpanded,
@@ -2127,10 +2424,7 @@ export default {
       is_departments,
       is_settings,
       is_mores,
-      handleSidebarClose,
-      openEdoSidebar,
-      openChatSidebar,
-      selectedAnimationTheme,
+      emit,
     };
   },
 };
@@ -2139,12 +2433,20 @@ export default {
 <style scoped>
 /* 1. Asosiy Aktiv Link Konteyneri */
 
-
 /* 5. Pulsatsiya animatsiyasi (Indikator uchun) */
 @keyframes pulse-glow {
-  0% { opacity: 0.8; box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6); }
-  50% { opacity: 1; box-shadow: 2px 0 15px rgba(99, 102, 241, 0.9); }
-  100% { opacity: 0.8; box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6); }
+  0% {
+    opacity: 0.8;
+    box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 2px 0 15px rgba(99, 102, 241, 0.9);
+  }
+  100% {
+    opacity: 0.8;
+    box-shadow: 2px 0 8px rgba(99, 102, 241, 0.6);
+  }
 }
 
 /* 6. Hover holati (Hali aktiv bo'lmagan linklar uchun) */

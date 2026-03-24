@@ -24,6 +24,7 @@ export const RawMaterialsStore = defineStore('RawMaterialsStore', {
         // Backend { success: true, data: [...] } qaytarsa
         if (response.data?.success) {
           this.materials = response.data.data;
+          console.log(this.materials)
         }
       } catch (error) {
         toast.error("Ma'lumotlarni yuklashda texnik xatolik!");

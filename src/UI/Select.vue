@@ -184,7 +184,7 @@ onMounted(() => document.addEventListener('mousedown', (e) => { if (!triggerRef.
           
           <div v-if="searchable" class="p-3 bg-slate-50/50 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800/50">
             <div class="relative group">
-              <input ref="searchInputRef" v-model="searchQuery" class="w-full bg-white dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:border-indigo-500/50 dark:text-white transition-all shadow-sm" placeholder="Qidiruv..." @click.stop />
+              <input ref="searchInputRef" v-model="searchQuery" class="w-full bg-white dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-xl py-1.5 pl-10 pr-4 text-sm focus:border-indigo-500/50 dark:text-white transition-all shadow-sm" placeholder="Qidiruv..." @click.stop />
               <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600 text-xs"></i>
             </div>
           </div>

@@ -5,7 +5,7 @@
       class="w-full flex items-center justify-between px-2 py-1 text-[13px] font-semibold transition-all duration-300 rounded-md group/sub"
       :class="[
         isSubOpen 
-          ? 'bg-indigo-500/10 text-indigo-600 dark:bg-indigo-400/10 dark:text-indigo-400' 
+          ? 'bg-indigo-500/10 text-indigo-600  dark:bg-indigo-400/10 dark:text-indigo-400' 
           : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-slate-700 dark:hover:text-slate-200'
       ]"
     >

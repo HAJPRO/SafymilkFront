@@ -1,8 +1,8 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
-import { EmployeeManagmentStore } from "../../../stores/HR/employee/employee.store";
-import BaseTabs from "../../../UI/BaseTabs.vue";
+import { EmployeeManagmentStore } from "../../../../stores/HR/employee/employee.store";
+import {BaseTabs} from "../../../../UI/UI";
 
 const props = defineProps(['modelValue']);
 const router = useRouter();
@@ -12,7 +12,7 @@ const store_employees = EmployeeManagmentStore();
 const { all_length } = storeToRefs(store_employees);
 
 const supplyTabs = [
-  { id: "Xomashyolar", label: "Xomashyolar", icon: "fa-solid fa-boxes-stacked" },
+  { id: "Xomashyolar", label: "Rejalar", icon: "fa-solid fa-boxes-stacked" },
   { id: "Xomashyo kirim ro'yxati_1", label: "Xomashyo kirim ro'yxati", icon: "fa-solid fa-list-check" },
   { id: "Xomashyo kirim qilish", label: "Xomashyo kirim qilish", icon: "fa-solid fa-file-circle-plus" },
 ];

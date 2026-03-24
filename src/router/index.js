@@ -2,7 +2,8 @@ import { createRouter, createWebHistory,createWebHashHistory } from "vue-router"
 import ExploreLayout from "../layouts/ExploreView.vue";
 import LandingLayout from "../layouts/LandingView.vue";
 import { jwtDecode } from "jwt-decode"; 
-
+// Modullarni import qilish
+import PlanAction from "../router/modules/plan/action";
 const routes = [
   {
     path: "/",
@@ -41,7 +42,7 @@ const routes = [
       },
       { path: "profile", name: "profile_card", component: () => import("../pages/Explore/Profile/profile.vue") },
       { path: "profile_settings", name: "profile_settings", component: () => import("../pages/Explore/Profile/Settings.vue") },
-      
+      ...PlanAction,
       // HR Bo'limi
       { 
         path: "employees", 
